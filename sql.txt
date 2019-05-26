@@ -1,0 +1,21 @@
+﻿-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `guard_watch`
+--
+
+CREATE TABLE `guard_watch` (
+  `kural_id` int(11) NOT NULL,
+  `kural_adi` varchar(255) COLLATE utf32_turkish_ci NOT NULL,
+  `kural_hakkinda` varchar(255) COLLATE utf32_turkish_ci NOT NULL,
+  `kural_icerik` text COLLATE utf32_turkish_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf32 COLLATE=utf32_turkish_ci;
+
+--
+-- Tablo döküm verisi `guard_watch`
+--
+
+INSERT INTO `guard_watch` (`kural_id`, `kural_adi`, `kural_hakkinda`, `kural_icerik`) VALUES
+(1, 'SQL Engelle', 'SQL Zaafiyeti Engelleme', '..¿¿½¿¿%¿¿OR¿¿\"¿¿\'¿¿`¿¿concat¿¿join¿¿\\\"¿¿ENGELLENECEK LİSTESİ');
+
+-- --------------------------------------------------------
