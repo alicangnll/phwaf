@@ -17,7 +17,7 @@ require_once(“engelle.php”);
 Şeklinde ekleyiniz.
 </pre>
 <h3> Resimler </h3>
-<img src="https://i.hizliresim.com/lQzzvg.jpg" alt="1"/>
+<img src="https://ux0rdev.github.io/aliguard-phpwaf/B70BD4F4-7233-489D-819F-1F290FD38F43.jpeg" alt="1"/>
 <img src="https://ux0rdev.github.io/aliguard-phpwaf/6E394453-F8B8-47ED-B34B-954B2F290489.jpeg" alt="2"/>
 <table>
 <tr>
