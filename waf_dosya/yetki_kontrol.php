@@ -13,12 +13,16 @@ echo '<meta name="robots" content="noarchive, noindex" />';
     session_start();
     if (isset($_SESSION['oturum'])){
 			echo '<table>
-	<tr>
-	<th><a href="cikis.php">Çıkış</a></th>
-	<th><a href="waf_act/waf_ekle.php">Kural Ekle</a></th>
-	<th><a href="waf_adm/adm_icerik.php">Adminler</a></th>
-	</tr>
-	</table>'; 
+	<tr>'
+	?>
+	<th><a href=" ../index.php">Ana Sayfa</a></th>
+	<th><a href="../cikis.php">Çıkış</a></th>
+	<th><a href="./waf_act/waf_ekle.php">Kural Ekle</a></th>
+	<th><a href="
+	./waf_adm/adm_icerik.php">Adminler</a></th>
+	<?php
+	echo '</tr>
+	</table>';
     }else {
         header('Location: ../index.php');  
     }
@@ -26,3 +30,5 @@ echo '<meta name="robots" content="noarchive, noindex" />';
 	<meta name="Description" content="<?php echo $_SERVER['SERVER_NAME']; ?> | WAF Guard">
 <meta name="Keywords" content="<?php echo $_SERVER['SERVER_NAME']; ?> | WAF Guard">
 <title><?php echo $_SERVER['SERVER_NAME']; ?> | WAF Guard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
