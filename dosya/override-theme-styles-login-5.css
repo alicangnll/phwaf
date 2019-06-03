@@ -1,0 +1,5 @@
+/* kullanilan standart temanin login stilini override edecek ozellestirilmis css kodlari buraya... */
+
+.user-login-5 .alert {
+    margin-top: 0px;
+}

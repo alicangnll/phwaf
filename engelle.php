@@ -1,4 +1,5 @@
 <?php
+require_once("baglanti.php");
 try {
 	$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
