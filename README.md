@@ -18,7 +18,7 @@ require_once(“engelle.php”);
 </pre>
 <h3> Resimler </h3>
 <img src="https://i.hizliresim.com/lQzzvg.jpg" alt="1"/>
-<img src="https://i.hizliresim.com/M1llL9.jpg" alt="2"/>
+<img src="https://ux0rdev.github.io/aliguard-phpwaf/6E394453-F8B8-47ED-B34B-954B2F290489.jpeg" alt="2"/>
 <table>
 <tr>
 <td>Login teması alıntıdır</td>
