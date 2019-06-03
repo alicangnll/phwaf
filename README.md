@@ -16,6 +16,9 @@ PHP Dosyanıza
 require_once(“engelle.php”);
 Şeklinde ekleyiniz.
 </pre>
+<h3> Resimler </h3>
+<img src="https://i.hizliresim.com/lQzzvg.jpg" alt="1"/>
+<img src="https://i.hizliresim.com/M1llL9.jpg" alt="2"/>
 <table>
 <tr>
 <td>Login teması alıntıdır</td>
