@@ -1,6 +1,20 @@
 <?php
 require_once("baglanti.php");
 try {
+	$ip = $_SERVER['REMOTE_ADDR'];
+$stmt = $db->query("SELECT * FROM guard_ipban ORDER BY ip_id = '$ip'");
+if($stmt->rowCount()) {
+while($row = $stmt->fetch()){
+	echo 'IP Ban Listesindesiniz';
+	die();
+   }
+		} else
+	{
+		
+	}
+    } catch(PDOException $e) {
+} 
+try {
 	$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
 		$parametreler = strtolower($_SERVER['QUERY_STRING']); 
