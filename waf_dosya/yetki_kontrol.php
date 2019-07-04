@@ -18,8 +18,8 @@ echo '<meta name="robots" content="noarchive, noindex" />';
 	<th><a href=" ../index.php">Ana Sayfa</a></th>
 	<th><a href="../cikis.php">Çıkış</a></th>
 	<th><a href="./waf_act/waf_ekle.php">Kural Ekle</a></th>
-	<th><a href="
-	./waf_adm/adm_icerik.php">Adminler</a></th>
+	<th><a href="./waf_act/waf_ipekle.php">IP Ekle</a></th>
+	<th><a href="./waf_adm/adm_icerik.php">Adminler</a></th>
 	<?php
 	echo '</tr>
 	</table>';
