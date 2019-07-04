@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 04 Tem 2019, 19:57:35
+-- Üretim Zamanı: 04 Tem 2019, 20:12:44
 -- Sunucu sürümü: 10.1.38-MariaDB
 -- PHP Sürümü: 7.3.4
 
@@ -32,6 +32,13 @@ CREATE TABLE `guard_ipban` (
   `ip_id` int(11) NOT NULL,
   `ip_adresi` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `guard_ipban`
+--
+
+INSERT INTO `guard_ipban` (`ip_id`, `ip_adresi`) VALUES
+(1, '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -77,6 +84,18 @@ INSERT INTO `kadi_giris` (`usr_id`, `kadi`, `ksifre`) VALUES
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
+
+--
+-- Tablo için indeksler `guard_ipban`
+--
+ALTER TABLE `guard_ipban`
+  ADD PRIMARY KEY (`ip_id`);
+
+--
+-- Tablo için indeksler `guard_watch`
+--
+ALTER TABLE `guard_watch`
+  ADD PRIMARY KEY (`kural_id`);
 
 --
 -- Tablo için indeksler `kadi_giris`
