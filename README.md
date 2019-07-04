@@ -11,6 +11,11 @@ AliGuard PHP WAF
 <p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
 <p> da denetleyebilecek.</p>
 <code>
+  <h3> Yeni Güncelleme!</h3>
+  <p> - IP Ban Özelliği Geldi</p>
+  <p> - Tema Eklendi</p>
+  </code>
+<code>
 <pre>
 PHP Dosyanıza
 require_once(“engelle.php”);
