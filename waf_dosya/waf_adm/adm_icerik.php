@@ -1,8 +1,5 @@
 <?php include ("../yetki_kontrol.php"); ?>
 
-<div class="main-content">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
                         <?php
 if(isset($_GET['postsil'])){ 
 
@@ -16,12 +13,6 @@ window.location.replace("../index.php")
     exit;
 } 
 ?>
-              <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                               
-                                <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>

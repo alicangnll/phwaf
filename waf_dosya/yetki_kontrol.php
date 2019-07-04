@@ -24,12 +24,12 @@ JSKutusu("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"
 JSKutusu("https://getbootstrap.com/docs/4.0/assets/js/docs.min.js"); 
 //JS Girisi - 1 Bitti
 CSSKutusu("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.css");  
-CSSKutusu("../veri/css/style.css");  
-CSSKutusu("../veri/css/main.css");
+CSSKutusu("http://127.0.0.1/phpwaf/veri/css/style.css");  
+CSSKutusu("http://127.0.0.1/phpwaf/veri/css/main.css");
 CSSKutusu("https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;subset=latin,latin-ext");
-CSSKutusu("../veri/css/bootstrap.css"); 
+CSSKutusu("http://127.0.0.1/phpwaf/veri/css/bootstrap.css"); 
 //JS Girisi
-JSKutusu("../veri/js/jquery-1.11.3.min.js");
+JSKutusu("http://127.0.0.1/phpwaf/veri/js/jquery-1.11.3.min.js");
 
 ini_set('session.gc_maxlifetime', 1800); 
 session_set_cookie_params(1800);
@@ -47,7 +47,7 @@ echo '<meta name="robots" content="noarchive, noindex" />';
 	<tr>'
 	?>
 	<th><a class="btn btn-primary btn-md" href=" ../index.php">Ana Sayfa</a></th><br>
-	<th><a class="btn btn-primary btn-md" href="../cikis.php">Çıkış</a></th><br>
+	<th><a class="btn btn-primary btn-md" href="cikis.php">Çıkış</a></th><br>
 	<th><a class="btn btn-primary btn-md" href="./waf_act/waf_ekle.php">Kural Ekle</a></th><br>
 	<th><a class="btn btn-primary btn-md" href="./waf_act/waf_ipekle.php">IP Ekle</a></th><br>
 	<th><a class="btn btn-primary btn-md" href="./waf_adm/adm_icerik.php">Adminler</a></th><br>
