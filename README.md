@@ -6,15 +6,15 @@ AliGuard PHP WAF
 <p> SQL veritabanına eklediğiniz kuralları sitenizde
 </p><p>engeller. Böylece sayfalarca kodu incelemek yerine</p>
 <p> tek bir adımda açıkları kapatabilirsiniz.</p>
-<h3> Nasıl Çalışır </h3>
-<p> Şimdilik link tabanlı çalışıyor.</p>
-<p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
-<p> da denetleyebilecek.</p>
 <code>
   <h3> Yeni Güncelleme!</h3>
   <p> - IP Ban Özelliği Geldi</p>
   <p> - Tema Eklendi</p>
   </code>
+<h3> Nasıl Çalışır </h3>
+<p> Şimdilik link tabanlı çalışıyor.</p>
+<p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
+<p> da denetleyebilecek.</p>
 <code>
 <pre>
 PHP Dosyanıza
