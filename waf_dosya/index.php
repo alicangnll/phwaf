@@ -61,3 +61,53 @@ function delpost(id)
                                          </tbody>                                              
                                         
                                     </table>
+									<hr></hr>
+									<table id="zero_config" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+												<th>ID</th>
+                                                <th>IP</th>
+												<th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+<?php
+    try {
+
+        $stmt = $db->query('SELECT * FROM guard_ipban ORDER BY ip_id');
+        while($row = $stmt->fetch()){
+            
+            echo '<tr>
+			<td><a class="btn btn-danger btn-md" href="javascript:delip('.$row['ip_id'].')">Sil</a></td>
+			<td>'.$row['ip_id'].'</td>';
+			?>
+				<td><?php echo strip_tags($row['ip_adresi']); ?></td>
+
+<?php
+            echo '</tr>';
+
+        }
+
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+?>
+<script language="JavaScript" type="text/javascript">
+function delip(id)
+{
+  if (confirm("Silmek istediğinize emin misiniz '" + "'"))
+  {
+      window.location.href = 'waf_act/waf_ipsil.php?kuralsil=' + id;
+  }
+}
+</script>
+
+
+
+                                            
+                                         </tbody>                                              
+                                        
+                                    </table>
