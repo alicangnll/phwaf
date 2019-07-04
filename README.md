@@ -1,5 +1,4 @@
 # aliguard-phpwaf
-AliGuard PHP WAF
 <img src="https://ux0rdev.github.io/aliguard-phpwaf/cats.jpg" alt="1"/>
 <img src="smiley.gif" alt="Smiley face" height="42" width="42">
 <p> Kodlardaki açıkları bulmaktan sıkıldınız mı ?</p>
