@@ -34,6 +34,7 @@ echo '
   <a align="right" href="ytk_kontrol.php?git=ipekle">IP Ekle</a>
   <a align="right" href="ytk_kontrol.php?git=adminekle">Admin Ekle</a>
   <a align="right" href="ytk_kontrol.php?git=cmdmanage">Komut Yöneticisi</a>
+  <a align="right" href="ytk_kontrol.php?git=servercheck">Server Toolkit</a>
   <a align="right" href="ytk_kontrol.php?git=cikis">Çıkış</a>
 	<?php
 	echo '</div>';
@@ -357,7 +358,7 @@ try {
 ?>
 	<br><div style="padding-left:16px"> 
 	<title>Komut Girişi</title>
-	<b>Komut Girişi</b>
+	<p>Komut Girişi</p>
 	<hr></hr>
 	<form action="?git=cmdmanage" method="post">
 	<input type="text" name="komut" class="form-control" placeholder="Komutu : "></p>
@@ -395,6 +396,55 @@ session_destroy();
 session_unset();
 echo (" Başarılı ");
 header ("Location: ../index.php"); 
+	break;
+	
+	case 'servercheck':
+echo '<br><div style="padding-left:16px">'; 
+	?>
+	
+<?php 
+echo '<p> Server Kontrol </p>
+<hr></hr>
+<p> Giriş Port Kontrolü</p>';
+if(fsockopen($_SERVER['SERVER_NAME'],80))
+{
+echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':80 : Açık</p>';
+}
+else
+{
+echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':80 : Kapalı</p>';
+}
+echo '<hr></hr>
+<p> HTTPS Port Kontrolü</p>';
+if(fsockopen($_SERVER['SERVER_NAME'],443))
+{
+echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':443 : Açık</p>';
+}
+else
+{
+echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':443 : Kapalı</p>';
+}
+echo '<hr></hr>
+<p> MySQL Port Kontrolü</p>';
+if(fsockopen($_SERVER['SERVER_NAME'],3306))
+{
+echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':3306 : Açık</p>';
+}
+else
+{
+echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':3306 : Kapalı</p>';
+}
+echo '<hr></hr>
+<p> SSH Port Kontrolü</p>';
+if(fsockopen($_SERVER['SERVER_NAME'],21))
+{
+echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':21 : Açık</p>';
+}
+else
+{
+echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':21 : Kapalı</p>';
+}
+echo '</div>';
 	break;
 // Çıkış işlemi verildi
 	// 404 Sayfası

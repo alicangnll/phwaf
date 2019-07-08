@@ -1,4 +1,46 @@
 <?php
+function reel_ip()  
+{  
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))  
+    {  
+        $ip=$_SERVER['HTTP_CLIENT_IP'];  
+    }  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+    }
+   elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_FORWARDED'];  
+    }
+	
+   elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];  
+    } 
+	   elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_FORWARDED'];  
+    } 
+    else  
+    {  
+        $ip=$_SERVER['REMOTE_ADDR'];  
+    }  
+    return $ip;  
+}
+$user_agent = $_SERVER["HTTP_USER_AGENT"];
+
+function user_agent()  
+{
+if (empty($user_agent)) {
+$user_agent = "Mozilla/5.0 (compatible; nrird.xyz/proxy)";
+}
+}
+
 require_once("baglanti.php");
 try {
 $ip = reel_ip();
