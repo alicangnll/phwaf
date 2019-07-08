@@ -1,45 +1,41 @@
-<?php require_once("baslik.php"); ?>
-<body class="login" data-gr-c-s-loaded="true">
-        <!-- BEGIN : LOGIN PAGE 5-1 -->
-        <div class="user-login-5">
-            <div class="row bs-reset">
+<?php require("ozel_fonksiyon.php"); ?>
+<style>
+body{
+    background-color:#5286F3;
+    font-size:14px;
+    color:#fff;
+}
+.simple-login-container{
+    width:300px;
+    max-width:100%;
+    margin:50px auto;
+}
+.simple-login-container h2{
+    text-align:center;
+    font-size:20px;
+}
 
-
-                <!-- BEGIN LOGIN FORM BLOCK -->
-                <div class="col-md-6 col-sm-12 login-container bs-reset">
-                    <div class="login-content">
-
-                        <h1>
-                            <a class="theme-font" href="./">
-                                <?php echo $_SERVER['SERVER_NAME']; ?><br>PHP Waf Guard | AliDev</a>
-                        </h1>
-                        <!-- CONTENT STARTS -->
-						
-						
-						<form method="post" action="kontrol.php" class="login-form">
-						<div class="row">
-						<div class="col-md-8 col-sm-8 col-xs-12">
-						<input class="form-control login-username" type="text" name="kadi" placeholder="Kullanıcı Adı">
-					</div>
-
-	        <div class="col-md-4 col-sm-4 col-xs-12">
-            <input type="password" name="ksifre" value="" class="form-control login-password" placeholder="Şifre">      
-			</div>
-		</div>
-			
-					<div class="row">
-					        <div class="col-md-6 col-xs-12">
-
-        </div>
-					<div class="col-md-6 col-xs-12 text-right">
-					<button class="btn blue" type="submit">Giriş</button>
-					</div></div>
-					
-				</form><br><br><br>
-                    </div>
-
-                  
- <?php require_once("alt.php"); ?>
-    
-
-</body></html>
+.simple-login-container .btn-login{
+    background-color:#FF5964;
+    color:#fff;
+}
+a{
+    color:#fff;
+}
+</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div class="simple-login-container">
+<h2>pH Analyzer | <?php echo $_SERVER['SERVER_NAME']; ?></h2><br>
+<form action="islem.php?y=kontrol" method="post">
+<div class="row">
+<div class="col-md-12 form-group">
+ <p>Kullanıcı Adı: <input class="form-control"  type="text" name="kadi" placeholder="Kullanıcı Adı"></p></div></div>
+ <div class="row">
+ <div class="col-md-12 form-group">
+ <p>Şifre: <input class="form-control"  type="password" name="sifre" placeholder="Şifre"></p></div></div>
+ <p><div class="row">
+ <div class="col-md-12 form-group">
+ <button class="btn btn-block btn-login">Giriş</button></p></div></div>
+</form></div></div>

@@ -1,3 +1,1 @@
-<?php
-require_once("engelle.php");
-?>
+<?php require_once("engelle.php"); ?>

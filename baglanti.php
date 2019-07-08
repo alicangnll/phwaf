@@ -1,4 +1,5 @@
 ﻿<?php
+error_reporting(0);
 try {
 	$ip = "localhost"; //host
 	$user = "root";  // host id
@@ -12,11 +13,10 @@ try {
 } catch ( PDOException $e ){
      echo '
 	 <table>
+<center><img src="./sql.png" alt="Örnek Resim"/></center>
 <center>No MySQL Connection</center>
 <center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 	 </table>';
-	 die();
 }
-
 ?>

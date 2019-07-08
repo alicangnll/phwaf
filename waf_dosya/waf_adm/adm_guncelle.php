@@ -1,1 +1,0 @@
-<?php include ("../yetki_kontrol.php"); ?>
