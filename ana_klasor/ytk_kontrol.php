@@ -33,8 +33,11 @@ echo '
   <a align="right" href="ytk_kontrol.php?git=kuralekle">Kural Ekle</a>
   <a align="right" href="ytk_kontrol.php?git=ipekle">IP Ekle</a>
   <a align="right" href="ytk_kontrol.php?git=adminekle">Admin Ekle</a>
+  <a align="right" href="ytk_kontrol.php?git=portekle">Port Ekle</a>
+  <a align="right" href="ytk_kontrol.php?git=methodekle">Method Ekle</a>
+  <a align="right" href="ytk_kontrol.php?git=yedekle">Yedekle</a>
   <a align="right" href="ytk_kontrol.php?git=cmdmanage">Komut Yöneticisi</a>
-  <a align="right" href="ytk_kontrol.php?git=servercheck">Server Toolkit</a>
+  <a align="right" href="ytk_kontrol.php?git=servercheck">Server Sağlığı</a>
   <a align="right" href="ytk_kontrol.php?git=cikis">Çıkış</a>
 	<?php
 	echo '</div>';
@@ -164,7 +167,7 @@ function delip(id)
 </script>
 	</tbody>
 	</table>
-
+<hr></hr>
 <table>
 	<thead>
 	<hr></hr>
@@ -211,37 +214,83 @@ function deladm(id)
 </script>
 	</tbody>
 	</table>
+	<hr></hr>
+		<table>
+	<thead>
+	<b>Port Listesi</b>
+	<hr></hr>
+	<tr>
+	<th></th>
+	<th>ID</th>
+	<th>PORT</th>
+	<th></th>
+	<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php  try {
+
+        $stmt = $db->query('SELECT * FROM port_blok ORDER BY port_id DESC');
+	
+        while($row = $stmt->fetch()){
+            
+            echo '<tr>
+			<td><a class="button button3" href="javascript:delport('.$row['port_id'].')">Sil</a></td>
+			<td>'.$row['port_id'].'</td>';
+			?>
+				<td><?php echo strip_tags($row['port_no']); ?></td>
+
+<?php
+
+            echo '</tr>';
+
+        }
+
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+?>
+	<script language="JavaScript" type="text/javascript">
+function delport(id)
+{
+  if (confirm("Silmek istediğinize emin misiniz '" + "'"))
+  {
+      window.location.href = 'waf_islem/waf_delport.php?portsil=' + id;
+  }
+}
+</script>
+	</tbody>
+	</table>
 </div><br>
 	<?php
 	break;
-	//ana_sayfa bitişi
+
 //-------------------------------------
+
 	//kuralekle başlangıcı
 	case 'kuralekle':
-	// Kontrol Basladi
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
         header('Location: ../index.php');  
     }
-	//Kontrol Bitti
 	echo '<div style="padding-left:16px"><br>
 	<h3>Kural Ekle</h3>
 	<hr></hr>
 	<form action="waf_islem/waf_kayit.php" method="post" enctype="multipart/form-data" class="form-horizontal">
 	<strong>Kural Adı:</strong><br>
-	<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" maxlength="15"> <br>
+	<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" maxlength="15">
 	<strong>Kural Hakkında :</strong><br>
-	<input type="text" name="kuralhakkinda" class="form-control" placeholder="Kural Hakkında:" maxlength="15"><br>
+	<input type="text" name="kuralhakkinda" class="form-control" placeholder="Kural Hakkında:" maxlength="15">
 	<strong>Kural İçeriği : (Değer girerken arada ¿¿ kullanın Örnek: *¿¿-¿¿)</strong><br>
 	<textarea name="kuralicerik" id="editor" class="form-control" placeholder="Kural İçeriği:" maxlength="50"></textarea><br>
-<button type="submit" class="btn btn-primary btn-md">Kaydet</button>
+<button type="submit" class="button button2">Kaydet</button>
 	</form>
 	</div>';
 	break;
+
 	//Admin Ekleme
 		case 'adminekle':
-	// Kontrol Basladi
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
@@ -256,13 +305,12 @@ function deladm(id)
 	<input type="text" name="kadi" class="form-control" placeholder="Kural Adı:" maxlength="15"> <br>
 	<strong>Şifre :</strong><br>
 	<input type="password" name="sifre" class="form-control" placeholder="Kural Hakkında:" maxlength="15"><br>
-<button type="submit" class="btn btn-primary btn-md">Kaydet</button>
+<button type="submit" class="button button2">Kaydet</button>
 	</form>
 	</div>';
 	break;
-	//IP Ekleme
-	case 'ipekle':
-	// Kontrol Basladi
+	
+	case 'methodekle':
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
@@ -270,26 +318,45 @@ function deladm(id)
     }
 	//Kontrol Bitti
 	echo '<div style="padding-left:16px"><br>
-	<h3>IP Ekle</h3>
+	<h3>Kural Ekle</h3>
 	<hr></hr>
-	<form action="waf_islem/waf_ipkayit.php" method="post" enctype="multipart/form-data" class="form-horizontal">
-	<br><strong>IP Adresi:</strong><br>
-	<input type="text" name="ipadres" class="form-control" placeholder="Kural Adı:" maxlength="15"><br>
-	<br><button type="submit" class="btn btn-primary btn-md">Kaydet</button>
+	<form action="waf_islem/waf_method_kayit.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+	<strong>Method Adı:</strong><br>
+	<input type="text" name="method_adi" class="form-control" placeholder="Kural Adı:" maxlength="15"> <br>
+	<strong>Method Hakkında :</strong><br>
+	<input type="text" name="method_bilgisi" class="form-control" placeholder="Kural Hakkında:" maxlength="15"><br>
+	<strong>Method Tipi :</strong><br>
+	<input type="text" name="method_turu" class="form-control" placeholder="Kural Hakkında:" maxlength="15"><br>
+<button type="submit" class="button button2">Kaydet</button>
 	</form>
 	</div>';
 	break;
-	
-		//kuralekle başlangıcı
-	case 'kuralduzenle':
-	// Kontrol Basladi
+
+	//IP Ekleme
+	case 'ipekle':
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
         header('Location: ../index.php');  
     }
-	?>
-	<?php 
+	echo '<div style="padding-left:16px"><br>
+	<h3>IP Ekle</h3>
+	<hr></hr>
+	<form action="waf_islem/waf_ipkayit.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+	<br><strong>IP Adresi:</strong><br>
+	<input type="text" name="ipadres" class="form-control" placeholder="Kural Adı:" maxlength="15"><br>
+	<br><button type="submit" class="button button2">Kaydet</button>
+	</form>
+	</div>';
+	break;
+	
+		//kuralduzenle başlangıcı
+	case 'kuralduzenle':
+    session_start();
+    if (isset($_SESSION['oturum'])){
+    }else {
+        header('Location: ../index.php');  
+    }
 try {
 
     $stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
@@ -309,21 +376,20 @@ try {
 <textarea class="textarea is-danger" name='kuralhakkinda2' cols='60' rows='10'><?php echo htmlspecialchars ($row['kural_hakkinda']);?></textarea></p><br>
 <strong>Kural İçeriği : (Değer girerken arada ¿¿ kullanın Örnek: *¿¿-¿¿)</strong><br>
 <textarea class="textarea is-danger" name='kuralicerik2' cols='60' rows='10'><?php echo htmlspecialchars ($row['kural_icerik']);?></textarea></p><br>
-<td><p><input class="btn btn-warning btn-md" type='submit' name='submit' value='Güncelle'></p></td></table>
+<td><p><input class="button button2" type='submit' name='submit' value='Güncelle'></p></td></table>
 </form>
 </div>
 
 	<?php
 	break;
+
+	//Admin Düzenleme Başlangıç
 	case 'admduzenle':
-	// Kontrol Basladi
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
         header('Location: ../index.php');  
-    }
-	?>
-	<?php 
+    } 
 try {
 
     $stmt = $db->prepare('SELECT * FROM admin_giris WHERE admin_id = :gonderid');
@@ -341,15 +407,14 @@ try {
 <input type="text" name="kadi" class="form-control" value="<?php echo htmlspecialchars ($row['user_name']);?>" placeholder="Admin Username : "></p><br>
 <strong>Admin Password :</strong><br>
 <input type="password" name="sifre" class="form-control" value="<?php echo htmlspecialchars ($row['pass_word']);?>" placeholder="Admin Password : "></p><br>
-<td><p><input class="btn btn-warning btn-md" type='submit' name='submit' value='Güncelle'></p></td></table>
+<td><p><input class="button button2" type='submit' name='submit' value='Güncelle'></p></td></table>
 </form>
 </div>
-
 	<?php
 	break;
+
 // Terminal Girisi	
 		case 'cmdmanage':
-	// Kontrol Basladi
     session_start();
     if (isset($_SESSION['oturum'])){
     }else {
@@ -358,15 +423,22 @@ try {
 ?>
 	<br><div style="padding-left:16px"> 
 	<title>Komut Girişi</title>
-	<p>Komut Girişi</p>
+	<h3>Komut Girişi</h3>
 	<hr></hr>
 	<form action="?git=cmdmanage" method="post">
 	<input type="text" name="komut" class="form-control" placeholder="Komutu : "></p>
-	<input class="btn btn-warning btn-md" type='submit' name='submit' value='Komut Giriş'><br>
+	<input class="button button2" type='submit' name='submit' value='Komut Giriş'><br>
 	</form>
 	<hr></hr>
-	    <?php
+
+	<?php
+if (function_exists('exec')) {
+    echo '<font color="green">SSH Komutları Açık.</font><br />';
+} else {
+    echo '<font color="red">SSH Komutları Kapalı.</font><br />';
+}
 		$giris_kisim = $_REQUEST['komut'];
+                $_SESSION['gecmis_komut'] = $giris_kisim;
 		$komut_giris = base64_encode($giris_kisim);
         $decoded_command = base64_decode($komut_giris);
         echo str_repeat("<br>",2);
@@ -387,8 +459,11 @@ try {
                 };
             endif;
         endif;
+echo '<hr></hr>
+<p>Yolladığınız Komut : '.$_SESSION['gecmis_komut'].'<hr></hr>';
 	echo '</div>'; 
 	break;
+
 	//cikis basladi
 	case 'cikis':
 session_start();
@@ -397,15 +472,48 @@ session_unset();
 echo (" Başarılı ");
 header ("Location: ../index.php"); 
 	break;
-	
+
+case 'yedekle':
+echo '<br><div style="padding-left:16px">
+<p>MySQL Yedekleme</p>
+<hr></hr>'; 
+include("../baglanti.php");
+if (function_exists('exec')) {
+    echo '<font color="green">SSH Komutları Açık.</font><br />';
+} else {
+    echo '<font color="red">SSH Komutları Kapalı.</font><br />';
+}
+echo '<hr></hr>';
+$dosya_adi = 'veritaba_yedek_'.date('G_a_m_d_y').'.sql';
+$bilgi = '/usr/local/bin/mysqldump -u $user -p $password $dbad  --single-transaction > yedek/'.$dosya_adi.'';
+$gzip = 'gzip -f '.$konum.'';
+exec($bilgi);
+exec($gzip);
+
+	break;
+
+
+	//ServerCheck Başladı
 	case 'servercheck':
 echo '<br><div style="padding-left:16px">'; 
-	?>
-	
-<?php 
-echo '<p> Server Kontrol </p>
+session_start();
+    if (isset($_SESSION['oturum'])){
+    	function port_kontrol($host, $port, $timeout) { 
+  $tB = microtime(true); 
+  $fP = fSockOpen($host, $port, $errno, $errstr, $timeout); 
+  if (!$fP) { 
+  	return ' <font color="red">Alınamadı</font>'; 
+  } 
+  $tA = microtime(true); 
+  return round((($tA - $tB) * 1000), 0)." ms"; 
+}
+    }else {
+        header('Location: ../index.php');  
+    }
+echo '<h3> Server Kontrol </h3>
 <hr></hr>
 <p> Giriş Port Kontrolü</p>';
+echo '<p> Ping Değeri : '.port_kontrol($_SERVER['SERVER_NAME'], 80, 10).'</p>';
 if(fsockopen($_SERVER['SERVER_NAME'],80))
 {
 echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':80 : Açık</p>';
@@ -416,6 +524,7 @@ echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':80 : Kapalı</p>';
 }
 echo '<hr></hr>
 <p> HTTPS Port Kontrolü</p>';
+echo '<p> Ping Değeri : '.port_kontrol($_SERVER['SERVER_NAME'], 443, 10).'</p>';
 if(fsockopen($_SERVER['SERVER_NAME'],443))
 {
 echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':443 : Açık</p>';
@@ -426,6 +535,7 @@ echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':443 : Kapalı</p>';
 }
 echo '<hr></hr>
 <p> MySQL Port Kontrolü</p>';
+echo '<p> Ping Değeri : '.port_kontrol($_SERVER['SERVER_NAME'], 3306, 10).'</p>';
 if(fsockopen($_SERVER['SERVER_NAME'],3306))
 {
 echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':3306 : Açık</p>';
@@ -436,6 +546,7 @@ echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':3306 : Kapalı</p>';
 }
 echo '<hr></hr>
 <p> SSH Port Kontrolü</p>';
+echo '<p> Ping Değeri : '.port_kontrol($_SERVER['SERVER_NAME'], 21, 10).'</p>';
 if(fsockopen($_SERVER['SERVER_NAME'],21))
 {
 echo '<p style="color:green;">'.$_SERVER['SERVER_NAME'].':21 : Açık</p>';
@@ -444,10 +555,30 @@ else
 {
 echo '<p style="color:red;">'.$_SERVER['SERVER_NAME'].':21 : Kapalı</p>';
 }
-echo '</div>';
+echo '
+</div>';
 	break;
-// Çıkış işlemi verildi
-	// 404 Sayfası
+		case 'portekle':
+    session_start();
+    if (isset($_SESSION['oturum'])){
+    }else {
+        header('Location: ../index.php');  
+    }
+	?>
+<div style="padding-left:16px"><br>
+<form action="waf_islem/waf_portekle.php" method="post">
+<strong>Port Adı :</strong><br>
+<input type="text" name="portadi" class="form-control" placeholder="Port Adı : "></p><br>
+<strong>Port Hakkında :</strong><br>
+<input type="text" name="portbilgisi" class="form-control" placeholder="Port Hakkında : "></p><br>
+<strong>Port Numarası :</strong><br>
+<input type="text" name="portno" class="form-control" placeholder="Port Numarası : "></p><br></p><br>
+<td><p><input class="button button2" type='submit' name='submit' value='Ekle'></p></td></table>
+</form>
+</div>
+
+	<?php
+	break;
 	default:
    echo '
    <title>Bulunamadı!</title>
@@ -455,3 +586,19 @@ echo '</div>';
    <p>Böyle bir sayfamız henüz yok, değiştirilmiş ya da silinmiş olabilir.</p>'; // hiç birisi değilse 404 varsayalim
 }
 	?>
+	<style>
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  text-align: center;
+}
+</style>
+<br>
+<div class="footer">
+	<p>pH Analyzer | Developed By Ali Can Gönüllü</p>
+</div>
+<hr></hr>

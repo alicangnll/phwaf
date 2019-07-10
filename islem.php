@@ -26,7 +26,8 @@ $query  = $db->query("SELECT * FROM admin_giris WHERE user_name =" . $db->quote(
 				header('Location: ./ana_klasor/ytk_kontrol.php');
 			}
 		}else{
-			echo 'HATA: Oturum Açılamadı!';
+			echo '<meta name="viewport" content="width=device-width, initial-scale=1">
+                              <p>HATA: Oturum Açılamadı!</p>';
 			die();
 		}
    break;
