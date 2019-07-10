@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost:3306
--- Üretim Zamanı: 08 Tem 2019, 08:58:15
+-- Üretim Zamanı: 10 Tem 2019, 21:44:50
 -- Sunucu sürümü: 10.2.19-MariaDB
 -- PHP Sürümü: 7.2.7
 
@@ -81,6 +81,47 @@ CREATE TABLE `ip_ban` (
 INSERT INTO `ip_ban` (`ip_id`, `ip_adresi`) VALUES
 (2, '127.0.0.1');
 
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `method_blok`
+--
+
+CREATE TABLE `method_blok` (
+  `method_id` int(11) NOT NULL,
+  `method_adi` varchar(255) NOT NULL,
+  `method_bilgisi` varchar(255) NOT NULL,
+  `method_turu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `method_blok`
+--
+
+INSERT INTO `method_blok` (`method_id`, `method_adi`, `method_bilgisi`, `method_turu`) VALUES
+(2, 'POST', 'POST', 'POST'),
+(3, 'GET', 'GET', 'GET');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `port_blok`
+--
+
+CREATE TABLE `port_blok` (
+  `port_id` int(11) NOT NULL,
+  `port_adi` varchar(255) NOT NULL,
+  `port_bilgisi` varchar(50) NOT NULL,
+  `port_no` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `port_blok`
+--
+
+INSERT INTO `port_blok` (`port_id`, `port_adi`, `port_bilgisi`, `port_no`) VALUES
+(1, 'Port1', 'Port1', '8080');
+
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
@@ -104,6 +145,18 @@ ALTER TABLE `ip_ban`
   ADD PRIMARY KEY (`ip_id`);
 
 --
+-- Tablo için indeksler `method_blok`
+--
+ALTER TABLE `method_blok`
+  ADD PRIMARY KEY (`method_id`);
+
+--
+-- Tablo için indeksler `port_blok`
+--
+ALTER TABLE `port_blok`
+  ADD PRIMARY KEY (`port_id`);
+
+--
 -- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
 --
 
@@ -123,7 +176,19 @@ ALTER TABLE `guard_watch`
 -- Tablo için AUTO_INCREMENT değeri `ip_ban`
 --
 ALTER TABLE `ip_ban`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `method_blok`
+--
+ALTER TABLE `method_blok`
+  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `port_blok`
+--
+ALTER TABLE `port_blok`
+  MODIFY `port_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
