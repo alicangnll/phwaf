@@ -261,6 +261,53 @@ function delport(id)
 </script>
 	</tbody>
 	</table>
+	<hr></hr>
+		<table>
+	<thead>
+	<tr>
+	<th></th>
+	<th>ID</th>
+	<th>METHOD</th>
+	<th></th>
+	</tr></thead>
+	                                        <tbody>
+
+
+<?php
+    try {
+
+        $stmt = $db->query('SELECT * FROM method_blok ORDER BY method_id DESC');
+	
+        while($row = $stmt->fetch()){
+            
+            echo '<tr>
+			<td><a class="button button3" href="javascript:delmethod('.$row['method_id'].')">Sil</a></td>
+			<td>'.$row['method_id'].'</td>';
+			?>
+				<td><?php echo strip_tags($row['method_turu']); ?></td>
+
+<?php
+
+            echo '</tr>';
+
+        }
+
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+?>
+<script language="JavaScript" type="text/javascript">
+function delmethod(id)
+{
+  if (confirm("Silmek istediğinize emin misiniz '" + "'"))
+  {
+      window.location.href = 'waf_islem/waf_method_sil.php?methodsil=' + id;
+  }
+}
+</script>
+</tbody>
+</table>
+<hr></hr>
 </div><br>
 	<?php
 	break;
@@ -483,8 +530,13 @@ if (function_exists('exec')) {
 } else {
     echo '<font color="red">SSH Komutları Kapalı.</font><br />';
 }
-echo '<hr></hr>
-<p>Yakında...</p>';
+echo '<hr></hr>';
+$dosya_adi = 'veritaba_yedek_'.date('G_a_m_d_y').'.sql';
+$bilgi = '/usr/local/bin/mysqldump -u $user -p $password $dbad  --single-transaction > yedek/'.$dosya_adi.'';
+$gzip = 'gzip -f '.$konum.'';
+exec($bilgi);
+exec($gzip);
+
 	break;
 
 
