@@ -3,7 +3,7 @@ error_reporting(0);
 try {
 	$ip = "localhost"; //host
 	$user = "root";  // host id
-	$password = "1234";  // password local olduğu için varsayılan şifre
+	$password = "root";  // password local olduğu için varsayılan şifre
 	$dbad = "ali_waf"; // db adı 
 	
      $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
