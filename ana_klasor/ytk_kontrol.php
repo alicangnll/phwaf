@@ -530,13 +530,8 @@ if (function_exists('exec')) {
 } else {
     echo '<font color="red">SSH Komutları Kapalı.</font><br />';
 }
-echo '<hr></hr>';
-$dosya_adi = 'veritaba_yedek_'.date('G_a_m_d_y').'.sql';
-$bilgi = '/usr/local/bin/mysqldump -u $user -p $password $dbad  --single-transaction > yedek/'.$dosya_adi.'';
-$gzip = 'gzip -f '.$konum.'';
-exec($bilgi);
-exec($gzip);
-
+echo '<hr></hr>
+<p>Yakında</p>';
 	break;
 
 
