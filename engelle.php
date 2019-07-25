@@ -40,7 +40,7 @@ if (empty($user_agent)) {
 $user_agent = "Mozilla/5.0 (compatible; nrird.xyz/proxy)";
 }
 }
-
+header('X-Frame-Options: SAMEORIGIN');
 require_once("baglanti.php");
 try {
 $ip = reel_ip();
