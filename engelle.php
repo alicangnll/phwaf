@@ -94,10 +94,10 @@ exit;
 $method = $_SERVER['REQUEST_METHOD'];
 $stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = '$method'");
 if($stmt->rowCount()) {
-while($row = $stmt->fetch()){
-	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+while($row = $stmt->fetch()){	
    }
 		} else {
+			header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 			echo '
 		<p align="center">Method Serverda Engellendi</p><br>
 		<p align="center"> Method Türü <b>'.$method.'</b>';
