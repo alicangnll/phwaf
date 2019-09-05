@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 05 Eyl 2019, 16:15:16
+-- Üretim Zamanı: 06 Eyl 2019, 01:14:11
 -- Sunucu sürümü: 10.4.6-MariaDB
 -- PHP Sürümü: 7.1.31
 
@@ -31,15 +31,16 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin_bilgi` (
   `id` int(11) NOT NULL,
   `kadi` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `passwd` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `passwd` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `admin_yetki` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `admin_bilgi`
 --
 
-INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`) VALUES
-(1, 'admin', '1234');
+INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`, `admin_yetki`) VALUES
+(1, 'admin', '1234', '0');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE `guard_watch` (
 INSERT INTO `guard_watch` (`kural_id`, `kural_adi`, `kural_icerik`, `kural_durum`) VALUES
 (1, 'SQL Engelleme Kuralı', '..¿¿½¿¿%¿¿OR¿¿\\\"¿¿\\\'¿¿`¿¿concat¿¿join¿¿\\\\\\\"¿¿\\\\\\\\¿¿tablo_adim¿¿kolon_adim¿¿script¿¿alert¿¿JaVaScRiPT¿¿&quot;¿¿fromCharCode¿¿onmouseover¿¿&#¿¿#&¿¿&#x09;¿¿!¿¿#¿¿$¿¿%¿¿(¿¿)¿¿*¿¿~¿¿+¿¿-¿¿_¿¿,¿¿:¿¿;¿¿@[¿¿/¿¿|¿¿\\\\¿¿]¿¿^¿¿`¿¿//¿¿/¿¿livescript¿¿constructor¿¿:¿¿\\\'\\\\ja\\\\vasc\\\\ript:alert¿¿¾¿¿¢¿¿order¿¿by¿¿union¿¿table_name¿¿column_name¿¿from¿¿concat¿¿and¿¿AND¿¿limit¿¿SRC¿¿src¿¿meta¿¿embed¿¿xml¿¿XML¿¿x;¿¿x27;¿¿quot¿¿+¿¿UNION¿¿-¿¿-¿¿+¿¿*¿¿’¿¿|¿¿\\\"¿¿?¿¿', '1'),
 (2, 'XSS Engelleme Kuralı', '//¿¿etc¿¿passwd¿¿conf¿¿MYD¿¿MYI¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿&#37;¿¿@¿¿¢¿¿¤¿¿¥¿¿¦¿¿§¿¿©¿¿ª¿¿«¿¿¬¿¿&shy;¿¿®¿¿¯¿¿°¿¿±¿¿²¿¿³¿¿µ¿¿¶¿¿·¿¿¸¿¿¹¿¿º¿¿¼¿¿¾¿¿À¿¿exec¿¿%¿¿unhex¿¿ CONVERT¿¿CONCAT_WS¿¿CHAR¿¿InfORmaTion_scHema¿¿WHERE¿¿hex¿¿%20¿¿AND¿¿substring¿¿version¿¿ascii¿¿SLEEP¿¿md5¿¿%0C¿¿%A0¿¿MID¿¿LIKE¿¿', '1'),
-(3, 'RFI Engelleme', '//¿¿etc¿¿passwd¿¿conf¿¿MYD¿¿MYI¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿&#37;¿¿@¿¿¢¿¿¤¿¿¥¿¿¦¿¿§¿¿©¿¿ª¿¿«¿¿¬¿¿&shy;¿¿®¿¿¯¿¿°¿¿±¿¿²¿¿³¿¿µ¿¿¶¿¿·¿¿¸¿¿¹¿¿º¿¿¼¿¿¾¿¿À¿¿exec¿¿%¿¿unhex¿¿ CONVERT¿¿CONCAT_WS¿¿CHAR¿¿InfORmaTion_scHema¿¿WHERE¿¿hex¿¿%20¿¿AND¿¿substring¿¿version¿¿ascii¿¿SLEEP¿¿md5¿¿%0C¿¿%A0¿¿MID¿¿LIKE\r\n', '1');
+(3, 'RFI Engelleme', '//¿¿etc¿¿passwd¿¿conf¿¿MYD¿¿MYI¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿%¿¿@¿¿¢¿¿¤¿¿¥¿¿¦¿¿§¿¿©¿¿ª¿¿«¿¿¬¿¿­¿¿®¿¿¯¿¿°¿¿±¿¿²¿¿³¿¿µ¿¿¶¿¿·¿¿¸¿¿¹¿¿º¿¿¼¿¿¾¿¿À¿¿exec¿¿%¿¿unhex¿¿ CONVERT¿¿CONCAT_WS¿¿CHAR¿¿InfORmaTion_scHema¿¿WHERE¿¿hex¿¿%20¿¿AND¿¿substring¿¿version¿¿ascii¿¿SLEEP¿¿md5¿¿%0C¿¿%A0¿¿MID¿¿LIKE\r\n', '1');
 
 -- --------------------------------------------------------
 
@@ -102,6 +103,25 @@ INSERT INTO `method_blok` (`method_id`, `method_turu`, `method_adi`) VALUES
 (1, 'GET', 'GET'),
 (2, 'POST', 'POST');
 
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `waf_ayar`
+--
+
+CREATE TABLE `waf_ayar` (
+  `ayar_id` int(11) NOT NULL,
+  `ayar_adi` text COLLATE utf8_turkish_ci NOT NULL,
+  `waf_aktif` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+--
+-- Tablo döküm verisi `waf_ayar`
+--
+
+INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`) VALUES
+(1, 'WAF_Aktif', '1');
+
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
@@ -131,6 +151,12 @@ ALTER TABLE `method_blok`
   ADD PRIMARY KEY (`method_id`);
 
 --
+-- Tablo için indeksler `waf_ayar`
+--
+ALTER TABLE `waf_ayar`
+  ADD PRIMARY KEY (`ayar_id`);
+
+--
 -- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
 --
 
@@ -144,7 +170,7 @@ ALTER TABLE `admin_bilgi`
 -- Tablo için AUTO_INCREMENT değeri `guard_watch`
 --
 ALTER TABLE `guard_watch`
-  MODIFY `kural_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `kural_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_ban`
@@ -156,7 +182,13 @@ ALTER TABLE `ip_ban`
 -- Tablo için AUTO_INCREMENT değeri `method_blok`
 --
 ALTER TABLE `method_blok`
-  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `waf_ayar`
+--
+ALTER TABLE `waf_ayar`
+  MODIFY `ayar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

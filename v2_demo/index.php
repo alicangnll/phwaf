@@ -372,6 +372,38 @@ echo '<tr>
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
+
+echo '<div class="w3-container">
+<table class="w3-table w3-striped">
+<br><h3>Ayarlar</h3>
+<tr>
+<th>Ayar ID</th>
+<th>Ayar Durum</th>
+<th>Ayar Adı</th>
+<th></th>
+</tr>';
+
+try {
+$stmt = $db->query('SELECT * FROM waf_ayar ORDER BY ayar_id DESC');
+while($row = $stmt->fetch()){
+echo '<tr>
+<td>'.strip_tags($row['ayar_id']).'</td>';
+$adminid = 1;
+if ($row['waf_aktif'] == $adminid){
+header('X-AliWAF: ACTIVE');
+echo '<td><font color="green">Aktif</font></td>';
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<td><font color="red">Pasif</font></td>';
+}
+echo '
+<td>'.strip_tags($row['ayar_adi']).'</td>';
+echo '<td><a href="index.php?git=ayarduzenle&id='.strip_tags($row['ayar_id']).'">Düzenle</a></tr>
+</div>';	
+}
+} catch(PDOException $e) {
+echo $e->getMessage();
+}
 break;
 
 
@@ -439,6 +471,80 @@ textarea {
 </form>';	
 break;
 
+case 'ayarduzenle':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+
+try {
+
+    $stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
+    $stmt->execute(array(':gonderid' => $_GET['id']));
+    $row = $stmt->fetch(); 
+
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+</style>
+<br>
+<form class="w3-container" action="index.php?git=ayarkayit&id='.$_GET['id'].'" method="POST">
+<label>Ayar Adı</label>
+<input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
+<br>
+<label>Ayar Durumu</label><br>
+<label><input type="checkbox" name="ayardurum"value="1">Aktif</label><br>
+<label><input type="checkbox" name="ayardurum" value="0">Pasif</label><br>
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';	
+break;
+case 'ayarkayit':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif WHERE ayar_id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
+$update->bindValue(':waf_aktif', strip_tags($_POST['ayardurum']));
+$update->execute();
+if($update){
+echo '<script>
+alert("Başarılı");
+window.location.replace("index.php?git=index")
+</script>';
+}
+break;
 
 case 'kuralekle':
 session_start();

@@ -32,6 +32,7 @@ function reel_ip()
     }  
     return $ip;  
 }
+
 header('X-Frame-Options: SAMEORIGIN');
 error_reporting(0);
 try {
@@ -54,10 +55,26 @@ try {
 	 </table>';
 }
 try {
+$stmt = $db->query('SELECT * FROM waf_ayar ORDER BY ayar_id');
+while($row = $stmt->fetch()){
+$adminid = 1;
+if ($row['waf_aktif'] == $adminid){
+header('X-AliWAF: ACTIVE');
+} else {
+header('X-AliWAF: DEACTIVE');
+}
+}
+} catch(PDOException $e) {
+echo $e->getMessage();
+}
+
+try {
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
+	header('X-AliWAF: ACTIVE');
+	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 		echo '
 		<p align="center">IP Ban Listesindesiniz</p><br>
 		<p align="center"> IP Adresin <b>'.$ip.'</b>';
@@ -79,6 +96,8 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
+	header('X-AliWAF: ACTIVE');
+	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
     echo '<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>pH Analyzer - Yasaklı Komut Algılandı</title>
@@ -108,6 +127,7 @@ if($stmt->rowCount()) {
 while($row = $stmt->fetch()){	
    }
 		} else {
+			header('X-AliWAF: ACTIVE');
 		header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 			echo '
 		<p align="center">Method Serverda Engellendi</p><br>
