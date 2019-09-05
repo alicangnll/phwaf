@@ -17,6 +17,12 @@
 <p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
 <p> da denetleyebilecek.</p>
 <img src="v2_demo/pic/aliwaf1.png">
+        <br>
+<img src="v2_demo/pic/aliwaf2.png">
+        <br>
+<img src="v2_demo/pic/aliwaf3.png">
+        <br>
+<img src="v2_demo/pic/aliwaf4.png">
 <code>
 <pre>PHP Dosyanıza
 require_once(“engelle.php”);
