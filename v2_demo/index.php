@@ -374,14 +374,42 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="post/kuralupd.php?id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=kuralpost&id='.$_GET['id'].'" method="POST">
 <label>Kural Adı</label>
-<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.strip_tags($row['kural_adi']).'"> 
+<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
-<textarea name="kuralicerik" cols="60" rows="10">'.strip_tags($row['kural_icerik']).'</textarea>
+<textarea name="kuralicerik" cols="60" rows="10">'.$row['kural_icerik'].'</textarea>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
+break;
+
+
+case 'kuralpost':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+
+$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kural_adi , kural_icerik = :kural_icerik WHERE kural_id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update->bindValue(':kural_adi', strip_tags($_POST['kuraladi']));
+$update->bindValue(':kural_icerik', strip_tags($_POST['kuralicerik']));
+$update->execute();
+if($update){
+echo '<script>
+alert("Başarılı");
+window.location.replace("index.php?git=index")
+</script>';
+}
 break;
 
 case 'methodduzenle':
