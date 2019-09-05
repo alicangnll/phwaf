@@ -180,6 +180,7 @@ header('Location: index.php?git=index');
 }else{
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <p>HATA: Oturum Açılamadı!</p>';
+header('Location: index.php?git=login');
 die();
 }
 break;
@@ -194,7 +195,7 @@ echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a class="active" href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a class="active" href="index.php?git=index">Ana Sayfa</a>
 	<a href="index.php?git=admin">Admin</a>
     <a href="index.php?git=cikis">Çıkış</a>
   </div>
@@ -318,6 +319,60 @@ function delip(id)
 <?php
 break;
 
+case 'admin':
+try {
+$stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
+$stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
+$row = $stmt->fetch(); 
+$adminid = 0;
+if ($row['admin_yetki'] == $adminid){
+} else {
+echo 'Yetkiniz Yok';
+die();	
+}
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
+
+session_start();
+if (isset($_SESSION['girisyap'])){
+} else {	
+	header('Location: index.php?git=login');
+}
+echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+	<a class="active" href="index.php?git=admin">Admin</a>
+    <a href="index.php?git=cikis">Çıkış</a>
+  </div>
+</div>';
+
+echo '<div class="w3-container">
+<table class="w3-table w3-striped">
+<br><h3>Adminler</h3>
+<tr>
+<th>Admin ID</th>
+<th>Admin Adı</th>
+<th></th>
+</tr>';
+
+try {
+$stmt = $db->query('SELECT * FROM admin_bilgi ORDER BY id DESC');
+while($row = $stmt->fetch()){
+echo '<tr>
+<td>'.strip_tags($row['id']).'</td>
+<td>'.strip_tags($row['kadi']).'</td>
+<td><a href="index.php?git=adminduzenle&id='.strip_tags($row['id']).'">Düzenle</a> | 
+<a class="active" href="index.php?git=adminekle">Ekle</a></td>
+</tr>
+</div>';	
+}
+} catch(PDOException $e) {
+echo $e->getMessage();
+}
+break;
 
 
 case 'ipduzenle':
@@ -591,6 +646,7 @@ textarea {
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
+
 case 'methodpost':
 session_start();
 if (isset($_SESSION['girisyap'])){
