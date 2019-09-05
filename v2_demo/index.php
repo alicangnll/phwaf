@@ -385,6 +385,74 @@ textarea {
 break;
 
 
+case 'kuralekle':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=krlpost" method="POST">
+<label>Kural Adı</label>
+<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:"> 
+<br>
+<label>Kural İçeriği</label>
+<textarea name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';	
+break;
+
+case 'krlpost':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}														
+$update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik) VALUES (:kuraladi, :kuralicerik) ");
+$update->bindValue(':kuraladi', $_POST['kuraladi']);
+$update->bindValue(':kuralicerik', $_POST['kuralicerik']);
+$update->execute();
+if($update){
+echo '<script>
+alert("Kural Eklendi");
+window.location.replace("index.php?git=index")
+</script>';
+} else {
+echo '<script>
+alert("Kural Eklenemedi");
+window.location.replace("index.php?git=index")
+</script>';
+}
+break;
+
 case 'kuralpost':
 session_start();
 if (isset($_SESSION['girisyap'])){
@@ -398,7 +466,6 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-
 $update = $db->prepare("UPDATE guard_watch SET kural_adi = :kural_adi , kural_icerik = :kural_icerik WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kural_adi', strip_tags($_POST['kuraladi']));
@@ -415,19 +482,76 @@ break;
 case 'methodduzenle':
 session_start();
 if (isset($_SESSION['girisyap'])){
-} else {	
-	header('Location: index.php?git=login');
-}
-echo '
+	echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
-echo '';
+} else {	
+	header('Location: index.php?git=login');
+}
+
+try {
+
+    $stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
+    $stmt->execute(array(':gonderid' => $_GET['id']));
+    $row = $stmt->fetch(); 
+
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=methodupd&id='.$_GET['id'].'" method="POST">
+<label>Method Adı</label>
+<input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
+<br>
+<label>Method İçeriği</label>
+<input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$row['method_turu'].'"> 
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';
 break;
 
+case 'methodupd':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+$update = $db->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
+$update->bindValue(':method_turu', strip_tags($_POST['methodicerik']));
+$update->execute();
+if($update){
+echo '<script>
+alert("Başarılı");
+window.location.replace("index.php?git=index")
+</script>';
+}
+break;
 
 case 'ipsil':
 session_start();
