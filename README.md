@@ -16,6 +16,7 @@
 <p> Şimdilik link tabanlı çalışıyor.</p>
 <p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
 <p> da denetleyebilecek.</p>
+<img src="v2_demo/pic/aliwaf1.png">
 <code>
 <pre>PHP Dosyanıza
 require_once(“engelle.php”);
