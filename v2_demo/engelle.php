@@ -1,4 +1,5 @@
 <?php
+
 function reel_ip()  
 {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))  
@@ -32,7 +33,6 @@ function reel_ip()
     }  
     return $ip;  
 }
-
 header('X-Frame-Options: SAMEORIGIN');
 error_reporting(0);
 try {
@@ -58,10 +58,13 @@ try {
 $stmt = $db->query('SELECT * FROM waf_ayar ORDER BY ayar_id');
 while($row = $stmt->fetch()){
 $adminid = 1;
-if ($row['waf_aktif'] == $adminid){
+setcookie("wafdurum", $row["waf_aktif"]);
+if ($_COOKIE["wafdurum"] == $adminid){
 header('X-AliWAF: ACTIVE');
+echo '<script>console.log("WAF : ON! | Koruma Prosedurleri Calisiyor");</script>';
 } else {
 header('X-AliWAF: DEACTIVE');
+echo '<script>console.log("WAF : OFF!");</script>';
 }
 }
 } catch(PDOException $e) {
@@ -73,15 +76,23 @@ $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-	header('X-AliWAF: ACTIVE');
+	
+if ($_COOKIE["wafdurum"] == $adminid){
+header('X-AliWAF: ACTIVE');
+echo '<script>console.log("WAF : ON! | IP Koruma Proseduru");</script>';
 	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-		echo '
-		<p align="center">IP Ban Listesindesiniz</p><br>
-		<p align="center"> IP Adresin <b>'.$ip.'</b>';
-	die();	
+echo '
+<p align="center">IP Ban Listesindesiniz</p><br>
+<p align="center"> IP Adresin <b>'.$ip.'</b>';
+die();
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<script>console.log("WAF : OFF!");</script>';
+}	
    }
 		} else
 	{
+		
 	}
     } catch(PDOException $e) {
 }
@@ -96,7 +107,9 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
+if ($_COOKIE["wafdurum"] == $adminid){
 	header('X-AliWAF: ACTIVE');
+	echo '<script>console.log("WAF : ON! | Sızma Koruma Proseduru");</script>';
 	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
     echo '<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,7 +121,12 @@ if (strstr($parametreler,$yasakla[$i])) {
 	<a href="javascript:history.back()">
 Return to previous page ( Geri Dön )
 </a></center>';
-exit;
+
+die();
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<script>console.log("WAF : OFF!");</script>';
+}
 }
  
 $i++;	
@@ -127,12 +145,19 @@ if($stmt->rowCount()) {
 while($row = $stmt->fetch()){	
    }
 		} else {
-			header('X-AliWAF: ACTIVE');
-		header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-			echo '
-		<p align="center">Method Serverda Engellendi</p><br>
-		<p align="center"> Method Türü <b>'.$method.'</b>';
-	die();	
+if ($_SESSION['wafdurum'] == $adminid){
+header('X-AliWAF: ACTIVE');
+echo '<script>console.log("WAF : ON! | Method Koruma Proseduru");</script>';
+header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+echo '
+<p align="center">Method Serverda Engellendi</p><br>
+<p align="center"> Method Türü <b>'.$method.'</b>';
+
+die();
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<script>console.log("WAF : OFF!");</script>';
+}
 	}
     } catch(PDOException $e) {
 }

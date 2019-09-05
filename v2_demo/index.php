@@ -520,6 +520,7 @@ textarea {
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
+
 case 'ayarkayit':
 session_start();
 if (isset($_SESSION['girisyap'])){

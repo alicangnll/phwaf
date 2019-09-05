@@ -120,7 +120,7 @@ CREATE TABLE `waf_ayar` (
 --
 
 INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`) VALUES
-(1, 'WAF_Aktif', '1');
+(1, 'Yenisss', '1');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
