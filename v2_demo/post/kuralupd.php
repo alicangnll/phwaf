@@ -26,6 +26,7 @@ $update = $db->prepare("UPDATE guard_watch SET kural_adi = :kural_adi , kural_ic
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kural_adi', strip_tags($_POST['kuraladi']));
 $update->bindValue(':kural_icerik', strip_tags($_POST['kuralicerik']));
+$update->execute();
 if($update){
 echo '<script>
 alert("Başarılı");
