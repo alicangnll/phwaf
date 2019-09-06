@@ -86,6 +86,39 @@ a{
 	<title>pH Analyzer | AliWAF</title>  
 </head>
 <?php
+function reel_ip()  
+{  
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))  
+    {  
+        $ip=$_SERVER['HTTP_CLIENT_IP'];  
+    }  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+    }
+   elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_FORWARDED'];  
+    }
+	
+   elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];  
+    } 
+	   elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+     
+    {  
+        $ip = $_SERVER['HTTP_FORWARDED'];  
+    } 
+    else  
+    {  
+        $ip=$_SERVER['REMOTE_ADDR'];  
+    }  
+    return $ip;  
+}
 error_reporting(0);
 try {
 	$ip = "localhost"; //host
@@ -167,7 +200,7 @@ echo '<div class="header">
 break;
  
 case 'loginkontrol':
-$query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = " . $db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags($_POST['pass'])) . "",PDO::FETCH_ASSOC);
+$query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = " . $db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 session_start();
@@ -197,18 +230,42 @@ echo '
   <div class="header-right">
     <a class="active" href="index.php?git=index">Ana Sayfa</a>
 	<a href="index.php?git=admin">Admin</a>
+	<a href="index.php?git=kuralekle">Kural Ekle</a>
+	<a href="index.php?git=ipekle">IP Ekle</a>
+	<a href="index.php?git=methodekle">Method Ekle</a>
     <a href="index.php?git=cikis">Çıkış</a>
   </div>
 </div>';
 
 echo '<div class="w3-container">
+<br><h3>WAF Durumu</h3>';
+$ayarid = 1;
+try {
+$stmt = $db->query('SELECT * FROM waf_ayar WHERE waf_aktif = '.$ayarid.' ORDER BY ayar_id DESC');
+while($row = $stmt->fetch()){
+if($row['oto_ban'] == 1) {
+echo '<div class="alert alert-success"><strong>Otomatik IP Ban : AÇIK (1)</strong></div><br>';
+} else {
+echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : KAPALI (0)</strong></div><br>';
+}
+if($row['waf_aktif'] == 1) {
+echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
+} else {
+echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
+}	
+}
+} catch(PDOException $e) {
+echo $e->getMessage();
+}
+echo '<div class="alert alert-success"><strong>IP Adresiniz : '.reel_ip().'</strong></div><br>';
+echo '</div>
+<div class="w3-container">
 <table class="w3-table w3-striped">
 <br><h3>Kurallar</h3>
 <tr>
 <th></th>
 <th>Kural ID</th>
 <th>Kural Adı</th>
-<th></th>
 </tr>';
 
 try {
@@ -219,7 +276,6 @@ echo '<tr>
 <td>'.strip_tags($row['kural_id']).'</td>
 <td>'.strip_tags($row['kural_adi']).'</td>
 <td><a href="index.php?git=kuralduzenle&id='.strip_tags($row['kural_id']).'">Düzenle</a></td>
-<td><a class="active" href="index.php?git=kuralekle">Ekle</a></td>
 </tr>
 </div>';
 }
@@ -247,7 +303,6 @@ echo '<div class="w3-container">
 <th>ID</th>
 <th>Method Adı</th>
 <th>Türü</th>
-<th></th>
 </tr>';
 
 try {
@@ -259,7 +314,6 @@ echo '<tr>
 <td>'.strip_tags($row['method_adi']).'</td>
 <td>'.strip_tags($row['method_turu']).'</td>
 <td><a href="index.php?git=methodduzenle&id='.strip_tags($row['method_id']).'">Düzenle</a></td>
-<td><a class="active" href="index.php?git=methodekle">Ekle</a></td>
 </tr>
 </div>';	
 }
@@ -285,27 +339,24 @@ echo '<div class="w3-container">
 <th></th>
 <th>ID</th>
 <th>Adresi</th>
-<th>Durum</th>
-<th></th>
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM ip_ban ORDER BY id DESC');
+$stmt = $db->query('SELECT * FROM ip_ban ORDER BY ip_id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
-<td><a class="button button3" href="javascript:delip('.$row['id'].')">Sil</a></td>
-<td>'.strip_tags($row['id']).'</td>
-<td>'.strip_tags($row['ip_adresi']).'</td>
-<td>'.strip_tags($row['ip_ban_durum']).'</td>';
+<td><a class="button button3" href="javascript:delip('.$row['ip_id'].')">Sil</a></td>
+<td>'.strip_tags($row['ip_id']).'</td>
+<td>'.strip_tags($row['ip_adresi']).'</td>';
 echo '
-<td><a href="index.php?git=ipduzenle&id='.strip_tags($row['id']).'">Düzenle</a></td>
-<td><a class="active" href="index.php?git=ipekle">Ekle</a></td>
-</tr>
-</div>';	
+<td><a href="index.php?git=ipduzenle&id='.strip_tags($row['ip_id']).'">Düzenle</a></td>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
+echo '
+</tr>
+</div>';
 ?>
 <script language="JavaScript" type="text/javascript">
 function delip(id)
@@ -355,7 +406,6 @@ echo '<div class="w3-container">
 <tr>
 <th>Admin ID</th>
 <th>Admin Adı</th>
-<th></th>
 </tr>';
 
 try {
@@ -365,7 +415,6 @@ echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
 <td><a href="index.php?git=adminduzenle&id='.strip_tags($row['id']).'">Düzenle</a> | 
-<a class="active" href="index.php?git=adminekle">Ekle</a></td>
 </tr>
 </div>';	
 }
@@ -406,6 +455,73 @@ echo $e->getMessage();
 }
 break;
 
+case 'sifirla':
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=sifirlandi" method="POST">
+<label>E-Mail</label>
+<input type="text" name="email" class="form-control" placeholder="E-Mail:"> 
+<br>
+<label>Token</label>
+<input type="text" name="token" class="form-control" placeholder="Token:"> 
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';
+break;
+
+case 'sifirlandi':
+if (isset($_POST["token"]) && isset($_POST["email"])) {
+$email = $_POST["email"];
+$token = sha1(md5($_POST["token"]));
+$stmt = $db->query("SELECT * FROM admin_bilgi WHERE email = '$email' AND token = '$token'");
+if ($stmt->rowCount() > 0) {
+$str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
+$str = str_shuffle($str);
+$str = substr($str, 0, 15);
+$password = sha1(md5($str));
+$db->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
+echo '<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+echo '<body class="w3-container">
+<div class="w3-panel w3-pale-red w3-border">
+<h4>Yeni şifren: '.$str.'</h4>
+<hr></hr>
+<h5>NOT : Şifrenizi Kopyalayın ve <b>BİR YERE KAYDEDİN!</b></h5>
+</body>'; 
+exit();
+ } else {
+            echo "Lütfen link yapınızı kontrol ediniz!";
+			exit();
+        }
+    } else {
+		echo 'Bir şeyler hatalı';
+        exit();
+    } 
+break;
 
 case 'ipduzenle':
 session_start();
@@ -420,7 +536,61 @@ echo '
     <a href="index.php?git=uygulamayap">Ana Sayfa</a>
   </div>
 </div>';
-echo '';
+try {
+
+    $stmt = $db->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
+    $stmt->execute(array(':gonderid' => $_GET['id']));
+    $row = $stmt->fetch(); 
+
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=ipupd&id='.$_GET['id'].'" method="POST">
+<label>IP Adresi</label>
+<input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
+<br>
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';
+break;
+
+case 'ipupd':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+$update = $db->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update->bindValue(':ipadresi', strip_tags($_POST['ipadresi']));
+$update->execute();
+if($update){
+echo '<script>
+alert("Başarılı");
+window.location.replace("index.php?git=index")
+</script>';
+}
 break;
 
 case 'kuralduzenle':
@@ -471,6 +641,89 @@ textarea {
 </form>';	
 break;
 
+
+case 'adminduzenle':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+
+try {
+
+    $stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
+    $stmt->execute(array(':gonderid' => $_GET['id']));
+    $row = $stmt->fetch(); 
+
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="POST">
+<label>Kullanıcı Adı</label>
+<input type="text" name="kadi" class="form-control" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
+<br>
+<label>Şifre</label>
+<input type="text" name="pass" class="form-control" placeholder="Şifre:"> 
+<br>
+<label>E-Mail</label>
+<input type="text" name="email" class="form-control" placeholder="E-Mail:" value="'.$row['email'].'">
+<br>
+<label>Token</label>
+<input type="text" name="tokens" class="form-control" placeholder="Token:"> 
+
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';	
+break;
+case 'kadiupd':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+$update = $db->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update->bindValue(':kadi', strip_tags($_POST['kadi']));
+$update->bindValue(':pass', strip_tags(sha1(md5($_POST['pass']))));
+$update->bindValue(':email', strip_tags($_POST['email']));
+$update->bindValue(':token', strip_tags(sha1(md5($_POST['tokens']))));
+$update->execute();
+if($update){
+echo '<script>
+alert("Başarılı");
+window.location.replace("index.php?git=index")
+</script>';
+}
+break;
+
 case 'ayarduzenle':
 session_start();
 if (isset($_SESSION['girisyap'])){
@@ -517,8 +770,23 @@ textarea {
 <label>Ayar Durumu</label><br>
 <label><input type="checkbox" name="ayardurum"value="1">Aktif</label><br>
 <label><input type="checkbox" name="ayardurum" value="0">Pasif</label><br>
+<br>
+<label>Otomatik IP Ban</label><br>
+<label><input type="checkbox" name="otoban" value="1">Aktif</label><br>
+<label><input type="checkbox" name="otoban" value="0">Pasif</label><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
-</form>';	
+</form>';
+echo '<hr></hr>';
+if($row['oto_ban'] == 1) {
+	echo '<div class="alert alert-success"><strong>Otomatik IP Ban : AÇIK (1)</strong></div><br>';
+} else {
+	echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : KAPALI (0)</strong></div><br>';
+}
+if($row['waf_aktif'] == 1) {
+	echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
+} else {
+	echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
+}	
 break;
 
 case 'ayarkayit':
@@ -534,10 +802,11 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif WHERE ayar_id = :gonderid ");
+$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
 $update->bindValue(':waf_aktif', strip_tags($_POST['ayardurum']));
+$update->bindValue(':oto_ban', strip_tags($_POST['otoban']));
 $update->execute();
 if($update){
 echo '<script>
@@ -715,6 +984,70 @@ window.location.replace("index.php?git=index")
 }
 break;
 
+case 'ipekle':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+echo '
+<style> 
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
+<br>
+<form class="w3-container" action="index.php?git=ippost" method="POST">
+<label>IP Adresi</label>
+<input type="text" name="ipadress" class="form-control" placeholder="IP Adresi:"> 
+<br>
+<input type="submit" value="Gönder" class="w3-button w3-red">
+</form>';	
+break;
+
+case 'ippost':
+session_start();
+if (isset($_SESSION['girisyap'])){
+	echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}														
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi) VALUES (:ipadresi) ");
+$update->bindValue(':ipadresi', $_POST['ipadress']);
+$update->execute();
+if($update){
+echo '<script>
+alert("IP Eklendi");
+window.location.replace("index.php?git=index")
+</script>';
+} else {
+echo '<script>
+alert("Kural Eklenemedi");
+window.location.replace("index.php?git=index")
+</script>';
+}
+break;
 
 case 'methodekle':
 session_start();
@@ -798,7 +1131,7 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 if(isset($_GET['ipsil'])){ 
-$stmt = $db->prepare('DELETE FROM ip_ban WHERE id = :postID') ;
+$stmt = $db->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
 $stmt->execute(array(':postID' => $_GET['ipsil']));
 if($stmt){
 echo '<script>

@@ -1,5 +1,5 @@
 <?php
-
+echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 function reel_ip()  
 {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))  
@@ -33,7 +33,7 @@ function reel_ip()
     }  
     return $ip;  
 }
-header('X-Frame-Options: SAMEORIGIN');
+// IP Engelleme
 error_reporting(0);
 try {
 	$ip = "localhost"; //host
@@ -48,16 +48,20 @@ try {
 } catch ( PDOException $e ){
      echo '
 	 <table>
-<center><img src="./sql.png" alt="Örnek Resim"/></center>
+<center><img src="./veri/img/sql.png" alt="Örnek Resim"/></center>
 <center>No MySQL Connection</center>
 <center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 	 </table>';
 }
+
 try {
-$stmt = $db->query('SELECT * FROM waf_ayar ORDER BY ayar_id');
+$stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
+if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 $adminid = 1;
+setcookie("otoban", $row["oto_ban"]);
+setcookie("ipadres", reel_ip());
 setcookie("wafdurum", $row["waf_aktif"]);
 if ($_COOKIE["wafdurum"] == $adminid){
 header('X-AliWAF: ACTIVE');
@@ -65,40 +69,39 @@ echo '<script>console.log("WAF : ON! | Koruma Prosedurleri Calisiyor");</script>
 } else {
 header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
+}	
+   }
+		}
+	// IP Engelleme Bitti
+if ($_COOKIE["otoban"] == 1){
+if ($_COOKIE["banned"] == 1){
+	echo 'IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz
+	'.$_COOKIE["ipadres"].'';
+	die();
+} else {
+	//No
 }
+} else {
+	//No
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
-
-try {
+	//Guard Izleme
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-	
-if ($_COOKIE["wafdurum"] == $adminid){
-header('X-AliWAF: ACTIVE');
-echo '<script>console.log("WAF : ON! | IP Koruma Proseduru");</script>';
-	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-echo '
-<p align="center">IP Ban Listesindesiniz</p><br>
-<p align="center"> IP Adresin <b>'.$ip.'</b>';
-die();
-} else {
-header('X-AliWAF: DEACTIVE');
+	if ($_COOKIE["wafdurum"] == $adminid){
+		echo '
+		<p align="center">IP Ban Listesindesiniz</p><br>
+		<p align="center"> IP Adresin <b>'.$ip.'</b>';
+	die();
+	} else {
+		header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
-}	
+	}		
    }
-		} else
-	{
-		
-	}
-    } catch(PDOException $e) {
-}
-// IP Engelleme Bitti
-try {
-	$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
+		}
+
+$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
 		$parametreler = strtolower($_SERVER['QUERY_STRING']); 
 		$yasaklar=($row['kural_icerik']);
@@ -108,9 +111,7 @@ $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
 if ($_COOKIE["wafdurum"] == $adminid){
-	header('X-AliWAF: ACTIVE');
-	echo '<script>console.log("WAF : ON! | Sızma Koruma Proseduru");</script>';
-	header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+	echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
     echo '<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>pH Analyzer - Yasaklı Komut Algılandı</title>
@@ -120,11 +121,19 @@ if ($_COOKIE["wafdurum"] == $adminid){
 	<center><body><p>Komut Tipi : <h3>'.$row['kural_adi'].'</h3></p></body>
 	<a href="javascript:history.back()">
 Return to previous page ( Geri Dön )
-</a></center>';
-
+</a></center>
+<hr></hr>';
+if ($_COOKIE["otoban"] == $adminid){
+$bandurum = 1;
+setcookie("banned", $bandurum ,time()+3600);
+echo '<center><p>IP Ban Yediniz! (1 (Bir) Saat)</p></center>';
 die();
 } else {
-header('X-AliWAF: DEACTIVE');
+setcookie("nonbanned", 0);
+}
+exit;
+} else {
+	header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
 }
 }
@@ -135,30 +144,28 @@ if (strlen($parametreler)>=90) {
 exit;	
 }
 	}
-	    } catch(PDOException $e) {
-        echo $e->getMessage();
-    }
- try {
+	//Guard Bitti
 $method = $_SERVER['REQUEST_METHOD'];
 $stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = '$method'");
 if($stmt->rowCount()) {
-while($row = $stmt->fetch()){	
+while($row = $stmt->fetch()){
    }
+		} else
+	{
+		if ($_COOKIE["wafdurum"] == $adminid){
+	echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
+			header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+				echo '
+		<p align="center">Method Serverda Engellendi</p><br>
+		<p align="center"> Method Türü <b>'.$method.'</b>';
+	die();
 		} else {
-if ($_SESSION['wafdurum'] == $adminid){
-header('X-AliWAF: ACTIVE');
-echo '<script>console.log("WAF : ON! | Method Koruma Proseduru");</script>';
-header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-echo '
-<p align="center">Method Serverda Engellendi</p><br>
-<p align="center"> Method Türü <b>'.$method.'</b>';
-
-die();
-} else {
 header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
-}
+		}			
 	}
+	//Istek Engellendi
     } catch(PDOException $e) {
 }
+?>
 ?>
