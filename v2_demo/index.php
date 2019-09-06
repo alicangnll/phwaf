@@ -161,7 +161,7 @@ echo '<div style="padding-left:20px">
 <hr></hr>
 <div style="padding-left:20px">
   <h1>pH Analyzer Nedir ?</h1>
-  <p>Kurumsal şirketler için progrqam tabanlı bir siber güvenlik aracıdır.</p>
+  <p>Kurumsal şirketler için program tabanlı bir siber güvenlik aracıdır.</p>
 </div>';
 break;
 
