@@ -60,7 +60,7 @@ try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-	
+
 setcookie("ayaraktif", md5(sha1($row["ayar_aktif"])));
 setcookie("otoban", md5(sha1($row["oto_ban"])));
 setcookie("ipadres", reel_ip());
