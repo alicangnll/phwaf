@@ -55,15 +55,17 @@ try {
 	 </table>';
 }
 
-$adminid = 1;
+$adminid = md5(sha1(1));
 try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-setcookie("ayaraktif", $row["ayar_aktif"]);
-setcookie("otoban", $row["oto_ban"]);
+	
+setcookie("ayaraktif", md5(sha1($row["ayar_aktif"])));
+setcookie("otoban", md5(sha1($row["oto_ban"])));
 setcookie("ipadres", reel_ip());
-setcookie("wafdurum", $row["waf_aktif"]);
+setcookie("wafdurum", md5(sha1($row["waf_aktif"])));
+
 if ($_COOKIE["wafdurum"] == $adminid){
 header('X-AliWAF: ACTIVE');
 echo '<script>console.log("WAF : ON! | Koruma Prosedurleri Calisiyor");</script>';
