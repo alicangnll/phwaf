@@ -161,7 +161,7 @@ echo '<div style="padding-left:20px">
 <hr></hr>
 <div style="padding-left:20px">
   <h1>pH Analyzer Nedir ?</h1>
-  <p>Kurumsal şirketler için program tabanlı bir siber güvenlik aracıdır.</p>
+  <p>Kurumsal şirketler için progrqam tabanlı bir siber güvenlik aracıdır.</p>
 </div>';
 break;
 
@@ -252,6 +252,12 @@ if($row['waf_aktif'] == 1) {
 echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
 } else {
 echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
+}
+
+if($row['ayar_aktif'] == 1) {
+echo '<div class="alert alert-success"><strong>AYAR : AÇIK (1)</strong></div><br>';
+} else {
+echo '<div class="alert alert-danger"><strong>AYAR : KAPALI (0)</strong></div><br>';
 }	
 }
 } catch(PDOException $e) {
@@ -427,7 +433,8 @@ echo '<div class="w3-container">
 <br><h3>Ayarlar</h3>
 <tr>
 <th>Ayar ID</th>
-<th>Ayar Durum</th>
+<th>WAF Durum</th>
+<th>Oto IP Ban</th>
 <th>Ayar Adı</th>
 <th></th>
 </tr>';
@@ -439,6 +446,13 @@ echo '<tr>
 <td>'.strip_tags($row['ayar_id']).'</td>';
 $adminid = 1;
 if ($row['waf_aktif'] == $adminid){
+header('X-AliWAF: ACTIVE');
+echo '<td><font color="green">Aktif</font></td>';
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<td><font color="red">Pasif</font></td>';
+}
+if ($row['oto_ban'] == $adminid){
 header('X-AliWAF: ACTIVE');
 echo '<td><font color="green">Aktif</font></td>';
 } else {
@@ -767,6 +781,10 @@ textarea {
 <label>Ayar Adı</label>
 <input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
 <br>
+<label>WAF Durumu</label><br>
+<label><input type="checkbox" name="wafdurum"value="1">Aktif</label><br>
+<label><input type="checkbox" name="wafdurum" value="0">Pasif</label><br>
+<br>
 <label>Ayar Durumu</label><br>
 <label><input type="checkbox" name="ayardurum"value="1">Aktif</label><br>
 <label><input type="checkbox" name="ayardurum" value="0">Pasif</label><br>
@@ -802,10 +820,11 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban WHERE ayar_id = :gonderid ");
+$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
-$update->bindValue(':waf_aktif', strip_tags($_POST['ayardurum']));
+$update->bindValue(':ayar_aktif', strip_tags($_POST['ayardurum']));
+$update->bindValue(':waf_aktif', strip_tags($_POST['wafdurum']));
 $update->bindValue(':oto_ban', strip_tags($_POST['otoban']));
 $update->execute();
 if($update){

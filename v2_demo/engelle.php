@@ -55,11 +55,12 @@ try {
 	 </table>';
 }
 
+$adminid = 1;
 try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-$adminid = 1;
+setcookie("ayaraktif", $row["ayar_aktif"]);
 setcookie("otoban", $row["oto_ban"]);
 setcookie("ipadres", reel_ip());
 setcookie("wafdurum", $row["waf_aktif"]);
@@ -72,6 +73,7 @@ echo '<script>console.log("WAF : OFF!");</script>';
 }	
    }
 		}
+if ($_COOKIE["ayaraktif"] == $adminid){
 	// IP Engelleme Bitti
 if ($_COOKIE["otoban"] == 1){
 if ($_COOKIE["banned"] == 1){
@@ -121,12 +123,11 @@ if ($_COOKIE["wafdurum"] == $adminid){
 	<center><body><p>Komut Tipi : <h3>'.$row['kural_adi'].'</h3></p></body>
 	<a href="javascript:history.back()">
 Return to previous page ( Geri Dön )
-</a></center>
-<hr></hr>';
+</a></center>';
 if ($_COOKIE["otoban"] == $adminid){
 $bandurum = 1;
 setcookie("banned", $bandurum ,time()+3600);
-echo '<center><p>IP Ban Yediniz! (1 (Bir) Saat)</p></center>';
+echo '<p>IP Ban Yediniz! (1 (Bir) Saat)</p>';
 die();
 } else {
 setcookie("nonbanned", 0);
@@ -164,8 +165,11 @@ header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
 		}			
 	}
+} else {
+	header('X-AliWAF: PENDING');
+echo '<script>console.log("WAF : AYAR BEKLIYOR!");</script>';
+}
 	//Istek Engellendi
     } catch(PDOException $e) {
 }
-?>
 ?>
