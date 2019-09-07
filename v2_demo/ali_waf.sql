@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: localhost:3306
--- Üretim Zamanı: 07 Eyl 2019, 19:21:10
--- Sunucu sürümü: 10.0.38-MariaDB
--- PHP Sürümü: 7.2.7
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 07 Eyl 2019, 18:45:59
+-- Sunucu sürümü: 10.4.6-MariaDB
+-- PHP Sürümü: 7.1.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -127,12 +127,6 @@ ALTER TABLE `method_blok`
   ADD PRIMARY KEY (`method_id`);
 
 --
--- Tablo için indeksler `port_blok`
---
-ALTER TABLE `port_blok`
-  ADD PRIMARY KEY (`port_id`);
-
---
 -- Tablo için indeksler `waf_ayar`
 --
 ALTER TABLE `waf_ayar`
@@ -141,30 +135,6 @@ ALTER TABLE `waf_ayar`
 --
 -- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
 --
-
---
--- Tablo için AUTO_INCREMENT değeri `admin_bilgi`
---
-ALTER TABLE `admin_bilgi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Tablo için AUTO_INCREMENT değeri `ip_ban`
---
-ALTER TABLE `ip_ban`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Tablo için AUTO_INCREMENT değeri `method_blok`
---
-ALTER TABLE `method_blok`
-  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Tablo için AUTO_INCREMENT değeri `port_blok`
---
-ALTER TABLE `port_blok`
-  MODIFY `port_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `waf_ayar`
