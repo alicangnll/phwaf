@@ -133,7 +133,7 @@ try {
 } catch ( PDOException $e ){
      echo '
 	 <table>
-<center><img src="./sql.png" alt="Örnek Resim"/></center>
+<center><img src="veri/sql.png" alt="Örnek Resim"/></center>
 <center>No MySQL Connection</center>
 <center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
