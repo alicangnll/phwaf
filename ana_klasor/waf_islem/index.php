@@ -1,1 +1,0 @@
-<?php include("../yeni_kontrol.php"); ?>
