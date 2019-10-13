@@ -42,7 +42,7 @@ CREATE TABLE `admin_bilgi` (
 --
 
 INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`, `email`, `token`, `admin_yetki`) VALUES
-(1, 'admin', '060323f33140b4a86b53d01d726a45c7584a3a2b', 'xxx@xxx.com', '060323f33140b4a86b53d01d726a45c7584a3a2b', '0');
+(1, 'admin', '63982e54a7aeb0d89910475ba6dbd3ca6dd4e5a1', 'xxx@xxx.com', '63982e54a7aeb0d89910475ba6dbd3ca6dd4e5a1', '0');
 
 -- --------------------------------------------------------
 
