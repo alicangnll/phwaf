@@ -70,10 +70,8 @@ $_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
 
 if ($_SESSION['ayaraktif'] == $adminid){
 header('X-AliWAF: ACTIVE');
-echo '<script>console.log("WAF : ON! | Koruma Prosedurleri Calisiyor");</script>';
 } else {
 header('X-AliWAF: DEACTIVE');
-echo '<script>console.log("WAF : OFF!");</script>';
 }	
    }
 		}
@@ -101,7 +99,6 @@ while($row = $stmt->fetch()){
 	die();
 	} else {
 		header('X-AliWAF: DEACTIVE');
-echo '<script>console.log("WAF : OFF!");</script>';
 	}		
    }
 		}
@@ -139,8 +136,7 @@ setcookie("nonbanned", 0);
 }
 exit;
 } else {
-	header('X-AliWAF: DEACTIVE');
-echo '<script>console.log("WAF : OFF!");</script>';
+header('X-AliWAF: DEACTIVE');
 }
 }
  
@@ -160,19 +156,16 @@ while($row = $stmt->fetch()){
 	{
 
 if ($_SESSION['ayaraktif'] == $adminid){
-echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 echo '<p align="center">Method Serverda Engellendi</p><br>
 <p align="center"> Method Türü <b>'.$method.'</b>';
 die();
 } else {
 header('X-AliWAF: DEACTIVE');
-echo '<script>console.log("WAF : OFF!");</script>';
 		}			
 	}
 } else {
 	header('X-AliWAF: PENDING');
-echo '<script>console.log("WAF : AYAR BEKLIYOR!");</script>';
 }
 	//Istek Engellendi
     } catch(PDOException $e) {
