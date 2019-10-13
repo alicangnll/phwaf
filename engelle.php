@@ -86,12 +86,13 @@ session_start();
 $_SESSION['suresi'] = $row["ip_suresi"];
 	if ($_SESSION['wafdurum'] == $adminid){
 		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
+			
 		} else {
 					echo '
 		<p align="center">IP Ban Listesindesiniz</p><br>
 		<p align="center"> IP Adresin <b>'.$ip.'</b>';
+		die();
 		}
-	die();
 	} else {
 		header('X-AliWAF: DEACTIVE');
 	}		
@@ -129,10 +130,11 @@ $update->execute();
 if($update){
 echo '<hr></hr>
 <center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+die();
 }
 } else {
+die();
 }
-exit;
 } else {
 header('X-AliWAF: DEACTIVE');
 }
@@ -167,8 +169,10 @@ $update->execute();
 if($update){
 echo '<hr></hr>
 <center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+die();
 }
 } else {
+	die();
 }
 
 } else {
