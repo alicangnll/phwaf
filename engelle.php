@@ -70,24 +70,6 @@ $_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
 
 if ($_SESSION['ayaraktif'] == $adminid){
 header('X-AliWAF: ACTIVE');
-} else {
-header('X-AliWAF: DEACTIVE');
-}	
-   }
-		}
-if ($_SESSION["ayaraktif"] == $adminid){
-	// IP Engelleme Bitti
-if ($_SESSION['otoban'] == md5(sha1(1))){
-if ($_SESSION["banned"] == md5(sha1(1))){
-	echo '<center>IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz'.$_SESSION['ipadres'].'</center>';
-	die();
-} else {
-	//No
-}
-} else {
-	//No
-}
-	//Guard Izleme
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
@@ -102,6 +84,22 @@ while($row = $stmt->fetch()){
 	}		
    }
 		}
+} else {
+header('X-AliWAF: DEACTIVE');
+}	
+   }
+		}
+if ($_SESSION["ayaraktif"] == $adminid){
+if ($_SESSION['otoban'] == md5(sha1(1))){
+if ($_SESSION["banned"] == md5(sha1(1))){
+	echo '<center>IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz'.$_SESSION['ipadres'].'</center>';
+	die();
+} else {
+	//No
+}
+} else {
+	//No
+}
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
