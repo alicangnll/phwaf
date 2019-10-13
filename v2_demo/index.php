@@ -138,6 +138,7 @@ try {
 <center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 	 </table>';
+	 die();
 }
 if(!isset($_GET['git'])) {
 $sayfa = 'giris';	// eğer boşsa anasayfa varsayalım.

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 function reel_ip()  
 {  
@@ -53,6 +54,7 @@ try {
 <center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 	 </table>';
+	 die();
 }
 
 $adminid = md5(sha1(1));
