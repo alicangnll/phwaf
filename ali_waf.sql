@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 13 Eki 2019, 13:25:59
+-- Üretim Zamanı: 13 Eki 2019, 13:30:23
 -- Sunucu sürümü: 10.4.6-MariaDB
 -- PHP Sürümü: 7.1.31
 
@@ -94,15 +94,16 @@ INSERT INTO `guncelleme_table` (`guncelleme_id`, `guncelleme_adi`, `guncelleme_k
 
 CREATE TABLE `ip_ban` (
   `ip_id` int(11) NOT NULL,
-  `ip_adresi` varchar(255) NOT NULL
+  `ip_adresi` varchar(255) NOT NULL,
+  `ip_suresi` time NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `ip_ban`
 --
 
-INSERT INTO `ip_ban` (`ip_id`, `ip_adresi`) VALUES
-(1, '127.0.0.1');
+INSERT INTO `ip_ban` (`ip_id`, `ip_adresi`, `ip_suresi`) VALUES
+(1, '127.0.0.1', '00:00:00');
 
 -- --------------------------------------------------------
 
