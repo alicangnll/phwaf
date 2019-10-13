@@ -16,13 +16,13 @@
 <p> Şimdilik link tabanlı çalışıyor.</p>
 <p> Ancak gelecek güncellemede GET,POST,PUT vb. methodları</p>
 <p> da denetleyebilecek.</p>
-<img src="v2_demo/pic/aliwaf1.png">
+<img src="pic/aliwaf1.png">
         <br>
-<img src="v2_demo/pic/aliwaf2.png">
+<img src="pic/aliwaf2.png">
         <br>
-<img src="v2_demo/pic/aliwaf3.png">
+<img src="pic/aliwaf3.png">
         <br>
-<img src="v2_demo/pic/aliwaf4.png">
+<img src="pic/aliwaf4.png">
 <code>
 <pre>PHP Dosyanıza
 require_once(“engelle.php”);
