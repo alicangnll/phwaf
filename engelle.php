@@ -68,13 +68,13 @@ $_SESSION['otoban'] = md5(sha1($row["oto_ban"]));
 $_SESSION['ipadres'] = reel_ip();
 $_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
 
-if ($_SESSION['ayaraktif'] == $adminid){
+if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-	if ($_SESSION["wafdurum"] == $adminid){
+	if (md5(sha1($row["waf_aktif"])) == $adminid){
 		echo '
 		<p align="center">IP Ban Listesindesiniz</p><br>
 		<p align="center"> IP Adresin <b>'.$ip.'</b>';
