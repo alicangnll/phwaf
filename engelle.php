@@ -159,7 +159,6 @@ if ($_SESSION['ayaraktif'] == $adminid){
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 echo '<p align="center">Method Serverda Engellendi</p><br>
 <p align="center"> Method Türü <b>'.$method.'</b>';
-die();
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
