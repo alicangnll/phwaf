@@ -71,20 +71,6 @@ $_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
 
 if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
-$ip = reel_ip();
-$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
-if($stmt->rowCount()) {
-while($row = $stmt->fetch()){
-	if (md5(sha1($row["waf_aktif"])) == $adminid){
-		echo '
-		<p align="center">IP Ban Listesindesiniz</p><br>
-		<p align="center"> IP Adresin <b>'.$ip.'</b>';
-	die();
-	} else {
-		header('X-AliWAF: DEACTIVE');
-	}		
-   }
-		}
 } else {
 header('X-AliWAF: DEACTIVE');
 }	
@@ -92,18 +78,26 @@ header('X-AliWAF: DEACTIVE');
 		}
 		    } catch(PDOException $e) {
 }
-if ($_SESSION["ayaraktif"] == $adminid){
-	
-if ($_SESSION['otoban'] == md5(sha1(1))){
-if ($_SESSION["banned"] == md5(sha1(1))){
-	echo '<center>IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz'.$_SESSION['ipadres'].'</center>';
+$ip = reel_ip();
+$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
+if($stmt->rowCount()) {
+while($row = $stmt->fetch()){
+session_start();
+$_SESSION['suresi'] = $row["ip_suresi"];
+	if ($_SESSION['wafdurum'] == $adminid){
+		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
+		} else {
+					echo '
+		<p align="center">IP Ban Listesindesiniz</p><br>
+		<p align="center"> IP Adresin <b>'.$ip.'</b>';
+		}
 	die();
-} else {
-	//No
+	} else {
+		header('X-AliWAF: DEACTIVE');
+	}		
+   }
 }
-} else {
-	//No
-}
+if ($_SESSION["ayaraktif"] == $adminid){
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
@@ -128,13 +122,15 @@ Return to previous page ( Geri Dön )
 </a></center>';
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
-
-session_start();
-$_SESSION['banned'] = md5(sha1($bandurum));
-echo '<p>IP Ban Yediniz! (1 (Bir) Saat)</p>';
-die();
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
+$update->bindValue(':ipadresi', strip_tags($ip));
+$update->bindValue(':ipsuresi', date('H:i:s'));
+$update->execute();
+if($update){
+echo '<hr></hr>
+<center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+}
 } else {
-setcookie("nonbanned", 0);
 }
 exit;
 } else {
@@ -162,6 +158,19 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 echo '<p align="center">Method Serverda Engellendi</p><br>
 <p align="center"> Method Türü <b>'.$method.'</b>';
 die();
+if ($_SESSION['otoban'] == $adminid){
+$bandurum = md5(sha1(1));
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
+$update->bindValue(':ipadresi', strip_tags($ip));
+$update->bindValue(':ipsuresi', date('H:i:s'));
+$update->execute();
+if($update){
+echo '<hr></hr>
+<center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+}
+} else {
+}
+
 } else {
 header('X-AliWAF: DEACTIVE');
 		}			
@@ -171,4 +180,5 @@ header('X-AliWAF: DEACTIVE');
 	header('X-AliWAF: PENDING');
 }
 	//Istek Engellendi
+
 ?>
