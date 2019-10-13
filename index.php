@@ -922,10 +922,11 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kural_adi , kural_icerik = :kural_icerik WHERE kural_id = :gonderid ");
+
+$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi , kural_icerik = :kuralicerik WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
-$update->bindValue(':kural_adi', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kural_icerik', strip_tags($_POST['kuralicerik']));
+$update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
+$update->bindValue(':kuralicerik', $_POST['kuralicerik']);
 $update->execute();
 if($update){
 echo '<script>
