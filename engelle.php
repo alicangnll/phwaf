@@ -464,10 +464,7 @@ if ($_SESSION['ayaraktif'] == $adminid){
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
-  </div>
-</center>   
-</body>
-<?php
+	<?php
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
@@ -475,13 +472,20 @@ $update->bindValue(':ipadresi', strip_tags($ip));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
-echo '<hr></hr>
-<center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+
+echo ' <div class="context secondary-text-color">
+<p>IP Adresiniz 1 Saat Banlandı.</p>
+</div>';
 die();
 }
 } else {
 die();
 }
+?>
+  </div>
+</center>   
+</body>
+<?php
 } else {
 header('X-AliWAF: DEACTIVE');
 }
@@ -527,10 +531,7 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
-  </div>
-</center>   
-</body>
-<?php
+	<?php
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
@@ -538,13 +539,19 @@ $update->bindValue(':ipadresi', strip_tags($ip));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
-echo '<hr></hr>
-<center><p>IP Adresiniz 1 Saat Banlandı.</p></center>';
+echo ' <div class="context secondary-text-color">
+<p>IP Adresiniz 1 Saat Banlandı.</p>
+</div>';
 die();
 }
 } else {
 	die();
 }
+?>
+  </div>
+</center>   
+</body>
+<?php
 
 } else {
 header('X-AliWAF: DEACTIVE');
