@@ -806,6 +806,11 @@ if($row['waf_aktif'] == 1) {
 } else {
 	echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
 }	
+if($row['ayar_aktif'] == 1) {
+	echo '<div class="alert alert-success"><strong>Ayar : AKTIF (1)</strong></div><br>';
+} else {
+	echo '<div class="alert alert-danger"><strong>Ayar : PASIF (0)</strong></div><br>';
+}	
 break;
 
 case 'ayarkayit':
