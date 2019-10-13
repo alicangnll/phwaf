@@ -60,13 +60,13 @@ try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
+session_start();
+$_SESSION['ayaraktif'] = md5(sha1($row["ayar_aktif"]));
+$_SESSION['otoban'] = md5(sha1($row["oto_ban"]));
+$_SESSION['ipadres'] = reel_ip();
+$_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
 
-setcookie("ayaraktif", md5(sha1($row["ayar_aktif"])));
-setcookie("otoban", md5(sha1($row["oto_ban"])));
-setcookie("ipadres", reel_ip());
-setcookie("wafdurum", md5(sha1($row["waf_aktif"])));
-
-if ($_COOKIE["wafdurum"] == $adminid){
+if ($_SESSION['ayaraktif'] == $adminid){
 header('X-AliWAF: ACTIVE');
 echo '<script>console.log("WAF : ON! | Koruma Prosedurleri Calisiyor");</script>';
 } else {
@@ -75,12 +75,11 @@ echo '<script>console.log("WAF : OFF!");</script>';
 }	
    }
 		}
-if ($_COOKIE["ayaraktif"] == $adminid){
+if ($_SESSION["ayaraktif"] == $adminid){
 	// IP Engelleme Bitti
-if ($_COOKIE["otoban"] == 1){
-if ($_COOKIE["banned"] == 1){
-	echo 'IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz
-	'.$_COOKIE["ipadres"].'';
+if ($_SESSION['otoban'] == md5(sha1(1))){
+if ($_SESSION["banned"] == md5(sha1(1))){
+	echo '<center>IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz'.$_SESSION['ipadres'].'</center>';
 	die();
 } else {
 	//No
@@ -93,7 +92,7 @@ $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-	if ($_COOKIE["wafdurum"] == $adminid){
+	if ($_SESSION["wafdurum"] == $adminid){
 		echo '
 		<p align="center">IP Ban Listesindesiniz</p><br>
 		<p align="center"> IP Adresin <b>'.$ip.'</b>';
@@ -114,7 +113,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
-if ($_COOKIE["wafdurum"] == $adminid){
+if ($_SESSION['ayaraktif'] == $adminid){
 	echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
     echo '<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,9 +125,11 @@ if ($_COOKIE["wafdurum"] == $adminid){
 	<a href="javascript:history.back()">
 Return to previous page ( Geri Dön )
 </a></center>';
-if ($_COOKIE["otoban"] == $adminid){
-$bandurum = 1;
-setcookie("banned", $bandurum ,time()+3600);
+if ($_SESSION['otoban'] == $adminid){
+$bandurum = md5(sha1(1));
+
+session_start();
+$_SESSION['banned'] = md5(sha1($bandurum));
 echo '<p>IP Ban Yediniz! (1 (Bir) Saat)</p>';
 die();
 } else {
@@ -155,14 +156,14 @@ while($row = $stmt->fetch()){
    }
 		} else
 	{
-		if ($_COOKIE["wafdurum"] == $adminid){
-	echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
-			header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-				echo '
-		<p align="center">Method Serverda Engellendi</p><br>
-		<p align="center"> Method Türü <b>'.$method.'</b>';
-	die();
-		} else {
+
+if ($_SESSION['ayaraktif'] == $adminid){
+echo '<script>console.log("WAF : ON! | Sızma Prosedurleri Calisiyor");</script>';
+header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+echo '<p align="center">Method Serverda Engellendi</p><br>
+<p align="center"> Method Türü <b>'.$method.'</b>';
+die();
+} else {
 header('X-AliWAF: DEACTIVE');
 echo '<script>console.log("WAF : OFF!");</script>';
 		}			
