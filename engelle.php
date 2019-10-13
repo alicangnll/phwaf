@@ -59,6 +59,7 @@ try {
 
 $adminid = md5(sha1(1));
 try {
+
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
@@ -89,7 +90,10 @@ header('X-AliWAF: DEACTIVE');
 }	
    }
 		}
+		    } catch(PDOException $e) {
+}
 if ($_SESSION["ayaraktif"] == $adminid){
+	
 if ($_SESSION['otoban'] == md5(sha1(1))){
 if ($_SESSION["banned"] == md5(sha1(1))){
 	echo '<center>IP Ban Listesindesiniz (1 (Bir) Saat)<br>IP Adresiniz'.$_SESSION['ipadres'].'</center>';
@@ -162,10 +166,9 @@ die();
 header('X-AliWAF: DEACTIVE');
 		}			
 	}
+
 } else {
 	header('X-AliWAF: PENDING');
 }
 	//Istek Engellendi
-    } catch(PDOException $e) {
-}
 ?>
