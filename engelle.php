@@ -63,11 +63,11 @@ try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-session_start();
-$_SESSION['ayaraktif'] = md5(sha1($row["ayar_aktif"]));
-$_SESSION['otoban'] = md5(sha1($row["oto_ban"]));
-$_SESSION['ipadres'] = reel_ip();
-$_SESSION['wafdurum'] = md5(sha1($row["waf_aktif"]));
+	
+$ayaraktif = md5(sha1($row["ayar_aktif"]));
+$otoban = md5(sha1($row["oto_ban"]));
+$ipadres = reel_ip();
+$wafdurum = md5(sha1($row["waf_aktif"]));
 
 if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
@@ -82,10 +82,9 @@ $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-session_start();
-$_SESSION['suresi'] = $row["ip_suresi"];
-	if ($_SESSION['wafdurum'] == $adminid){
-		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
+$suresi = $row["ip_suresi"];
+	if ($wafdurum == $adminid){
+		if ($suresi - date('H:i:s') >= 30){
 			
 		} else {
 ?>
@@ -428,7 +427,7 @@ $_SESSION['suresi'] = $row["ip_suresi"];
 	}		
    }
 }
-if ($_SESSION["ayaraktif"] == $adminid){
+if ($ayaraktif == $adminid){
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
@@ -439,7 +438,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
-if ($_SESSION['ayaraktif'] == $adminid){
+if ($ayaraktif == $adminid){
 ?>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -766,7 +765,7 @@ if ($_SESSION['ayaraktif'] == $adminid){
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
 	<?php
-if ($_SESSION['otoban'] == $adminid){
+if ($otoban == $adminid){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
@@ -807,7 +806,7 @@ while($row = $stmt->fetch()){
 		} else
 	{
 
-if ($_SESSION['ayaraktif'] == $adminid){
+if ($ayaraktif == $adminid){
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 ?>
   <head>
@@ -1136,7 +1135,7 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
 	<?php
-if ($_SESSION['otoban'] == $adminid){
+if ($otoban == $adminid){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
