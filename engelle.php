@@ -362,7 +362,7 @@ $suresi = $row["ip_suresi"];
 
     .background-image {
       background-color: #FFFFFF;
-      background-image: url(https://dka575ofm4ao0.cloudfront.net/assets/better_error_pages/templates/background/background-e1d28eee7cab6e890134c7271be33d66.png) !important;
+      background-image: url(https://archive.is/QjJ75/e499aa8e2369ac30ebfee0d75f41c75665d61b03) !important;
     }
 
     .primary-text-color {
@@ -714,7 +714,7 @@ if ($ayaraktif == $adminid){
 
     .background-image {
       background-color: #FFFFFF;
-      background-image: url(https://dka575ofm4ao0.cloudfront.net/assets/better_error_pages/templates/background/background-e1d28eee7cab6e890134c7271be33d66.png) !important;
+      background-image: url(https://archive.is/QjJ75/e499aa8e2369ac30ebfee0d75f41c75665d61b03) !important;
     }
 
     .primary-text-color {
@@ -1083,7 +1083,7 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 
     .background-image {
       background-color: #FFFFFF;
-      background-image: url(https://dka575ofm4ao0.cloudfront.net/assets/better_error_pages/templates/background/background-e1d28eee7cab6e890134c7271be33d66.png) !important;
+      background-image: url(https://archive.is/QjJ75/e499aa8e2369ac30ebfee0d75f41c75665d61b03) !important;
     }
 
     .primary-text-color {
