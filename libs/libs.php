@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 try {
 	$ip = "localhost"; //host
 	$user = "root";  // host id

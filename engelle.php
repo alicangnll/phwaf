@@ -169,11 +169,14 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
 	<?php
+error_reporting(0);
+$json = json_encode(apache_request_headers());
 if ($otoban == $adminid){
 $bandurum = md5(sha1(1));
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusr) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
 $update->bindValue(':ipsuresi', date('H:i:s'));
+$update->bindValue(':ipusr', strip_tags($json));
 $update->execute();
 if($update){
 echo ' <div class="context secondary-text-color">
