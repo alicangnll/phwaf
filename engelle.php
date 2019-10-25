@@ -25,12 +25,7 @@ header('X-AliWAF: DEACTIVE');
 		    } catch(PDOException $e) {
 }
 if ($antiddos == $adminid){
-
-if($request > time() - 2){
-style();
-Error($ip, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), "DDoS Koruması");
-}
-
+// Soon...
 } else {
 }
 
