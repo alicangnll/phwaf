@@ -798,10 +798,15 @@ textarea {
 <label>Otomatik IP Ban</label><br>
 <label><input type="checkbox" name="otoban" value="1">Aktif</label><br>
 <label><input type="checkbox" name="otoban" value="0">Pasif</label><br>
-
+<br>
 <label>DDoS Koruması</label><br>
 <label><input type="checkbox" name="ddosanti" value="1">Aktif</label><br>
 <label><input type="checkbox" name="ddosanti" value="0">Pasif</label><br>
+<br>
+<label>Debug Göster (Geliştirici)</label><br>
+<label><input type="checkbox" name="debug" value="1">Aktif</label><br>
+<label><input type="checkbox" name="debug" value="0">Pasif</label><br>
+
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 echo '<hr></hr>';
@@ -835,13 +840,14 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif , anti_ddos = :ddosanti WHERE ayar_id = :gonderid ");
+$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif , anti_ddos = :ddosanti, debug = :debugs WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
 $update->bindValue(':ayar_aktif', strip_tags($_POST['ayardurum']));
 $update->bindValue(':waf_aktif', strip_tags($_POST['wafdurum']));
 $update->bindValue(':oto_ban', strip_tags($_POST['otoban']));
 $update->bindValue(':ddosanti', strip_tags($_POST['ddosanti']));
+$update->bindValue(':debugs', strip_tags($_POST['debug']));
 $update->execute();
 if($update){
 echo '<script>

@@ -1,8 +1,6 @@
 <?php
 include("libs/libs.php");
 // IP Engelleme
-
-
 $adminid = md5(sha1(1));
 try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
@@ -14,6 +12,7 @@ $otoban = md5(sha1($row["oto_ban"]));
 $ipadres = reel_ip();
 $wafdurum = md5(sha1($row["waf_aktif"]));
 $antiddos = md5(sha1($row["anti_ddos"]));
+$debug = md5(sha1($row["debug"]));
 $request = time();
 if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
@@ -24,12 +23,18 @@ header('X-AliWAF: DEACTIVE');
 		}
 		    } catch(PDOException $e) {
 }
+
+$ip = reel_ip();
+if ($ayaraktif == $adminid){
 if ($antiddos == $adminid){
-// Soon...
+
 } else {
 }
 
-$ip = reel_ip();
+if ($debug == $adminid){
+Debug();
+} else {
+}
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
@@ -47,7 +52,6 @@ Error($ip, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_
 	}		
    }
 }
-if ($ayaraktif == $adminid){
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
@@ -72,7 +76,6 @@ $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->bindValue(':ipusr', strip_tags($json));
 $update->execute();
 if($update){
-IPError("1");
 die();
 }
 } else {
@@ -107,21 +110,6 @@ if ($ayaraktif == $adminid){
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 style();
 Error($method, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), "Illegal Method");
-
-$json = json_encode(apache_request_headers());
-if ($otoban == $adminid){
-$bandurum = md5(sha1(1));
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusr) ");
-$update->bindValue(':ipadresi', strip_tags($ip));
-$update->bindValue(':ipsuresi', date('H:i:s'));
-$update->bindValue(':ipusr', strip_tags($json));
-$update->execute();
-if($update){
-die();
-}
-} else {
-	die();
-}
 ?>
   </div>
 </center>   

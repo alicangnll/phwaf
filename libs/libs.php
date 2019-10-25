@@ -341,6 +341,22 @@ echo '<table>
 die();
 }
 
+function LogIslem($ad) {
+foreach ($ad as $key => $value) {
+$json = "".$key."¿".$value."";
+$yasakla = explode('¿',$json);
+$json2 = var_dump(json_encode($yasakla));
+	}
+}
+
+function HeaderIslem() {
+$header = apache_request_headers();
+foreach ($header as $headers => $value) {
+$jsons = ''.$headers.'¿?'.$value.'';
+$yasakla = explode('¿?',$jsons);
+$jsonk = var_dump(json_encode($yasakla));
+	}
+}
 
 function Error($ip, $url, $usragent, $tarih, $tur) {
 	echo '<body class="background error-page-wrapper background-color background-image">
@@ -368,5 +384,23 @@ function Error($ip, $url, $usragent, $tarih, $tur) {
   </div>
 </center>   
 </body>';
+}
+function Debug() {
+echo '<body><pre>';
+if($_SERVER['REQUEST_METHOD'] == "GET") {
+$getlog = LogIslem($_GET);
+echo '<br>';
+$gethead = HeaderIslem();
+} elseif($_SERVER['REQUEST_METHOD'] == "POST")
+{
+$getpost = LogIslem($_POST);
+echo '<br>';
+$gethead = HeaderIslem();
+} else {
+$getpost = LogIslem($_SERVER['REQUEST_METHOD']);
+echo '<br>';
+$gethead = HeaderIslem();
+}
+echo '</pre></body>';
 }
 ?>
