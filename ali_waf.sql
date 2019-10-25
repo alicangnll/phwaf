@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 22 Eki 2019, 23:05:11
--- Sunucu sürümü: 10.4.6-MariaDB
--- PHP Sürümü: 7.1.31
+-- Üretim Zamanı: 25 Eki 2019, 21:15:19
+-- Sunucu sürümü: 10.4.8-MariaDB
+-- PHP Sürümü: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -69,45 +69,6 @@ INSERT INTO `guard_watch` (`kural_id`, `kural_adi`, `kural_hakkinda`, `kural_ice
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `guncelleme_table`
---
-
-CREATE TABLE `guncelleme_table` (
-  `guncelleme_id` int(11) NOT NULL,
-  `guncelleme_adi` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `guncelleme_kodu` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `guncelleme_tarih` varchar(255) COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
-
---
--- Tablo döküm verisi `guncelleme_table`
---
-
-INSERT INTO `guncelleme_table` (`guncelleme_id`, `guncelleme_adi`, `guncelleme_kodu`, `guncelleme_tarih`) VALUES
-(1, 'AliWAF V2', '201910', '10.2019');
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `header_blok`
---
-
-CREATE TABLE `header_blok` (
-  `ayar_id` int(11) NOT NULL,
-  `ayar_adi` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `ayar_icerik` text COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
-
---
--- Tablo döküm verisi `header_blok`
---
-
-INSERT INTO `header_blok` (`ayar_id`, `ayar_adi`, `ayar_icerik`) VALUES
-(1, 'SQL POST Enjeksiyon', '¿¿[¿¿]¿¿');
-
--- --------------------------------------------------------
-
---
 -- Tablo için tablo yapısı `ip_ban`
 --
 
@@ -117,13 +78,6 @@ CREATE TABLE `ip_ban` (
   `ip_usragent` text NOT NULL,
   `ip_suresi` time NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Tablo döküm verisi `ip_ban`
---
-
-INSERT INTO `ip_ban` (`ip_id`, `ip_adresi`, `ip_usragent`, `ip_suresi`) VALUES
-(6, '::1', '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/77.0.3865.120 Safari\\/537.36\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3\",\"Sec-Fetch-Site\":\"none\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7\",\"Cookie\":\"PHPSESSID=h50snqj6cdd53hupmkqvefakge\"}', '23:04:25');
 
 -- --------------------------------------------------------
 
@@ -157,15 +111,16 @@ CREATE TABLE `waf_ayar` (
   `ayar_adi` text COLLATE utf8_turkish_ci NOT NULL,
   `waf_aktif` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `ayar_aktif` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `oto_ban` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `oto_ban` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `anti_ddos` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `waf_ayar`
 --
 
-INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`) VALUES
-(1, 'Yeni', '1', '1', '1');
+INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`, `anti_ddos`) VALUES
+(1, 'Yeni', '1', '1', '0', '');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -182,18 +137,6 @@ ALTER TABLE `admin_bilgi`
 --
 ALTER TABLE `guard_watch`
   ADD PRIMARY KEY (`kural_id`);
-
---
--- Tablo için indeksler `guncelleme_table`
---
-ALTER TABLE `guncelleme_table`
-  ADD PRIMARY KEY (`guncelleme_id`);
-
---
--- Tablo için indeksler `header_blok`
---
-ALTER TABLE `header_blok`
-  ADD PRIMARY KEY (`ayar_id`);
 
 --
 -- Tablo için indeksler `ip_ban`
@@ -222,18 +165,6 @@ ALTER TABLE `waf_ayar`
 --
 ALTER TABLE `guard_watch`
   MODIFY `kural_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Tablo için AUTO_INCREMENT değeri `guncelleme_table`
---
-ALTER TABLE `guncelleme_table`
-  MODIFY `guncelleme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Tablo için AUTO_INCREMENT değeri `header_blok`
---
-ALTER TABLE `header_blok`
-  MODIFY `ayar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_ban`

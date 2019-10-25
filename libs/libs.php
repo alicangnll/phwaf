@@ -1,25 +1,5 @@
 <?php
 error_reporting(0);
-try {
-	$ip = "localhost"; //host
-	$user = "root";  // host id
-	$password = "";  // password local olduğu için varsayılan şifre
-	$dbad = "ali_waf"; // db adı 
-	
-     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
-     $db->query("SET CHARACTER SET 'utf8'");
-     $db->query("SET NAMES 'utf8'");
-
-} catch ( PDOException $e ){
-     echo '
-	 <table>
-<center><img src="veri/sql.png" alt="Örnek Resim"/></center>
-<center>No MySQL Connection</center>
-<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
-<center>Sistem Yöneticinizle Irtibata Geçin</center>
-	 </table>';
-	 die();
-}
 header("X-Frame-Options: SAMEORIGIN");
 function style() {
 ?>
@@ -328,35 +308,65 @@ echo '<div class="context secondary-text-color">
 }
 function reel_ip()  
 {  
-    if (!empty($_SERVER['HTTP_CLIENT_IP']))  
-    {  
-        $ip=$_SERVER['HTTP_CLIENT_IP'];  
-    }  
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
-    }
-   elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_FORWARDED'];  
-    }
-	
-   elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];  
-    } 
-	   elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_FORWARDED'];  
-    } 
-    else  
-    {  
-        $ip=$_SERVER['REMOTE_ADDR'];  
-    }  
-    return $ip;  
+if (!empty($_SERVER['HTTP_CLIENT_IP']))  
+{$ip=$_SERVER['HTTP_CLIENT_IP'];}  
+elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+{$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];}
+elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+{$ip = $_SERVER['HTTP_X_FORWARDED'];}
+elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+{$ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];} 
+elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
+{$ip = $_SERVER['HTTP_FORWARDED'];} 
+else  
+{$ip=$_SERVER['REMOTE_ADDR'];}  
+return $ip;  
+}
+
+try {
+$ip = "localhost"; //host
+$user = "root";  // host id
+$password = "";  // password local olduğu için varsayılan şifre
+$dbad = "ali_waf"; // db adı 
+$db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
+$db->query("SET CHARACTER SET 'utf8'");
+$db->query("SET NAMES 'utf8'");
+} catch ( PDOException $e ){
+echo '<table>
+<center><img src="veri/sql.png" alt="Örnek Resim"/></center>
+<center>No MySQL Connection</center>
+<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
+<center>Sistem Yöneticinizle Irtibata Geçin</center>
+</table>';
+die();
+}
+
+
+function Error($ip, $url, $usragent, $tarih, $tur) {
+	echo '<body class="background error-page-wrapper background-color background-image">
+    <center>
+  <div class="content-container shadow">
+  <br>
+    <div class="head-line secondary-text-color">
+		Illegal Girişim Algılandı | '.$tur.'
+    </div>
+	<div class="hr"></div>
+    <div class="context primary-text-color">
+      Deneme Türü : '.$tur.' Girişimi ('.$ip.')
+    </div>
+    <div class="hr"></div>
+    <div class="context secondary-text-color">
+	<p>IP Adresi : '.$ip.'</p>
+      <p>URL : '.$url.'<br></p>
+	  <p>User-Agent : '.$usragent.'<br></p>
+	  <p>Tarih : '.$tarih.'</p>
+    </div>
+    <div class="buttons-container">
+      <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
+      <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
+    </div>
+  </div>
+</center>   
+</body>';
 }
 ?>

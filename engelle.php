@@ -2,6 +2,7 @@
 include("libs/libs.php");
 // IP Engelleme
 
+
 $adminid = md5(sha1(1));
 try {
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
@@ -12,7 +13,8 @@ $ayaraktif = md5(sha1($row["ayar_aktif"]));
 $otoban = md5(sha1($row["oto_ban"]));
 $ipadres = reel_ip();
 $wafdurum = md5(sha1($row["waf_aktif"]));
-
+$antiddos = md5(sha1($row["anti_ddos"]));
+$request = time();
 if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
 } else {
@@ -22,6 +24,16 @@ header('X-AliWAF: DEACTIVE');
 		}
 		    } catch(PDOException $e) {
 }
+if ($antiddos == $adminid){
+
+if($request > time() - 2){
+style();
+Error($ip, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), "DDoS Koruması");
+}
+
+} else {
+}
+
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
 if($stmt->rowCount()) {
@@ -32,35 +44,7 @@ $suresi = $row["ip_suresi"];
 			
 		} else {
 style();
-?>
-  
-  <body class="background error-page-wrapper background-color background-image">
-    <center>
-  <div class="content-container shadow">
-  <br>
-    <div class="head-line secondary-text-color">
-		Illegal Girişim Algılandı | IP Ban
-    </div>
-	<div class="hr"></div>
-    <div class="context primary-text-color">
-      Deneme Türü : IP Adresiniz Banlı (<?php echo $ip ?>)
-    </div>
-    <div class="hr"></div>
-    <div class="context secondary-text-color">
-	<p>IP Adresi : <?php echo $ip ?></p>
-      <p>URL : <br><?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?></p>
-	  <p>User-Agent : <br><?php echo $_SERVER['HTTP_USER_AGENT']; ?></p>
-	  <p>Tarih : <?php echo date('d.m.Y H:i:s'); ?></p>
-    </div>
-    <div class="buttons-container">
-      <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
-      <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
-    </div>
-  </div>
-</center>   
-</body>
-<?php
-IPError("1");
+Error($ip, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), "IP Ban");
 		die();
 		}
 	} else {
@@ -80,30 +64,10 @@ $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
 if ($ayaraktif == $adminid){
-	style();
-?>
-  <body class="background error-page-wrapper background-color background-image">
-    <center>
-  <div class="content-container shadow">
-  <br>
-    <div class="head-line secondary-text-color">
-		Illegal Girişim Algılandı
-    </div>
-	<div class="hr"></div>
-    <div class="context primary-text-color">
-      Deneme Türü : <?php echo $row['kural_adi']; ?>
-    </div>
-    <div class="hr"></div>
-    <div class="context secondary-text-color">
-      <p>URL : <br><?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?></p>
-	  <p>User-Agent : <br><?php echo $_SERVER['HTTP_USER_AGENT']; ?></p>
-	  <p>Tarih : <?php echo date('d.m.Y H:i:s'); ?></p>
-    </div>
-    <div class="buttons-container">
-      <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
-      <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
-    </div>
-	<?php
+
+style();
+Error($ip, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), $row['kural_adi']);
+
 if ($otoban == $adminid){
 $json = json_encode(apache_request_headers());
 $bandurum = md5(sha1(1));
@@ -146,31 +110,9 @@ while($row = $stmt->fetch()){
 
 if ($ayaraktif == $adminid){
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-?>
-</head>
-  <body class="background error-page-wrapper background-color background-image">
-    <center>
-  <div class="content-container shadow">
-  <br>
-    <div class="head-line secondary-text-color">
-		Illegal Girişim Algılandı
-    </div>
-	<div class="hr"></div>
-    <div class="context primary-text-color">
-      Deneme Türü : Method Injection (<?php echo $method ?>)
-    </div>
-    <div class="hr"></div>
-    <div class="context secondary-text-color">
-	<p> Method Türü : <?php echo $method ?></p>
-      <p>URL : <br><?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?></p>
-	  <p>User-Agent : <br><?php echo $_SERVER['HTTP_USER_AGENT']; ?></p>
-	  <p>Tarih : <?php echo date('d.m.Y H:i:s'); ?></p>
-    </div>
-    <div class="buttons-container">
-      <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
-      <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
-    </div>
-	<?php
+style();
+Error($method, $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], date('d.m.Y H:i:s'), "Illegal Method");
+
 $json = json_encode(apache_request_headers());
 if ($otoban == $adminid){
 $bandurum = md5(sha1(1));

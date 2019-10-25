@@ -1,4 +1,5 @@
-<?php include 'engelle.php'; 
+<?php 
+include 'engelle.php'; 
 if(!isset($_GET['git'])) {
 $sayfa = 'giris';	// eğer boşsa anasayfa varsayalım.
 } else {
