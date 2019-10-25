@@ -234,6 +234,7 @@ echo '
 	<a href="index.php?git=kuralekle">Kural Ekle</a>
 	<a href="index.php?git=ipekle">IP Ekle</a>
 	<a href="index.php?git=methodekle">Method Ekle</a>
+	<a href="index.php?git=updater">Güncelleme</a>
     <a href="index.php?git=cikis">Çıkış</a>
   </div>
 </div>';
@@ -553,7 +554,7 @@ echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
 try {
@@ -1166,7 +1167,7 @@ if (isset($_SESSION['girisyap'])){
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
 } else {	
@@ -1195,7 +1196,7 @@ if (isset($_SESSION['girisyap'])){
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
 } else {	
@@ -1224,7 +1225,7 @@ if (isset($_SESSION['girisyap'])){
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
 } else {	
@@ -1244,6 +1245,22 @@ alert("Method Silinemedi");
 window.location.replace("index.php?git=index")</script>';
 }
 }
+break;
+
+case 'updater':
+session_start();
+if (isset($_SESSION['girisyap'])){
+		echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
+  <div class="header-right">
+    <a href="index.php?git=index">Ana Sayfa</a>
+  </div>
+</div>';
+} else {	
+	header('Location: index.php?git=login');
+}
+echo 'Yakında(Soon...)';
 break;
 
 case 'cikis':
