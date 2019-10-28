@@ -26,12 +26,5 @@
 require_once(“engelle.php”);
 Şeklinde ekleyiniz.
 </pre>
-<table>
-<tr>
-<td>Login teması alıntıdır</td>
-<td>Admin teması ve kullanıcı Ekleme yapılacak</td>
-<td>Default user/pass : admin/1234</td>
-</tr>
-</table>
 </code></article>
   </div>
