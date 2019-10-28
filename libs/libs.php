@@ -403,4 +403,7 @@ $gethead = HeaderIslem();
 }
 echo '</pre></body>';
 }
+function memlimit($limit) {
+	ini_set('memory_limit',''.$limit.'MB');
+}
 ?>
