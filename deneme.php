@@ -7,7 +7,7 @@ $sayfa = 'giris';	// eğer boşsa anasayfa varsayalım.
 }
 switch($sayfa) {
 case 'giris':
-echo 'Hi';
+phpinfo();
 break;
 }
 ?>
