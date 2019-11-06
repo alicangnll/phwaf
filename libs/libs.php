@@ -380,6 +380,7 @@ function Error($ip, $url, $usragent, $tarih, $tur) {
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
+      <a class="button" href="https://github.com/alicangonullu/" target="_blank"><span class="fa fa-github"></span>GitHub</a>
     </div>
   </div>
 </center>   
