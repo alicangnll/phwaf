@@ -23,7 +23,7 @@ header('X-AliWAF: DEACTIVE');
 		}
 		    } catch(PDOException $e) {
 }
-memlimit("256");
+memlimit("256", "MB");
 $ip = reel_ip();
 if ($ayaraktif == $adminid){
 if ($antiddos == $adminid){
