@@ -302,10 +302,17 @@ function style() {
 <?php
 }
 function IPError($ad) {
+if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
 echo '<div class="context secondary-text-color">
 <p>IP Adresiniz '.$ad.' Saat Banlandı.</p>
 </div>';
+} else {
+echo '<div class="context secondary-text-color">
+<p>IP Adress : '.$ad.' Banned from Web Server for One Hour.</p>
+</div>';
 }
+}
+
 function reel_ip()  
 {  
 if (!empty($_SERVER['HTTP_CLIENT_IP']))  
@@ -321,24 +328,6 @@ elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek I
 else  
 {$ip=$_SERVER['REMOTE_ADDR'];}  
 return $ip;  
-}
-
-try {
-$ip = "localhost"; //host
-$user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
-$dbad = "ali_waf"; // db adı 
-$db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
-$db->query("SET CHARACTER SET 'utf8'");
-$db->query("SET NAMES 'utf8'");
-} catch ( PDOException $e ){
-echo '<table>
-<center><img src="veri/sql.png" alt="Örnek Resim"/></center>
-<center>No MySQL Connection</center>
-<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
-<center>Sistem Yöneticinizle Irtibata Geçin</center>
-</table>';
-die();
 }
 
 function LogIslem($ad) {
@@ -359,6 +348,7 @@ $jsonk = var_dump(json_encode($yasakla));
 }
 
 function Error($ip, $url, $usragent, $tarih, $tur) {
+if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
 	echo '<body class="background error-page-wrapper background-color background-image">
     <center>
   <div class="content-container shadow">
@@ -385,6 +375,35 @@ function Error($ip, $url, $usragent, $tarih, $tur) {
   </div>
 </center>   
 </body>';
+} else {
+	echo '<body class="background error-page-wrapper background-color background-image">
+    <center>
+  <div class="content-container shadow">
+  <br>
+    <div class="head-line secondary-text-color">
+		Illegal Try Detected | '.$tur.'
+    </div>
+	<div class="hr"></div>
+    <div class="context primary-text-color">
+      Try Type : '.$tur.' Girişimi ('.$ip.')
+    </div>
+    <div class="hr"></div>
+    <div class="context secondary-text-color">
+	<p>IP Adresi : '.$ip.'</p>
+      <p>URL : '.$url.'<br></p>
+	  <p>User-Agent : '.$usragent.'<br></p>
+	  <p>Date : '.$tarih.'</p>
+    </div>
+    <div class="buttons-container">
+      <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Back</a>
+      <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Notify Problem</a>
+      <a class="button" href="https://github.com/alicangonullu/" target="_blank"><span class="fa fa-github"></span>GitHub Link</a>
+    </div>
+  </div>
+</center>   
+</body>';
+}
+
 }
 function Debug() {
 echo '<body><pre>';
@@ -404,7 +423,8 @@ $gethead = HeaderIslem();
 }
 echo '</pre></body>';
 }
-function memlimit($limit) {
-	ini_set('memory_limit',''.$limit.'MB');
+
+function memlimit($limit, $type) {
+	ini_set('memory_limit',''.$limit.''.$type.'');
 }
 ?>
