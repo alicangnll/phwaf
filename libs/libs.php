@@ -144,21 +144,21 @@ echo '<div class="context secondary-text-color">
 }
 }
 
-function reel_ip()  
-{  
-if (!empty($_SERVER['HTTP_CLIENT_IP']))  
-{$ip=$_SERVER['HTTP_CLIENT_IP'];}  
+function reel_ip()
+{
+if (!empty($_SERVER['HTTP_CLIENT_IP']))
+{$ip=$_SERVER['HTTP_CLIENT_IP'];}
 elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 {$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];}
 elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 {$ip = $_SERVER['HTTP_X_FORWARDED'];}
 elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-{$ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];} 
+{$ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];}
 elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-{$ip = $_SERVER['HTTP_FORWARDED'];} 
-else  
-{$ip=$_SERVER['REMOTE_ADDR'];}  
-return $ip;  
+{$ip = $_SERVER['HTTP_FORWARDED'];}
+else
+{$ip=$_SERVER['REMOTE_ADDR'];}
+return $ip;
 }
 
 function LogIslem($ad) {
@@ -183,25 +183,25 @@ if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
 echo '<div class="noise"></div>
 <div class="overlay"></div>
 <div class="terminal">
-  <h1>Illegal Kod Algılandı <span class="errorcode">('.$tur.')</span></h1>
-  <p class="output">IP Adresiniz : <span class="errorcode">'.$ip.'</span></p>
-  <p class="output">User Agent : <span class="errorcode">'.$usragent.'</span></p>
-  <p class="output">Tarih : <span class="errorcode">'.$tarih.'</span></p>
+  <h1>Illegal Kod Algılandı <span class="errorcode">('.strip_tags($tur).')</span></h1>
+  <p class="output">IP Adresiniz : <span class="errorcode">'.strip_tags($ip).'</span></p>
+  <p class="output">User Agent : <span class="errorcode">'.strip_tags($usragent).'</span></p>
+  <p class="output">Tarih : <span class="errorcode">'.strip_tags($tarih).'</span></p>
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span>Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span>Problem Bildir</a>
       <a class="button" href="https://github.com/alicangonullu/" target="_blank"><span class="fa fa-github"></span>GitHub</a>
     </div>
-</div>';	
+</div>';
  die();
 } else {
  echo '<div class="noise"></div>
 <div class="overlay"></div>
 <div class="terminal">
   <h1>Illegal Code Detected <span class="errorcode">('.$tur.')</span></h1>
-  <p class="output">IP Adress : <span class="errorcode">'.$ip.'</span></p>
-  <p class="output">User Agent : <span class="errorcode">'.$usragent.'</span></p>
-  <p class="output">Date  : <span class="errorcode">'.$tarih.'</span></p>
+  <p class="output">IP Adress : <span class="errorcode">'.strip_tags($ip).'</span></p>
+  <p class="output">User Agent : <span class="errorcode">'.strip_tags($usragent).'</span></p>
+  <p class="output">Date  : <span class="errorcode">'.strip_tags($tarih).'</span></p>
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span>Back</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span>Notify Problem</a>
