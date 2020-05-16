@@ -135,11 +135,11 @@ a::after {
 function IPError($ad) {
 if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
 echo '<div class="context secondary-text-color">
-<p>IP Adresiniz '.$ad.' Saat Banlandı.</p>
+<p>IP Adresiniz '.strip_tags($ad).' Saat Banlandı.</p>
 </div>';
 } else {
 echo '<div class="context secondary-text-color">
-<p>IP Adress : '.$ad.' Banned from Web Server for One Hour.</p>
+<p>IP Adress : '.strip_tags($ad).' Banned from Web Server for One Hour.</p>
 </div>';
 }
 }
