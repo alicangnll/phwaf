@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: 127.0.0.1
--- Üretim Zamanı: 25 Eki 2019, 21:15:19
--- Sunucu sürümü: 10.4.8-MariaDB
--- PHP Sürümü: 7.3.10
+-- Anamakine: localhost:3306
+-- Üretim Zamanı: 17 May 2020, 06:00:54
+-- Sunucu sürümü: 5.5.65-MariaDB
+-- PHP Sürümü: 7.3.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -42,7 +41,7 @@ CREATE TABLE `admin_bilgi` (
 --
 
 INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`, `email`, `token`, `admin_yetki`) VALUES
-(1, 'admin', '63982e54a7aeb0d89910475ba6dbd3ca6dd4e5a1', 'xxx@xxx.com', '63982e54a7aeb0d89910475ba6dbd3ca6dd4e5a1', '0');
+(1, 'admin', '060323f33140b4a86b53d01d726a45c7584a3a2b', 'alicangonullu@yahoo.com', '060323f33140b4a86b53d01d726a45c7584a3a2b', '0');
 
 -- --------------------------------------------------------
 
@@ -112,15 +111,16 @@ CREATE TABLE `waf_ayar` (
   `waf_aktif` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `ayar_aktif` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `oto_ban` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `anti_ddos` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `anti_ddos` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `debug` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `waf_ayar`
 --
 
-INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`, `anti_ddos`) VALUES
-(1, 'Yeni', '1', '1', '0', '1');
+INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`, `anti_ddos`, `debug`) VALUES
+(1, 'Yeni', '1', '1', '0', '1', '1');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
