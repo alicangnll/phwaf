@@ -163,7 +163,7 @@ return $ip;
 
 function LogIslem($ad) {
 foreach ($ad as $key => $value) {
-$json = "".$key."¿".$value."";
+$json = "".strip_tags($key)."¿".strip_tags($value)."";
 $yasakla = explode('¿',$json);
 $json2 = var_dump(json_encode($yasakla));
 	}
@@ -172,7 +172,7 @@ $json2 = var_dump(json_encode($yasakla));
 function HeaderIslem() {
 $header = apache_request_headers();
 foreach ($header as $headers => $value) {
-$jsons = ''.$headers.'¿?'.$value.'';
+$jsons = ''.strip_tags($headers).'¿?'.strip_tags($value).'';
 $yasakla = explode('¿?',$jsons);
 $jsonk = var_dump(json_encode($yasakla));
 	}
