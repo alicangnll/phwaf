@@ -465,13 +465,13 @@ case 'sifirlandi':
 if (isset($_POST["token"]) && isset($_POST["email"])) {
 $email = $_POST["email"];
 $token = sha1(md5($_POST["token"]));
-$stmt = $db->query("SELECT * FROM admin_bilgi WHERE email = '$email' AND token = '$token'");
+$stmt = $db->query("SELECT * FROM admin_bilgi WHERE email = ".$db->quote(strip_tags($email))." AND token = ".$db->quote(strip_tags($token))."");
 if ($stmt->rowCount() > 0) {
 $str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
 $str = str_shuffle($str);
 $str = substr($str, 0, 15);
 $password = sha1(md5($str));
-$db->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
+$db->query("UPDATE admin_bilgi SET passwd = ".$db->quote(strip_tags($password))." WHERE email = ".$db->quote(strip_tags($email))."");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
