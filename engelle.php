@@ -35,7 +35,7 @@ if ($debug == $adminid){
 Debug();
 } else {
 }
-$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
+$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$db->quote(strip_tags($ip))."");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 $suresi = $row["ip_suresi"];
@@ -99,7 +99,7 @@ exit;
 	}
 	//Guard Bitti
 $method = $_SERVER['REQUEST_METHOD'];
-$stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = '$method'");
+$stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = ".$db->quote(strip_tags($method))."");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
    }
