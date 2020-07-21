@@ -170,6 +170,7 @@ function DoSDenetleme($count, $data2) {
     die($data2);
   }
 }
+}
 
 function LogIslem($ad) {
 foreach ($ad as $key => $value) {
