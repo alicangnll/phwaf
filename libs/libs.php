@@ -161,6 +161,17 @@ else
 return $ip;
 }
 
+function DoSDenetleme() {
+ $data = strlen($_SERVER['QUERY_STRING']);
+  if($data < 50) {
+    header('X-AliWAF-DoS: ACTIVE');
+    echo $data;
+  } else {
+    header('X-AliWAF-DoS: DETECT');
+    die("DoS Detected | Please Control URL");
+  }
+}
+
 function LogIslem($ad) {
 foreach ($ad as $key => $value) {
 $json = "".strip_tags($key)."¿".strip_tags($value)."";
