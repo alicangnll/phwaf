@@ -165,7 +165,6 @@ function DoSDenetleme($count) {
  $data = strlen($_SERVER['QUERY_STRING']);
   if($data < $count) {
     header('X-AliWAF-DoS: ACTIVE');
-    echo $data;
   } else {
     header('X-AliWAF-DoS: DETECT');
     die("DoS Detected | Please Control URL");
