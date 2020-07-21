@@ -167,7 +167,7 @@ function DoSDenetleme($count, $data) {
     header('X-AliWAF-DoS: ACTIVE');
   } else {
     header('X-AliWAF-DoS: DETECT');
-    die($data);
+    die(strip_tags($data));
   }
 }
 
