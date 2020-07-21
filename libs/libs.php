@@ -161,13 +161,13 @@ else
 return $ip;
 }
 
-function DoSDenetleme($count) {
+function DoSDenetleme($count, $data) {
  $data = strlen($_SERVER['QUERY_STRING']);
   if($data < $count) {
     header('X-AliWAF-DoS: ACTIVE');
   } else {
     header('X-AliWAF-DoS: DETECT');
-    die("DoS Detected | Please Control URL");
+    die($data);
   }
 }
 
