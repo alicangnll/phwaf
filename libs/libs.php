@@ -161,9 +161,9 @@ else
 return $ip;
 }
 
-function DoSDenetleme() {
+function DoSDenetleme($count) {
  $data = strlen($_SERVER['QUERY_STRING']);
-  if($data < 50) {
+  if($data < $count) {
     header('X-AliWAF-DoS: ACTIVE');
     echo $data;
   } else {
