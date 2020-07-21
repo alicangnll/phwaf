@@ -16,6 +16,7 @@ $debug = md5(sha1($row["debug"]));
 $request = time();
 if (md5(sha1($row["ayar_aktif"])) == $adminid){
 header('X-AliWAF: ACTIVE');
+DoSDenetleme();
 } else {
 header('X-AliWAF: DEACTIVE');
 }	
