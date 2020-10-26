@@ -204,7 +204,7 @@ echo '<div class="header">
 break;
  
 case 'loginkontrol':
-$query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = " . $db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
+$query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = ".$db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 session_start();
@@ -245,7 +245,8 @@ echo '<div class="w3-container">
 <br><h3>WAF Durumu</h3>';
 $ayarid = 1;
 try {
-$stmt = $db->query('SELECT * FROM waf_ayar WHERE waf_aktif = '.$ayarid.' ORDER BY ayar_id DESC');
+$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$ayarid.' ORDER BY ayar_id DESC');
+$stmt->execute();
 while($row = $stmt->fetch()){
 if($row['oto_ban'] == 1) {
 echo '<div class="alert alert-success"><strong>Otomatik IP Ban : AÇIK (1)</strong></div><br>';
@@ -381,18 +382,15 @@ function delip(id)
 break;
 
 case 'admin':
-try {
 $stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
 $stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
-$row = $stmt->fetch(); 
+if($row = $stmt->fetch()) {
 $adminid = 0;
 if ($row['admin_yetki'] == $adminid){
 } else {
 echo 'Yetkiniz Yok';
 die();	
 }
-} catch(PDOException $e) {
-    echo $e->getMessage();
 }
 
 session_start();
@@ -496,7 +494,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=sifirlandi" method="POST">
+<form class="w3-container" action="index.php?git=sifirlandi" method="post">
 <label>E-Mail</label>
 <input type="text" name="email" class="form-control" placeholder="E-Mail:"> 
 <br>
@@ -554,15 +552,10 @@ echo '
     <a href="index.php?git=uygulamayap">Ana Sayfa</a>
   </div>
 </div>';
-try {
 
     $stmt = $db->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
     $stmt->execute(array(':gonderid' => $_GET['id']));
-    $row = $stmt->fetch(); 
-
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
+if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -578,12 +571,13 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ipupd&id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=ipupd&id='.$_GET['id'].'" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
 <br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
+}
 break;
 
 case 'ipupd':
@@ -625,15 +619,9 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 
-try {
-
-    $stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
-    $stmt->execute(array(':gonderid' => $_GET['id']));
-    $row = $stmt->fetch(); 
-
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
+$stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
+$stmt->execute(array(':gonderid' => $_GET['id']));
+    if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -649,14 +637,15 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=kuralpost&id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=kuralpost&id='.$_GET['id'].'" method="post">
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10">'.$row['kural_icerik'].'</textarea>
 <input type="submit" value="Gönder" class="w3-button w3-red">
-</form>';	
+</form>';
+}	
 break;
 
 
@@ -674,15 +663,9 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 
-try {
-
-    $stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
-    $stmt->execute(array(':gonderid' => $_GET['id']));
-    $row = $stmt->fetch(); 
-
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
+$stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
+$stmt->execute(array(':gonderid' => $_GET['id']));
+if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -698,7 +681,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="post">
 <label>Kullanıcı Adı</label>
 <input type="text" name="kadi" class="form-control" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
 <br>
@@ -713,6 +696,7 @@ textarea {
 
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
+	}
 break;
 case 'kadiupd':
 session_start();
@@ -756,15 +740,9 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 
-try {
-
     $stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
     $stmt->execute(array(':gonderid' => $_GET['id']));
-    $row = $stmt->fetch(); 
-
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
+    if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -781,7 +759,7 @@ textarea {
 
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ayarkayit&id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=ayarkayit&id='.$_GET['id'].'" method="post">
 <label>Ayar Adı</label>
 <input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
 <br>
@@ -809,6 +787,7 @@ if($row['waf_aktif'] == 1) {
 } else {
 	echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
 }	
+	}
 break;
 
 case 'ayarkayit':
@@ -867,7 +846,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=krlpost" method="POST">
+<form class="w3-container" action="index.php?git=krlpost" method="post">
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:"> 
 <br>
@@ -890,8 +869,9 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }														
-$update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik) VALUES (:kuraladi, :kuralicerik) ");
+$update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
 $update->bindValue(':kuraladi', $_POST['kuraladi']);
+$update->bindValue(':kuralhk', $_POST['kuraladi']);
 $update->bindValue(':kuralicerik', $_POST['kuralicerik']);
 $update->execute();
 if($update){
@@ -920,10 +900,10 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kural_adi , kural_icerik = :kural_icerik WHERE kural_id = :gonderid ");
+$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi , kural_icerik = :kuralicerik WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
-$update->bindValue(':kural_adi', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kural_icerik', strip_tags($_POST['kuralicerik']));
+$update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
+$update->bindValue(':kuralicerik', strip_tags($_POST['kuralicerik']));
 $update->execute();
 if($update){
 echo '<script>
@@ -947,15 +927,11 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 
-try {
 
-    $stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
-    $stmt->execute(array(':gonderid' => $_GET['id']));
-    $row = $stmt->fetch(); 
 
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
+$stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
+$stmt->execute(array(':gonderid' => $_GET['id']));
+if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -971,7 +947,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=methodupd&id='.$_GET['id'].'" method="POST">
+<form class="w3-container" action="index.php?git=methodupd&id='.$_GET['id'].'" method="post">
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
@@ -979,6 +955,7 @@ textarea {
 <input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$row['method_turu'].'"> 
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
+}
 break;
 
 case 'methodupd':
@@ -1035,7 +1012,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ippost" method="POST">
+<form class="w3-container" action="index.php?git=ippost" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadress" class="form-control" placeholder="IP Adresi:"> 
 <br>
@@ -1100,7 +1077,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=methodpost" method="POST">
+<form class="w3-container" action="index.php?git=methodpost" method="post">
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:"> 
 <br>
@@ -1115,14 +1092,14 @@ session_start();
 if (isset($_SESSION['girisyap'])){
 	echo '
 <div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
   <div class="header-right">
     <a href="index.php?git=index">Ana Sayfa</a>
   </div>
 </div>';
-} else {	
+} else {
 	header('Location: index.php?git=login');
-}														
+}
 $update = $db->prepare("INSERT INTO method_blok(method_adi, method_turu) VALUES (:methodadi, :methodicerik) ");
 $update->bindValue(':methodadi', $_POST['methodadi']);
 $update->bindValue(':methodicerik', $_POST['methodicerik']);
@@ -1139,6 +1116,7 @@ window.location.replace("index.php?git=index")
 </script>';
 }
 break;
+
 
 case 'ipsil':
 session_start();
