@@ -1,5 +1,12 @@
 <?php
 session_start();
+if(file_exists("yukle.lock")) {
+} else {
+die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
+<hr></hr>
+<p>yukle.lock oluşturulmamış</b><br>
+<a href='install.php'>Yükle</a></center>");
+}
 ?>
 <head>
     <meta charset="utf-8">

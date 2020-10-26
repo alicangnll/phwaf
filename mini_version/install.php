@@ -1,4 +1,11 @@
 <?php
+if(file_exists("yukle.lock")) {
+die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
+<hr></hr>
+<p>yukle.lock dosyasını silip tekrar deneyin</b><br>
+<a href='install.php'>Yükle</a></center>");
+} else {
+}
 echo '<head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -580,6 +587,7 @@ $fp = fopen("yukle.lock","a");
 fwrite($fp,$txt);
 fclose($fp);
 }
+
 if(file_exists("ali_waf.sql")) {
 unlink("ali_waf.sql");
 } else {
