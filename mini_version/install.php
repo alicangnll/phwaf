@@ -131,6 +131,9 @@ $mysqlserv = strip_tags($_POST["sqlserver"]);
 $mysqlusr = strip_tags($_POST["sqlusr"]);
 $mysqlpass = strip_tags($_POST["sqlpasswd"]);
 $conn = new mysqli($mysqlserv, $mysqlusr, $mysqlpass);
+$conn->query("SET CHARACTER SET 'utf8'");
+$conn->query("SET NAMES 'utf8'");
+
 if ($conn->connect_error) {
 die('<body class="container">
 <br><br><br>
@@ -171,6 +174,8 @@ touch("libs/conn.php");
 }
 
 $conn2 = new mysqli($mysqlserv, $mysqlusr, $mysqlpass, "ali_waf");
+$conn2->query("SET CHARACTER SET 'utf8'");
+$conn2->query("SET NAMES 'utf8'");
 if ($conn2->connect_error) {
 die('<body class="container">
 <br><br><br>
@@ -552,7 +557,7 @@ echo '<body class="container">
 <b>MySQL Kurulumu</b>
 <hr></hr>
 <p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : libs/conn.php yi düzenlemeyi unutmayın</b><br><br>
+<b>NOT : <i>index.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
 '.$txt.'
 </pre>
