@@ -1103,8 +1103,9 @@ if (isset($_SESSION['girisyap'])){
 } else {
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("INSERT INTO method_blok(method_adi, method_turu) VALUES (:methodadi, :methodicerik) ");
+$update = $db->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
 $update->bindValue(':methodadi', $_POST['methodadi']);
+$update->bindValue(':methodbilgi', $_POST['methodadi']);
 $update->bindValue(':methodicerik', $_POST['methodicerik']);
 $update->execute();
 if($update){
