@@ -133,7 +133,7 @@ $mysqlpass = strip_tags($_POST["sqlpasswd"]);
 $conn = new mysqli($mysqlserv, $mysqlusr, $mysqlpass);
 $conn->query("SET CHARACTER SET 'utf8'");
 $conn->query("SET NAMES 'utf8'");
-
+		
 if ($conn->connect_error) {
 die('<body class="container">
 <br><br><br>
