@@ -552,7 +552,7 @@ echo '<body class="container">
 <b>MySQL Kurulumu</b>
 <hr></hr>
 <p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : libs/conn.php yi düzenlemeyi unutmayın</b><br><br>
+<b>NOT : <i>index.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
 '.$txt.'
 </pre>
