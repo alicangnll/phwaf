@@ -1,5 +1,8 @@
 <?php
+session_destroy();
 session_start();
+$_SESSION["csrf"] = sha1(md5(rand()));
+
 if(file_exists("yukle.lock")) {
 } else {
 die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
@@ -200,6 +203,7 @@ echo '<div class="header">
 <div class="row">
 <div class="col-md-12 form-group">
 <p>Şifre : <input class="form-control"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
+<input class="form-control" type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
 <p><div class="row">
 <div class="col-md-12 form-group">
 <button class="btn btn-block btn-login">Giriş</button></p></div><br>
@@ -211,6 +215,8 @@ echo '<div class="header">
 break;
  
 case 'loginkontrol':
+if($_POST) {
+
 $query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = ".$db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
@@ -226,6 +232,11 @@ echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <p>HATA: Oturum Açılamadı!</p>';
 header('Location: index.php?git=login');
 die();
+}
+
+} else {
+die('<meta name="viewport" content="width=device-width, initial-scale=1">
+<center><p>HATA: Oturum Açılamadı!</p></center>');
 }
 break;
 
