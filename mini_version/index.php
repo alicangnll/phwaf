@@ -499,7 +499,7 @@ textarea {
 <input type="text" name="email" class="form-control" placeholder="E-Mail:"> 
 <br>
 <label>Token</label>
-<input type="text" name="token" class="form-control" placeholder="Token:"> 
+<input type="text" name="token" class="form-control" placeholder="Token:"> <br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 break;
@@ -574,7 +574,7 @@ textarea {
 <form class="w3-container" action="index.php?git=ipupd&id='.$_GET['id'].'" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
-<br>
+<br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }
@@ -643,7 +643,7 @@ textarea {
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10">'.$row['kural_icerik'].'</textarea>
-<input type="submit" value="Gönder" class="w3-button w3-red">
+<br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }	
 break;
@@ -693,7 +693,7 @@ textarea {
 <br>
 <label>Token</label>
 <input type="text" name="tokens" class="form-control" placeholder="Token:"> 
-
+<br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 	}
@@ -774,7 +774,7 @@ textarea {
 <label>Otomatik IP Ban</label><br>
 <label><input type="checkbox" name="otoban" value="1">Aktif</label><br>
 <label><input type="checkbox" name="otoban" value="0">Pasif</label><br>
-<input type="submit" value="Gönder" class="w3-button w3-red">
+<br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 echo '<hr></hr>';
 if($row['oto_ban'] == 1) {
@@ -852,7 +852,7 @@ textarea {
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
-<input type="submit" value="Gönder" class="w3-button w3-red">
+<br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
 
@@ -954,7 +954,7 @@ textarea {
 <br>
 <label>Method İçeriği</label>
 <input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$row['method_turu'].'"> 
-<input type="submit" value="Gönder" class="w3-button w3-red">
+<br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }
 break;
@@ -1084,8 +1084,13 @@ textarea {
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:"> 
 <br>
-<label>Method İçeriği</label>
-<input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:"> 
+<label>Method İçeriği (İzin Verilen</label>
+<select class="form-control" name="methodicerik" id="methodicerik">
+  <option value="GET">GET</option>
+  <option value="POST">POST</option>
+  <option value="PUT">PUT</option>
+  <option value="DELETE">DELETE</option>
+</select><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
