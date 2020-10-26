@@ -1034,8 +1034,10 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }														
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi) VALUES (:ipadresi) ");
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
 $update->bindValue(':ipadresi', $_POST['ipadress']);
+$update->bindValue(':ipusragent', "panel");
+$update->bindValue(':ipsure', date('H:i:s'));
 $update->execute();
 if($update){
 echo '<script>
