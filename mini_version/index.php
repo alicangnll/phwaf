@@ -245,7 +245,7 @@ echo '<div class="w3-container">
 <br><h3>WAF Durumu</h3>';
 $ayarid = 1;
 try {
-$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$ayarid.' ORDER BY ayar_id DESC');
+$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$db->quote($ayarid).' ORDER BY ayar_id DESC');
 $stmt->execute();
 while($row = $stmt->fetch()){
 if($row['oto_ban'] == 1) {
