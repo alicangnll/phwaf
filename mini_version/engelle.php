@@ -78,7 +78,7 @@ header('X-AliWAF: DEACTIVE');
 		    } catch(PDOException $e) {
 }
 $ip = reel_ip();
-$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = '$ip'");
+$stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$db->quote($ip)."");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 session_start();
@@ -770,8 +770,9 @@ if ($_SESSION['ayaraktif'] == $adminid){
 	<?php
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
+$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
@@ -1122,7 +1123,7 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
     </div>
 	<div class="hr"></div>
     <div class="context primary-text-color">
-      Deneme Türü : Method Injection (<?php echo $method ?>)
+      Deneme Türü : Method Injection (<?php echo strip_tags($method); ?>)
     </div>
     <div class="hr"></div>
     <div class="context secondary-text-color">
@@ -1138,8 +1139,9 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 	<?php
 if ($_SESSION['otoban'] == $adminid){
 $bandurum = md5(sha1(1));
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi) VALUES (:ipadresi, :ipsuresi) ");
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
+$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
