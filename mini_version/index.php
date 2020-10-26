@@ -900,9 +900,10 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi , kural_icerik = :kuralicerik WHERE kural_id = :gonderid ");
+$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
+$update->bindValue(':kuralhk', strip_tags($_POST['kuraladi']));
 $update->bindValue(':kuralicerik', strip_tags($_POST['kuralicerik']));
 $update->execute();
 if($update){
