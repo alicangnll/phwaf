@@ -366,7 +366,8 @@ echo '
 echo $e->getMessage();
 }
 echo '
-</tr>
+</tr></table>
+<br><br>
 </div>';
 ?>
 <script language="JavaScript" type="text/javascript">
