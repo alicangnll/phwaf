@@ -803,7 +803,7 @@ exit;
 	}
 	//Guard Bitti
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
-$stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = '$method'");
+$stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = ".$db->quote($method)."");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
    }
