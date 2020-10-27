@@ -175,8 +175,8 @@ $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$db->quote($ip)."")
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 session_start();
-$_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
-		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
+$suresi = strip_tags($row["ip_suresi"]);
+		if ($suresi - date('H:i:s') >= 30){
 
 		} else {
 ErrorMessage("IP Ban", strip_tags($ip));
