@@ -99,6 +99,12 @@ a{
 	<title>pH Analyzer | AliWAF</title>  
 </head>
 <?php
+function LoginCheck() {
+if (isset($_SESSION['girisyap'])){
+} else {
+die(header('Location: index.php'));	
+}
+}
 function reel_ip()  
 {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))  
@@ -180,11 +186,6 @@ echo '<div style="padding-left:20px">
 break;
 
 case 'login':
-session_start();
-if (isset($_SESSION['girisyap'])){
-		header('Location: index.php?git=index');
-} else {	
-}
 echo '<div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
   <div class="header-right">
@@ -241,11 +242,7 @@ die('<meta name="viewport" content="width=device-width, initial-scale=1">
 break;
 
 case 'index':
-session_start();
-if (isset($_SESSION['girisyap'])){
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
@@ -416,11 +413,7 @@ die();
 }
 }
 
-session_start();
-if (isset($_SESSION['girisyap'])){
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
@@ -571,11 +564,7 @@ exit();
 break;
 
 case 'ipduzenle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
@@ -612,18 +601,7 @@ textarea {
 break;
 
 case 'ipupd':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':ipadresi', strip_tags($_POST['ipadresi']));
@@ -637,18 +615,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralduzenle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 
 $stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
@@ -681,18 +648,7 @@ break;
 
 
 case 'adminduzenle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 
 $stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
@@ -730,18 +686,7 @@ textarea {
 	}
 break;
 case 'kadiupd':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kadi', strip_tags($_POST['kadi']));
@@ -758,18 +703,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'ayarduzenle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 
 $stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
 $stmt->execute(array(':gonderid' => "1"));
@@ -826,18 +760,7 @@ if($row['waf_aktif'] == 1) {
 break;
 
 case 'ayarkayit':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags("1"));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
@@ -855,18 +778,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralekle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <style> 
 textarea {
@@ -893,18 +805,7 @@ textarea {
 break;
 
 case 'krlpost':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}														
+LoginCheck();														
 $update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
 $update->bindValue(':kuraladi', $_POST['kuraladi']);
 $update->bindValue(':kuralhk', $_POST['kuraladi']);
@@ -924,18 +825,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralpost':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
@@ -951,20 +841,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'methodduzenle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
-
-
+LoginCheck();
 
 $stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
@@ -996,18 +873,7 @@ textarea {
 break;
 
 case 'methodupd':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
@@ -1022,18 +888,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'ipekle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <style> 
 textarea {
@@ -1058,18 +913,7 @@ textarea {
 break;
 
 case 'ippost':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}														
+LoginCheck();														
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
 $update->bindValue(':ipadresi', $_POST['ipadress']);
 $update->bindValue(':ipusragent', "panel");
@@ -1089,18 +933,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'methodekle':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 echo '
 <style> 
 textarea {
@@ -1132,18 +965,7 @@ textarea {
 break;
 
 case 'methodpost':
-session_start();
-if (isset($_SESSION['girisyap'])){
-	echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.biz/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-  </div>
-</div>';
-} else {
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 $update = $db->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
 $update->bindValue(':methodadi', $_POST['methodadi']);
 $update->bindValue(':methodbilgi', $_POST['methodadi']);
@@ -1164,18 +986,7 @@ break;
 
 
 case 'ipsil':
-session_start();
-if (isset($_SESSION['girisyap'])){
-		echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 if(isset($_GET['ipsil'])){ 
 $stmt = $db->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
 $stmt->execute(array(':postID' => $_GET['ipsil']));
@@ -1193,18 +1004,7 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'kuralsil':
-session_start();
-if (isset($_SESSION['girisyap'])){
-		echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 if(isset($_GET['sil'])){ 
 $stmt = $db->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
 $stmt->execute(array(':postID' => $_GET['sil']));
@@ -1222,18 +1022,7 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'methodsil':
-session_start();
-if (isset($_SESSION['girisyap'])){
-		echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
-  </div>
-</div>';
-} else {	
-	header('Location: index.php?git=login');
-}
+LoginCheck();
 if(isset($_GET['sil'])){ 
 $stmt = $db->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
 $stmt->execute(array(':postID' => $_GET['sil']));
@@ -1251,14 +1040,8 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'cikis':
-session_start();
-if (isset($_SESSION['girisyap'])){
-} else {	
-	header('Location: index.php?git=login');
-}
-session_start();
+LoginCheck();
 session_destroy();
-session_unset();
 echo (" Başarılı ");
 header ("Location:index.php"); 
 break;
