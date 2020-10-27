@@ -211,7 +211,7 @@ exit;
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
-$parametreler = strtolower(file_get_contents('php://input'));
+$parametreler = strtolower(urldecode(file_get_contents('php://input')));
 $parametreler6 = str_replace("_", "", $parametreler);
 $parametreler7 = str_replace("@", "", $parametreler6);
 $parametreler8 = str_replace(",", "", $parametreler7);
