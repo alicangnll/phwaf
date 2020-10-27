@@ -255,7 +255,7 @@ $alters2 = "ALTER TABLE `ip_ban`
 $alters3 = "ALTER TABLE `method_blok`
   MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 $alters4 = "ALTER TABLE `waf_ayar`
-  MODIFY `ayar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
+  MODIFY `ayar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;";
 
 
 $insert1 = "INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`, `email`, `token`, `admin_yetki`) VALUES
@@ -587,7 +587,6 @@ $fp = fopen("yukle.lock","a");
 fwrite($fp,$txt);
 fclose($fp);
 }
-
 if(file_exists("ali_waf.sql")) {
 unlink("ali_waf.sql");
 } else {

@@ -105,7 +105,6 @@ if (isset($_SESSION['girisyap'])){
 die(header('Location: index.php'));	
 }
 }
-
 function reel_ip()  
 {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))  
@@ -143,7 +142,7 @@ error_reporting(0);
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $dbad = "ali_waf"; // db adı
 	
      $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
