@@ -248,7 +248,7 @@ die();
 
 }
 } else {
-header('X-AliWAF: DEACTIVE');
+header('X-AliWAF: CONFIG-DEACTIVE');
 }
 } else {
 header('X-AliWAF: DEACTIVE');
