@@ -599,7 +599,8 @@ LoginCheck();
 
 $stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
-    if($row = $stmt->fetch()) {
+if($row = $stmt->fetch()) {
+$degis = str_replace("¿¿", ",", $row['kural_icerik']);
 echo '
 <style> 
 textarea {
@@ -620,7 +621,7 @@ textarea {
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
-<textarea name="kuralicerik" cols="60" rows="10">'.$row['kural_icerik'].'</textarea>
+<textarea name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
 <br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }	
@@ -806,11 +807,12 @@ break;
 
 case 'kuralpost':
 LoginCheck();
+$degis = str_replace(",", "¿¿", $_POST['kuralicerik']);
 $update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
 $update->bindValue(':kuralhk', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kuralicerik', strip_tags($_POST['kuralicerik']));
+$update->bindValue(':kuralicerik', strip_tags($degis));
 $update->execute();
 if($update){
 echo '<script>
@@ -826,7 +828,6 @@ LoginCheck();
 $stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
 if($row = $stmt->fetch()) {
-$degis = str_replace("¿¿", ",", $row['method_turu']);
 echo '
 <style> 
 textarea {
@@ -847,7 +848,7 @@ textarea {
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
 <label>Method İçeriği</label>
-<input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$degis.'"> 
+<input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$row['method_turu'].'"> 
 <br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }
@@ -855,11 +856,10 @@ break;
 
 case 'methodupd':
 LoginCheck();
-$degis2 = str_replace(",", "¿¿", $row['method_turu']);
 $update = $db->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
-$update->bindValue(':method_turu', strip_tags($degis2));
+$update->bindValue(':method_turu', strip_tags($_POST['methodicerik']));
 $update->execute();
 if($update){
 echo '<script>
