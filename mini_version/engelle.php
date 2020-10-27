@@ -35,6 +35,17 @@ function reel_ip()
     return $ip;
 }
 
+function IPError($ad) {
+if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
+echo '<br><div class="context secondary-text-color">
+<p>IP Adresiniz '.strip_tags($ad).' Saat Banlandı.</p>
+</div>';
+} else {
+echo '<br><div class="context secondary-text-color">
+<p>IP Adress : '.strip_tags($ad).' Banned from Web Server for One Hour.</p>
+</div>';
+}
+}
 function kisalt($metin, $uzunluk){
 $metin = substr($metin, 0, $uzunluk)."...";
 $metin_son = strrchr($metin, " ");
@@ -161,8 +172,6 @@ $_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
      .clearfix:after {
          clear: both;
      }
-    </style>
-    <style>
   body.background.error-page-wrapper, .background.error-page-wrapper.preview {
     font-family: 'Source Sans Pro', sans-serif;
     background-position:center center;
@@ -360,10 +369,6 @@ $_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
       margin-top:12px;
     }
   }
-</style>
-
-    <style>
-
 
     .background-image {
       background-color: #FFFFFF;
@@ -775,10 +780,7 @@ $update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
-
-echo ' <div class="context secondary-text-color">
-<p>IP Adresiniz 1 Saat Banlandı.</p>
-</div>';
+IPError("1");
 die();
 }
 } else {
@@ -1144,9 +1146,7 @@ $update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
 $update->bindValue(':ipsuresi', date('H:i:s'));
 $update->execute();
 if($update){
-echo ' <div class="context secondary-text-color">
-<p>IP Adresiniz 1 Saat Banlandı.</p>
-</div>';
+IPError("1");
 die();
 }
 } else {
