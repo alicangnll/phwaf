@@ -126,7 +126,7 @@ return $metin;
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $dbad = "ali_waf"; // db adı
 
      $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
@@ -225,8 +225,42 @@ $i++;
 if (strlen($parametreler)>=90) {
 exit;
 }
-	}
+}
 
+
+$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
+while($row = $stmt->fetch()){
+$parametreler = strtolower(file_get_contents('php://input'));
+$yasaklar=$row['kural_icerik'];
+$yasakla=explode('¿¿',$yasaklar);
+$sayiver=substr_count($yasaklar,'¿¿');
+$i=0;
+while ($i<=$sayiver) {
+if (strstr($parametreler,$yasakla[$i])) {
+ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
+
+if ($otoban == md5(sha1(1))){
+$bandurum = md5(sha1(1));
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
+$update->bindValue(':ipadresi', strip_tags(reel_ip()));
+$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
+$update->bindValue(':ipsuresi', date('H:i:s'));
+$update->execute();
+if($update){
+IPError("1");
+die();
+}
+} else {
+die();
+}
+
+}
+$i++;
+}
+if (strlen($parametreler)>=90) {
+exit;
+}
+	}
 	//Guard Bitti
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
 $stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = ".$db->quote($method)."");
