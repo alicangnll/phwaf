@@ -279,7 +279,7 @@ echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>
 if ($row['debug'] == 1){
 echo '<td><div class="alert alert-success"><strong>DEBUG : Aktif</strong></div></td>';
 } else {
-echo '<td><div class="alert alert-success"><strong>DEBUG : Pasif</strong></div></td>';
+echo '<td><div class="alert alert-danger"><strong>DEBUG : Pasif</strong></div></td>';
 }
 if($row['ayar_aktif'] == 1) {
 echo '<div class="alert alert-success"><strong>AYAR : AÇIK (1)</strong></div><br>';
