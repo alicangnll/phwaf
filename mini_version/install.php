@@ -551,70 +551,6 @@ die('<body class="container">
 </div></div></div></body>');
 }
 
-if ($conn2->query($insert1) === TRUE) {
-} else {
-die('<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu | HATA</b>
-<hr></hr>
-<code>
-'.$conn2->error.'<br>
-</code><br>
-<div class="form-group">
-<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
-</div></div></div></body>');
-}
-
-if ($conn2->query($insert2) === TRUE) {
-} else {
-die('<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu | HATA</b>
-<hr></hr>
-<code>
-'.$conn2->error.'<br>
-</code><br>
-<div class="form-group">
-<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
-</div></div></div></body>');
-}
-
-if ($conn2->query($insert3) === TRUE) {
-} else {
-die('<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu | HATA</b>
-<hr></hr>
-<code>
-'.$conn2->error.'<br>
-</code><br>
-<div class="form-group">
-<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
-</div></div></div></body>');
-}
-
-if ($conn2->query($insert4) === TRUE) {
-} else {
-die('<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu | HATA</b>
-<hr></hr>
-<code>
-'.$conn2->error.'<br>
-</code><br>
-<div class="form-group">
-<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
-</div></div></div></body>');
-}
-
 if ($conn2->query($truncate1) === TRUE) {
 } else {
 die('<body class="container">
@@ -690,6 +626,72 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
+
+if ($conn2->query($insert1) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+
+if ($conn2->query($insert2) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+
+if ($conn2->query($insert3) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+
+if ($conn2->query($insert4) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+
+
 $conn2->close();
 
 $txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
