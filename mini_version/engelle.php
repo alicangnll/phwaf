@@ -1,8 +1,7 @@
 <?php
 ob_start();
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-function reel_ip()
-{
+function reel_ip() {
     if (!empty($_SERVER['HTTP_CLIENT_IP']))
     {
         $ip=$_SERVER['HTTP_CLIENT_IP'];
@@ -36,7 +35,7 @@ function reel_ip()
 }
 
 function ErrorMessage($type, $method) {
-echo '    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+die('<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" />
     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
@@ -62,7 +61,7 @@ echo '    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
-    </div>';
+    </div>');
 }
 function IPError($ad) {
 if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
@@ -178,16 +177,19 @@ if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 session_start();
 $suresi = strip_tags($row["ip_suresi"]);
-		if ($suresi - date('H:i:s') >= 30){
+$ipusragent = strip_tags($row["ip_usragent"]);
 
-		} else {
+if($ipusragent == "panel") {
+ErrorMessage("IP Ban | Unlimited", strip_tags($ip));
+} else {
+if ($suresi - date('H:i:s') >= 30){
+} else {
 ErrorMessage("IP Ban", strip_tags($ip));
-					echo '
-		<p align="center">IP Ban Listesindesiniz</p><br>
-		<p align="center"> IP Adresin <b>'.strip_tags($ip).'</b>';
-		die();
+die();
 		}
-   }
+}
+
+}
 }
 
 
