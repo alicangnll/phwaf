@@ -223,8 +223,7 @@ $sayiver = substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
-echo '<center><b> Type : '.$parametreler.'</b></center>';
-ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
+ErrorMessage("POST Injection", strip_tags('Type : '.$parametreler.''));
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");

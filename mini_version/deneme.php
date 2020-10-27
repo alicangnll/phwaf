@@ -1,5 +1,6 @@
 <?php 
 include 'engelle.php'; 
+echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 if(!isset($_GET['git'])) {
 $sayfa = 'giris';	// eğer boşsa anasayfa varsayalım.
 } else {
