@@ -56,6 +56,7 @@ die('<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.
 	<p> Method Türü : '.strip_tags($method).'</p>
       <p>URL : <br>'.strip_tags($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']).'</p>
 	  <p>User-Agent : <br>'.strip_tags($_SERVER['HTTP_USER_AGENT']).'</p>
+	  <p>IP : <br>'.strip_tags(reel_ip()).'</p>
 	  <p>Tarih : '.date('d.m.Y H:i:s').'</p>
     </div>
     <div class="buttons-container">
