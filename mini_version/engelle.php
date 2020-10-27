@@ -126,7 +126,7 @@ return $metin;
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $dbad = "ali_waf"; // db adı
 
      $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
