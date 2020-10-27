@@ -138,9 +138,10 @@ case 'sqlpost':
 $mysqlserv = strip_tags($_POST["sqlserver"]);
 $mysqlusr = strip_tags($_POST["sqlusr"]);
 $mysqlpass = strip_tags($_POST["sqlpasswd"]);
+
 $conn = new mysqli($mysqlserv, $mysqlusr, $mysqlpass);
-$conn->query("SET CHARACTER SET 'utf8'");
-$conn->query("SET NAMES 'utf8'");
+$conn->query("SET CHARACTER SET utf8");
+$conn->query("SET NAMES utf8");
 		
 if ($conn->connect_error) {
 die('<body class="container">
@@ -181,9 +182,10 @@ touch("libs/conn.php");
 touch("libs/conn.php");
 }
 
+
 $conn2 = new mysqli($mysqlserv, $mysqlusr, $mysqlpass, "ali_waf");
-$conn2->query("SET CHARACTER SET 'utf8'");
-$conn2->query("SET NAMES 'utf8'");
+$conn2->query("SET CHARACTER SET utf8");
+$conn2->query("SET NAMES utf8");
 if ($conn2->connect_error) {
 die('<body class="container">
 <br><br><br>
@@ -198,6 +200,62 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
+
+if(file_exists("conn.php")) {
+unlink("conn.php");
+touch("conn.php");
+$txt = '<?php
+try {
+$ip = "'.strip_tags($mysqlserv).'"; //host
+$user = "'.strip_tags($mysqlusr).'";  // host id
+$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
+$dbad = "ali_waf"; // db adı
+	
+     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
+     $db->query("SET CHARACTER SET utf8");
+     $db->query("SET NAMES utf8");
+
+} catch ( PDOException $e ){
+     echo "
+	 <table>
+<center>No MySQL Connection</center>
+<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
+<center>Sistem Yöneticinizle Irtibata Geçin</center>
+	 </table>";
+	 die();
+}
+?>';
+$fp = fopen("conn.php","a");
+fwrite($fp,$txt);
+fclose($fp);
+} else {
+touch("conn.php");
+$txt = '<?php
+try {
+$ip = "'.strip_tags($mysqlserv).'"; //host
+$user = "'.strip_tags($mysqlusr).'";  // host id
+$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
+$dbad = "ali_waf"; // db adı
+	
+     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
+     $db->query("SET CHARACTER SET utf8");
+     $db->query("SET NAMES utf8");
+
+} catch ( PDOException $e ){
+     echo "
+	 <table>
+<center>No MySQL Connection</center>
+<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
+<center>Sistem Yöneticinizle Irtibata Geçin</center>
+	 </table>";
+	 die();
+}
+?>';
+$fp = fopen("conn.php","a");
+fwrite($fp,$txt);
+fclose($fp);
+}
+
 $tab1 = "CREATE TABLE `admin_bilgi` (
   `id` int(11) NOT NULL,
   `kadi` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
@@ -553,7 +611,7 @@ die('<body class="container">
 }
 $conn2->close();
 
-$txt = '$ip = "'.strip_tags($mysqlserv).'"; //host
+$txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
 $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
 $dbad = "ali_waf"; // db adı ';
@@ -567,7 +625,7 @@ echo '<body class="container">
 <p> MySQL Başarıyla Kuruldu </p><br>
 <b>NOT : <i>index.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
-'.$txt.'
+'.$txt2.'
 </pre>
 <div class="form-group">
 <br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
