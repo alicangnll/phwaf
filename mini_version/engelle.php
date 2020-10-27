@@ -34,6 +34,13 @@ function reel_ip()
     }
     return $ip;
 }
+
+function kisalt($metin, $uzunluk){
+$metin = substr($metin, 0, $uzunluk)."...";
+$metin_son = strrchr($metin, " ");
+$metin = str_replace($metin_son," ...", $metin);
+return $metin;
+}
 // IP Engelleme
 try {
 $ip = "localhost"; //host
@@ -56,7 +63,6 @@ $dbad = "ali_waf"; // db adı
 	 die();
 }
 
-$adminid = md5(sha1(1));
 try {
 
 $stmt = $db->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
@@ -68,7 +74,7 @@ $otoban = md5(sha1($row["oto_ban"]));
 $ipadres = reel_ip();
 $wafdurum = md5(sha1($row["waf_aktif"]));
 
-if (md5(sha1($row["ayar_aktif"])) == $adminid){
+if (md5(sha1($row["ayar_aktif"])) == md5(sha1(1))){
 header('X-AliWAF: ACTIVE');
 } else {
 header('X-AliWAF: DEACTIVE');
@@ -83,7 +89,7 @@ if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 session_start();
 $_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
-	if ($wafdurum == $adminid){
+	if ($wafdurum == md5(sha1(1))){
 		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
 
 		} else {
@@ -425,14 +431,7 @@ $_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
 	}
    }
 }
-if ($ayaraktif == $adminid){
-
-function kisalt($metin, $uzunluk){
-$metin = substr($metin, 0, $uzunluk)."...";
-$metin_son = strrchr($metin, " ");
-$metin = str_replace($metin_son," ...", $metin);
-return $metin;
-}
+if ($ayaraktif == md5(sha1(1))){
 
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 	while($row = $stmt->fetch()){
@@ -443,7 +442,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
-if ($ayaraktif == $adminid){
+if ($ayaraktif == md5(sha1(1))){
 ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -768,7 +767,7 @@ if ($ayaraktif == $adminid){
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
 	<?php
-if ($otoban == $adminid){
+if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
@@ -810,7 +809,7 @@ while($row = $stmt->fetch()){
 		} else
 	{
 
-if ($ayaraktif == $adminid){
+if ($ayaraktif == md5(sha1(1))){
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
 ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -1137,7 +1136,7 @@ header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
     </div>
 	<?php
-if ($otoban == $adminid){
+if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
 $update->bindValue(':ipadresi', strip_tags($ip));
