@@ -769,11 +769,12 @@ textarea {
 break;
 
 case 'krlpost':
-LoginCheck();														
+LoginCheck();		
+$degis = str_replace(",", "¿¿", $_POST['kuralicerik']);												
 $update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
 $update->bindValue(':kuraladi', $_POST['kuraladi']);
 $update->bindValue(':kuralhk', $_POST['kuraladi']);
-$update->bindValue(':kuralicerik', $_POST['kuralicerik']);
+$update->bindValue(':kuralicerik', $degis);
 $update->execute();
 if($update){
 echo '<script>
