@@ -2,14 +2,6 @@
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
-
-if(file_exists("yukle.lock")) {
-} else {
-die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
-<hr></hr>
-<p>yukle.lock oluşturulmamış</b><br>
-<a href='install.php'>Yükle</a></center>");
-}
 ?>
 <head>
     <meta charset="utf-8">
@@ -99,8 +91,27 @@ a{
 	<title>pH Analyzer | AliWAF</title>  
 </head>
 <?php
+if(file_exists("yukle.lock")) {
+} else {
+die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
+<hr></hr>
+<p>yukle.lock oluşturulmamış</b><br>
+<a href='install.php'>Yükle</a></center>");
+}
 function LoginCheck() {
 if (isset($_SESSION['girisyap'])){
+echo '
+<div class="header">
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <div class="header-right">
+    <a class="active" href="index.php?git=index">Ana Sayfa</a>
+	<a href="index.php?git=admin">Admin</a>
+	<a href="index.php?git=kuralekle">Kural Ekle</a>
+	<a href="index.php?git=ipekle">IP Ekle</a>
+	<a href="index.php?git=methodekle">Method Ekle</a>
+    <a href="index.php?git=cikis">Çıkış</a>
+  </div>
+</div>';
 } else {
 die(header('Location: index.php'));	
 }
@@ -223,18 +234,6 @@ break;
 
 case 'index':
 LoginCheck();
-echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a class="active" href="index.php?git=index">Ana Sayfa</a>
-	<a href="index.php?git=admin">Admin</a>
-	<a href="index.php?git=kuralekle">Kural Ekle</a>
-	<a href="index.php?git=ipekle">IP Ekle</a>
-	<a href="index.php?git=methodekle">Method Ekle</a>
-    <a href="index.php?git=cikis">Çıkış</a>
-  </div>
-</div>';
 
 echo '<div class="w3-container">
 <br><h3>WAF Durumu</h3>';
@@ -394,15 +393,6 @@ die();
 }
 
 LoginCheck();
-echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-	<a class="active" href="index.php?git=admin">Admin</a>
-    <a href="index.php?git=cikis">Çıkış</a>
-  </div>
-</div>';
 
 echo '<div class="w3-container">
 <table class="w3-table w3-striped">
@@ -545,13 +535,6 @@ break;
 
 case 'ipduzenle':
 LoginCheck();
-echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=uygulamayap">Ana Sayfa</a>
-  </div>
-</div>';
 
     $stmt = $db->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
     $stmt->execute(array(':gonderid' => $_GET['id']));
