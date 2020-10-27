@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 if(file_exists("yukle.lock")) {
 die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
 <hr></hr>
