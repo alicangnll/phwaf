@@ -326,6 +326,13 @@ $insert3 = "INSERT INTO `method_blok` (`method_id`, `method_adi`, `method_bilgis
 $insert4 = "INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`, `anti_ddos`, `debug`) VALUES
 (1, 'Yeni', '1', '1', '0', '1', '1');";
 
+
+$truncate1 = "TRUNCATE `ali_waf`.`admin_bilgi`";
+$truncate2 = "TRUNCATE `ali_waf`.`guard_watch`";
+$truncate3 = "TRUNCATE `ali_waf`.`ip_ban`";
+$truncate4 = "TRUNCATE `ali_waf`.`method_blok`";
+$truncate5 = "TRUNCATE `ali_waf`.`waf_ayar`";
+
 if ($conn2->query($tab1) === TRUE) {
 } else {
 die('<body class="container">
@@ -593,6 +600,82 @@ die('<body class="container">
 }
 
 if ($conn2->query($insert4) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+
+if ($conn2->query($truncate1) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+if ($conn2->query($truncate2) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+if ($conn2->query($truncate3) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+if ($conn2->query($truncate4) === TRUE) {
+} else {
+die('<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu | HATA</b>
+<hr></hr>
+<code>
+'.$conn2->error.'<br>
+</code><br>
+<div class="form-group">
+<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
+</div></div></div></body>');
+}
+if ($conn2->query($truncate5) === TRUE) {
 } else {
 die('<body class="container">
 <br><br><br>
