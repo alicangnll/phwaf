@@ -216,13 +216,12 @@ $dbad = "ali_waf"; // db adı
      $db->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
-     echo "
-	 <table>
-<center>No MySQL Connection</center>
-<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
-<center>Sistem Yöneticinizle Irtibata Geçin</center>
-	 </table>";
-	 die();
+die("<table>
+<center>No MySQL Connection</br>
+Bunun Sebebi Bir DDoS Saldırısı Olabilir</br>
+Sistem Yöneticinizle Irtibata Geçin</br>
+<a href=install.php>Yükle / Install</a></center>
+</table>");
 }
 ?>';
 $fp = fopen("conn.php","a");
@@ -242,13 +241,12 @@ $dbad = "ali_waf"; // db adı
      $db->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
-     echo "
-	 <table>
-<center>No MySQL Connection</center>
-<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
-<center>Sistem Yöneticinizle Irtibata Geçin</center>
-	 </table>";
-	 die();
+die("<table>
+<center>No MySQL Connection</br>
+Bunun Sebebi Bir DDoS Saldırısı Olabilir</br>
+Sistem Yöneticinizle Irtibata Geçin</br>
+<a href=install.php>Yükle / Install</a></center>
+</table>");
 }
 ?>';
 $fp = fopen("conn.php","a");
@@ -623,7 +621,7 @@ echo '<body class="container">
 <b>MySQL Kurulumu</b>
 <hr></hr>
 <p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : <i>index.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
+<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
 '.$txt2.'
 </pre>

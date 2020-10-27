@@ -2,7 +2,7 @@
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $dbad = "ali_waf"; // db adı
 	
      $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
@@ -10,12 +10,11 @@ $dbad = "ali_waf"; // db adı
      $db->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
-     echo "
-	 <table>
-<center>No MySQL Connection</center>
-<center>Bunun Sebebi Bir DDoS Saldırısı Olabilir</center>
-<center>Sistem Yöneticinizle Irtibata Geçin</center>
-	 </table>";
-	 die();
+die("<table>
+<center>No MySQL Connection</br>
+Bunun Sebebi Bir DDoS Saldırısı Olabilir</br>
+Sistem Yöneticinizle Irtibata Geçin</br>
+<a href=install.php>Yükle / Install</a></center>
+</table>");
 }
 ?>

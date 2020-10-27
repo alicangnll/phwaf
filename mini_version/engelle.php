@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include("conn.php");
 ob_start();
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
@@ -207,23 +208,18 @@ exit;
 }
 }
 
+
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
-$parametreler = strtolower(urldecode(file_get_contents('php://input')));
-$parametreler2 = str_replace("?", "", $parametreler);
-$parametreler3 = str_replace("&", "", $parametreler2);
-$parametreler4 = str_replace("=", "", $parametreler3);
-$parametreler5 = str_replace("%", "", $parametreler4);
-$parametreler6 = str_replace("_", "", $parametreler5);
-$parametreler7 = str_replace("@", "", $parametreler6);
-$parametreler8 = str_replace(",", "", $parametreler7);
-$yasaklar = $row['kural_icerik'];
-$yasakla = explode('¿¿',$yasaklar);
-$sayiver = substr_count($yasaklar,'¿¿');
+$parametreler = strtolower(file_get_contents('php://input'));
+$yasaklar=$row['kural_icerik'];
+$yasakla=explode('¿¿',$yasaklar);
+$sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
-if (strstr($parametreler8,$yasakla[$i])) {
-ErrorMessage("POST Injection", strip_tags('Type : '.$parametreler.''));
+if (strstr($parametreler,$yasakla[$i])) {
+ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
+
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
@@ -242,8 +238,10 @@ die();
 }
 $i++;
 }
+if (strlen($parametreler)>=90) {
+exit;
+}
 	}
-
 	//Guard Bitti
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
 $stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = ".$db->quote($method)."");
