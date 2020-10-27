@@ -212,13 +212,16 @@ exit;
 $stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
 $parametreler = strtolower(file_get_contents('php://input'));
+$parametreler6 = str_replace("_", "", $parametreler);
+$parametreler7 = str_replace("@", "", $parametreler6);
+$parametreler8 = str_replace(",", "", $parametreler7);
 $yasaklar=$row['kural_icerik'];
 $yasakla=explode('¿¿',$yasaklar);
 $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
-if (strstr($parametreler,$yasakla[$i])) {
-ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
+if (strstr($parametreler8,$yasakla[$i])) {
+ErrorMessage("POST Injection", strip_tags("Type : ".$parametreler8.""));
 
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
