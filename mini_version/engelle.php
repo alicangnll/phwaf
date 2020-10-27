@@ -58,7 +58,7 @@ die('<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.
 	  <p>User-Agent : <br>'.strip_tags($_SERVER['HTTP_USER_AGENT']).'</p>
 	  <p>IP : <br>'.strip_tags(reel_ip()).'</p>
 	  <p>Tarih : '.date('d.m.Y H:i:s').'</p>
-    </div>
+    </div><br>
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
