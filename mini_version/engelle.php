@@ -179,7 +179,7 @@ $_SESSION['suresi'] = strip_tags($row["ip_suresi"]);
 		if ($_SESSION['suresi'] - date('H:i:s') >= 30){
 
 		} else {
-ErrorMessage("IP Ban", $ip);
+ErrorMessage("IP Ban", strip_tags($ip));
 					echo '
 		<p align="center">IP Ban Listesindesiniz</p><br>
 		<p align="center"> IP Adresin <b>'.strip_tags($ip).'</b>';
@@ -198,7 +198,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler,$yasakla[$i])) {
-ErrorMessage("Rule Injection", $row['kural_adi']);
+ErrorMessage("Rule Injection", strip_tags($row['kural_adi']));
 
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
@@ -230,7 +230,7 @@ while($row = $stmt->fetch()){
    }
 } else {
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
-ErrorMessage("Method Injection", $method);
+ErrorMessage("Method Injection", strip_tags($method));
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
 $update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
