@@ -445,7 +445,7 @@ while($row = $stmt->fetch()){
 echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
-<td><a href="index.php?git=adminduzenle&id='.strip_tags($row['id']).'">Düzenle</a> | 
+<td><a href="index.php?git=adminduzenle&id='.strip_tags($row['id']).'">Düzenle</a>
 </tr>
 </div>';	
 }
@@ -460,6 +460,7 @@ echo '<div class="w3-container">
 <th>Ayar ID</th>
 <th>WAF Durum</th>
 <th>Oto IP Ban</th>
+<th>Debug</th>
 <th>Ayar Adı</th>
 <th></th>
 </tr>';
