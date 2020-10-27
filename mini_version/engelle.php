@@ -111,6 +111,10 @@ $gethead = HeaderIslem();
 echo '</pre>';
 }
 
+function memlimit($limit, $type) {
+	ini_set('memory_limit',''.$limit.''.$type.'');
+}
+
 function kisalt($metin, $uzunluk){
 $metin = substr($metin, 0, $uzunluk)."...";
 $metin_son = strrchr($metin, " ");
@@ -158,10 +162,6 @@ header('X-AliWAF: DEACTIVE');
    }
 		}
 		    } catch(PDOException $e) {
-}
-
-function memlimit($limit, $type) {
-	ini_set('memory_limit',''.$limit.''.$type.'');
 }
 
 if ($wafdurum == md5(sha1(1))){
