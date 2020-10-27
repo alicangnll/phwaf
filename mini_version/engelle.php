@@ -214,13 +214,16 @@ $parametreler2 = str_replace("?", "", $parametreler);
 $parametreler3 = str_replace("&", "", $parametreler2);
 $parametreler4 = str_replace("=", "", $parametreler3);
 $parametreler5 = str_replace("%", "", $parametreler4);
+$parametreler6 = str_replace("_", "", $parametreler5);
+$parametreler7 = str_replace("@", "", $parametreler6);
+$parametreler8 = str_replace(",", "", $parametreler7);
 $yasaklar = $row['kural_icerik'];
 $yasakla = explode('¿¿',$yasaklar);
 $sayiver = substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
-if (strstr($parametreler5,$yasakla[$i])) {
-echo '<center><b> Type : '.$parametreler5.'</b></center>';
+if (strstr($parametreler8,$yasakla[$i])) {
+echo '<center><b> Type : '.$parametreler.'</b></center>';
 ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
