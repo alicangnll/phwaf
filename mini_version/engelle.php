@@ -207,6 +207,43 @@ exit;
 }
 }
 
+
+$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id');
+while($row = $stmt->fetch()){
+$parametreler = strtolower(file_get_contents('php://input'));
+$parametreler2 = str_replace("?", "", $parametreler);
+$parametreler3 = str_replace("&", "", $parametreler2);
+$parametreler4 = str_replace("=", "", $parametreler3);
+$parametreler5 = str_replace("%", "", $parametreler4);
+$parametreler6 = str_replace("_", "", $parametreler5);
+$yasaklar = $row['kural_icerik'];
+$yasakla = explode('¿¿',$yasaklar);
+$sayiver = substr_count($yasaklar,'¿¿');
+$i=0;
+while ($i<=$sayiver) {
+if (strstr($parametreler6,$yasakla[$i])) {
+echo $parametreler6;
+ErrorMessage("POST Injection", strip_tags($row['kural_adi']));
+
+if ($otoban == md5(sha1(1))){
+$bandurum = md5(sha1(1));
+$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
+$update->bindValue(':ipadresi', strip_tags(reel_ip()));
+$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
+$update->bindValue(':ipsuresi', date('H:i:s'));
+$update->execute();
+if($update){
+IPError("1");
+die();
+}
+} else {
+die();
+}
+
+}
+$i++;
+}
+	}
 	//Guard Bitti
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
 $stmt = $db->query("SELECT * FROM method_blok WHERE method_turu = ".$db->quote($method)."");
