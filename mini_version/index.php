@@ -104,7 +104,7 @@ echo '
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
   <div class="header-right">
-    <a class="active" href="index.php?git=index">Ana Sayfa</a>
+    <a href="index.php?git=index">Ana Sayfa</a>
 	<a href="index.php?git=admin">Admin</a>
 	<a href="index.php?git=kuralekle">Kural Ekle</a>
 	<a href="index.php?git=ipekle">IP Ekle</a>
