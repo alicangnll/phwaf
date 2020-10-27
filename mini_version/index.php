@@ -276,7 +276,11 @@ echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br
 } else {
 echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
 }
-
+if ($row['debug'] == 1){
+echo '<td><div class="alert alert-success"><strong>DEBUG : Aktif</strong></div></td>';
+} else {
+echo '<td><div class="alert alert-success"><strong>DEBUG : Pasif</strong></div></td>';
+}
 if($row['ayar_aktif'] == 1) {
 echo '<div class="alert alert-success"><strong>AYAR : AÇIK (1)</strong></div><br>';
 } else {
@@ -480,9 +484,16 @@ echo '<td><font color="green">Aktif</font></td>';
 header('X-AliWAF: DEACTIVE');
 echo '<td><font color="red">Pasif</font></td>';
 }
+if ($row['debug'] == $adminid){
+header('X-AliWAF: ACTIVE');
+echo '<td><font color="green">Aktif</font></td>';
+} else {
+header('X-AliWAF: DEACTIVE');
+echo '<td><font color="red">Pasif</font></td>';
+}
 echo '
 <td>'.strip_tags($row['ayar_adi']).'</td>';
-echo '<td><a href="index.php?git=ayarduzenle&id='.strip_tags($row['ayar_id']).'">Düzenle</a></tr>
+echo '<td><a href="index.php?git=ayarduzenle">Düzenle</a></tr>
 </div>';	
 }
 } catch(PDOException $e) {
@@ -759,9 +770,9 @@ if (isset($_SESSION['girisyap'])){
 	header('Location: index.php?git=login');
 }
 
-    $stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
-    $stmt->execute(array(':gonderid' => $_GET['id']));
-    if($row = $stmt->fetch()) {
+$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
+$stmt->execute(array(':gonderid' => "1"));
+if($row = $stmt->fetch()) {
 echo '
 <style> 
 textarea {
@@ -778,7 +789,7 @@ textarea {
 
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ayarkayit&id='.$_GET['id'].'" method="post">
+<form class="w3-container" action="index.php?git=ayarkayit" method="post">
 <label>Ayar Adı</label>
 <input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
 <br>
@@ -793,6 +804,10 @@ textarea {
 <label>Otomatik IP Ban</label><br>
 <label><input type="checkbox" name="otoban" value="1">Aktif</label><br>
 <label><input type="checkbox" name="otoban" value="0">Pasif</label><br>
+<br>
+<label>Debug</label><br>
+<label><input type="checkbox" name="debug" value="1">Aktif</label><br>
+<label><input type="checkbox" name="debug" value="0">Pasif</label><br>
 <br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 echo '<hr></hr>';
@@ -822,12 +837,13 @@ if (isset($_SESSION['girisyap'])){
 } else {	
 	header('Location: index.php?git=login');
 }
-$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif WHERE ayar_id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
+$update->bindValue(':gonderid', strip_tags("1"));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
 $update->bindValue(':ayar_aktif', strip_tags($_POST['ayardurum']));
 $update->bindValue(':waf_aktif', strip_tags($_POST['wafdurum']));
 $update->bindValue(':oto_ban', strip_tags($_POST['otoban']));
+$update->bindValue(':debug', strip_tags($_POST['debug']));
 $update->execute();
 if($update){
 echo '<script>

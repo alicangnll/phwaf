@@ -46,6 +46,26 @@ echo '<br><div class="context secondary-text-color">
 </div>';
 }
 }
+
+function Debug() {
+echo '<body><pre>';
+if($_SERVER['REQUEST_METHOD'] == "GET") {
+$getlog = LogIslem($_GET);
+echo '<br>';
+$gethead = HeaderIslem();
+} elseif($_SERVER['REQUEST_METHOD'] == "POST")
+{
+$getpost = LogIslem($_POST);
+echo '<br>';
+$gethead = HeaderIslem();
+} else {
+$getpost = LogIslem($_SERVER['REQUEST_METHOD']);
+echo '<br>';
+$gethead = HeaderIslem();
+}
+echo '</pre></body>';
+}
+
 function kisalt($metin, $uzunluk){
 $metin = substr($metin, 0, $uzunluk)."...";
 $metin_son = strrchr($metin, " ");
@@ -84,7 +104,7 @@ $ayaraktif = md5(sha1($row["ayar_aktif"]));
 $otoban = md5(sha1($row["oto_ban"]));
 $ipadres = reel_ip();
 $wafdurum = md5(sha1($row["waf_aktif"]));
-
+$debug = md5(sha1($row["debug"]));
 if (md5(sha1($row["ayar_aktif"])) == md5(sha1(1))){
 header('X-AliWAF: ACTIVE');
 } else {
@@ -94,6 +114,7 @@ header('X-AliWAF: DEACTIVE');
 		}
 		    } catch(PDOException $e) {
 }
+
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$db->quote($ip)."");
 if($stmt->rowCount()) {
