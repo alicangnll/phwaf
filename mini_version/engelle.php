@@ -221,7 +221,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
-ErrorMessage("POST Injection", strip_tags("Type : ".$parametreler8.""));
+ErrorMessage("POST Injection", strip_tags("Type : "..kisalt($parametreler8, 50).""));
 
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
