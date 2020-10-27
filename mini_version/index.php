@@ -105,6 +105,7 @@ if (isset($_SESSION['girisyap'])){
 die(header('Location: index.php'));	
 }
 }
+
 function reel_ip()  
 {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))  
