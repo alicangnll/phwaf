@@ -47,8 +47,25 @@ echo '<br><div class="context secondary-text-color">
 }
 }
 
+function LogIslem($ad) {
+foreach ($ad as $key => $value) {
+$json = "".strip_tags($key)."¿".strip_tags($value)."";
+$yasakla = explode('¿',$json);
+$json2 = var_dump(json_encode($yasakla));
+	}
+}
+
+function HeaderIslem() {
+$header = apache_request_headers();
+foreach ($header as $headers => $value) {
+$jsons = ''.strip_tags($headers).'¿?'.strip_tags($value).'';
+$yasakla = explode('¿?',$jsons);
+$jsonk = var_dump(json_encode($yasakla));
+	}
+}
+
 function Debug() {
-echo '<body><pre>';
+echo '<pre class="container">';
 if($_SERVER['REQUEST_METHOD'] == "GET") {
 $getlog = LogIslem($_GET);
 echo '<br>';
@@ -63,7 +80,7 @@ $getpost = LogIslem($_SERVER['REQUEST_METHOD']);
 echo '<br>';
 $gethead = HeaderIslem();
 }
-echo '</pre></body>';
+echo '</pre>';
 }
 
 function kisalt($metin, $uzunluk){
@@ -113,6 +130,11 @@ header('X-AliWAF: DEACTIVE');
    }
 		}
 		    } catch(PDOException $e) {
+}
+
+if ($debug == md5(sha1(1))){
+Debug();
+} else {
 }
 
 $ip = reel_ip();
