@@ -16,13 +16,16 @@ case 'post':
 echo '<center><form action="deneme.php?git=ppost" method="post">
 <label for="fname">İsim:</label>
 <input type="text" id="d" name="d"><br><br>
+<label for="fname">Soyisim:</label>
+<textarea name="df" id="df"></textarea><br>
 <input type="submit" value="Submit">
 </form></center>';
 break;
 
 case 'ppost':
 $post = strip_tags($_POST["d"]);
-echo $post;
+$posts = strip_tags($_POST["df"]);
+echo "".$post."<br>".$posts."";
 break;
 }
 ?>
