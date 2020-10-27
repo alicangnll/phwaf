@@ -161,14 +161,16 @@ header('X-AliWAF: DEACTIVE');
 		    } catch(PDOException $e) {
 }
 
-
-
+function memlimit($limit, $type) {
+	ini_set('memory_limit',''.$limit.''.$type.'');
+}
 
 if ($wafdurum == md5(sha1(1))){
 if ($debug == md5(sha1(1))){
 Debug();
 } else {
 }
+memlimit("256", "MB");
 if ($ayaraktif == md5(sha1(1))){
 $ip = reel_ip();
 $stmt = $db->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$db->quote($ip)."");
