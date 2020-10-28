@@ -177,7 +177,7 @@ die();
 
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
-$parametreler = strtolower(urldecode($_SERVER['QUERY_STRING']));
+$parametreler = strtolower($_SERVER['QUERY_STRING']);
 $parametreler0 = str_replace("#", "", $parametreler);
 $parametreler1 = str_replace("!", "", $parametreler0);
 $parametreler2 = str_replace("=", "", $parametreler1);
@@ -236,7 +236,7 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
-ErrorMessage("POST Injection", strip_tags("Type : ".kisalt($parametreler8, 50)." | ".$row['kural_adi'].""));
+ErrorMessage("POST Injection", strip_tags("Type : ".kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
 
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
@@ -255,9 +255,6 @@ die();
 
 }
 $i++;
-if (strlen($parametreler8)>=90) {
-exit;
-}
 }
 	}
 	//Guard Bitti
@@ -285,14 +282,9 @@ die();
 }
 
 }
-} elseif(empty($ayaraktif)) {
-header('X-AliWAF: SUSPENDED');
 } else {
 header('X-AliWAF: CONFIG-DEACTIVE');
 }
-
-} elseif(empty($wafdurum)) {
-header('X-AliWAF: SUSPENDED');
 } else {
 header('X-AliWAF: DEACTIVE');
 }
