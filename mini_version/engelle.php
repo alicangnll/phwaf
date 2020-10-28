@@ -212,15 +212,18 @@ exit;
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
 $parametreler = strtolower(urldecode(file_get_contents('php://input')));
-$parametreler2 = str_replace("=", "", $parametreler);
+$parametreler0 = str_replace("#", "", $parametreler);
+$parametreler1 = str_replace("!", "", $parametreler0);
+$parametreler2 = str_replace("=", "", $parametreler1);
 $parametreler3 = str_replace("&", "", $parametreler2);
 $parametreler4 = str_replace("-", "", $parametreler3);
-$parametreler6 = str_replace("_", "", $parametreler4);
+$parametreler5 = str_replace(":", "", $parametreler4);
+$parametreler6 = str_replace("_", "", $parametreler5);
 $parametreler7 = str_replace("@", "", $parametreler6);
 $parametreler8 = str_replace(",", "", $parametreler7);
 $yasaklar=$row['kural_icerik'];
-$yasakla=explode('¿¿',$yasaklar);
-$sayiver=substr_count($yasaklar,'¿¿');
+$yasakla = explode('¿¿',$yasaklar);
+$sayiver = substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
