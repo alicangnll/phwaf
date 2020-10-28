@@ -3,7 +3,7 @@ error_reporting(0);
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
-$update = "";
+$update = "http://alicangonullu.github.io/phpwaf-phanalyzer/mini_version/";
 ?>
 <head>
     <meta charset="utf-8">
