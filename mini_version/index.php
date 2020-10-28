@@ -8,8 +8,10 @@ $_SESSION["csrf"] = sha1(md5(rand()));
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="pH Analyzer">   
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
-<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>	
+    <link rel="stylesheet" href="css/metro-all.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="js/metro.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<style>
 * {box-sizing: border-box;}
 
@@ -151,7 +153,6 @@ border-radius: 20px;
 
 }
 </style>
-</head>
 	<title>pH Analyzer | AliWAF</title>  
 </head>
 <?php
@@ -162,7 +163,7 @@ die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
 <p>yukle.lock oluşturulmamış</b><br>
 <a href='install.php'>Yükle</a></center>");
 }
-function LoginCheck() {
+function LoginCheck($mail) {
 if (isset($_SESSION['girisyap'])){
 echo '<aside class="sidebar pos-absolute z-2"
        data-role="sidebar"
@@ -171,9 +172,9 @@ echo '<aside class="sidebar pos-absolute z-2"
        data-shift=".shifted-content">
     <div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
         <div class="avatar">
-            <img data-role="gravatar" data-email="sergey@pimenov.com.ua">
+            <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
         </div>
-        <span class="title fg-white">Ali Can Gönüllü</span>
+        <span class="title fg-white">Ali Can Gönüllü | '.$mail.'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
@@ -271,11 +272,11 @@ echo '<div class="header">
 <form action="index.php?git=loginkontrol" method="post">
 <div class="row">
 <div class="col-md-12 form-group">
-<p>Kullanıcı Adı : <input class="form-control"  type="text" name="user" placeholder="Kullanıcı Adı"></p></div></div>
+<p>Kullanıcı Adı : <input data-role="input"  type="text" name="user" placeholder="Kullanıcı Adı"></p></div></div>
 <div class="row">
 <div class="col-md-12 form-group">
-<p>Şifre : <input class="form-control"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
-<input class="form-control" type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
+<p>Şifre : <input data-role="input"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
+<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
 <p><div class="row">
 <div class="col-md-12 form-group">
 <button class="btn btn-block btn-login">Giriş</button></p></div><br>
@@ -296,7 +297,7 @@ session_start();
 session_regenerate_id();
 $_SESSION['girisyap'] = time() + 1800;
 $_SESSION['kullanici_adi']= $name;
-$_SESSION['girisyap']=true;
+$_SESSION['girisyap']=true; 
 header('Location: index.php?git=index');
 }
 }else{
@@ -313,7 +314,7 @@ die('<meta name="viewport" content="width=device-width, initial-scale=1">
 break;
 
 case 'index':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 echo '<div class="container">
 <br><h3>WAF Durumu</h3>';
@@ -478,7 +479,7 @@ die();
 }
 }
 
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 echo '<div class="container">
 <table class="table">
@@ -579,10 +580,10 @@ textarea {
 <br>
 <form class="w3-container" action="index.php?git=sifirlandi" method="post">
 <label>E-Mail</label>
-<input type="text" name="email" class="form-control" placeholder="E-Mail:"> 
+<input type="text" name="email" data-role="input" placeholder="E-Mail:"> 
 <br>
 <label>Token</label>
-<input type="text" name="token" class="form-control" placeholder="Token:"> <br>
+<input type="text" name="token" data-role="input" placeholder="Token:"> <br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 break;
@@ -623,7 +624,7 @@ exit();
 break;
 
 case 'ipduzenle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
     $stmt = $aliwaf->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
     $stmt->execute(array(':gonderid' => $_GET['id']));
@@ -645,7 +646,7 @@ textarea {
 <br>
 <form class="container" action="index.php?git=ipupd&id='.intval($_GET['id']).'" method="post">
 <label>IP Adresi</label>
-<input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
+<input type="text" name="ipadresi" data-role="input" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
@@ -653,7 +654,7 @@ textarea {
 break;
 
 case 'ipupd':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $update = $aliwaf->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
 $update->bindValue(':gonderid', intval($_GET['id']));
 $update->bindValue(':ipadresi', strip_tags($_POST['ipadresi']));
@@ -667,7 +668,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralduzenle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 $stmt = $aliwaf->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
 $stmt->execute(array(':gonderid' => intval($_GET['id'])));
@@ -690,7 +691,7 @@ textarea {
 <br>
 <form class="mt-5 container" action="index.php?git=kuralpost&id='.intval($_GET['id']).'" method="post">
 <label>Kural Adı</label>
-<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
+<input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
@@ -701,7 +702,7 @@ break;
 
 
 case 'adminduzenle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 $stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
@@ -723,23 +724,23 @@ textarea {
 <br>
 <form class="container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="post">
 <label>Kullanıcı Adı</label>
-<input type="text" name="kadi" class="form-control" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
+<input type="text" name="kadi" data-role="input" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
 <br>
 <label>Şifre</label>
-<input type="text" name="pass" class="form-control" placeholder="Şifre:"> 
+<input type="text" name="pass" data-role="input" placeholder="Şifre:"> 
 <br>
 <label>E-Mail</label>
-<input type="text" name="email" class="form-control" placeholder="E-Mail:" value="'.$row['email'].'">
+<input type="text" name="email" data-role="input" placeholder="E-Mail:" value="'.$row['email'].'">
 <br>
 <label>Token</label>
-<input type="text" name="tokens" class="form-control" placeholder="Token:"> 
+<input type="text" name="tokens" data-role="input" placeholder="Token:"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 	}
 break;
 case 'kadiupd':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $update = $aliwaf->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kadi', strip_tags($_POST['kadi']));
@@ -756,7 +757,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'ayarduzenle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 $stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
 $stmt->execute(array(':gonderid' => "1"));
@@ -780,7 +781,7 @@ textarea {
 <br>
 <form action="index.php?git=ayarkayit" method="post">
 <label>Ayar Adı</label>
-<input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
+<input type="text" name="ayaradi" data-role="input" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
 <br>
 <label>WAF Durumu</label><br>
 <select data-role="select" name="wafdurum" id="wafdurum">
@@ -823,7 +824,7 @@ echo '</div>';
 break;
 
 case 'ayarkayit':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $update = $aliwaf->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags("1"));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
@@ -841,7 +842,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralekle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 echo '
 <style> 
 textarea {
@@ -859,8 +860,7 @@ textarea {
 <br>
 <form class="container" action="index.php?git=krlpost" method="post">
 <label>Kural Adı</label>
-<input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:"> 
-<br>
+<input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:"> 
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
 <br><br><input type="submit" value="Gönder" class="w3-button w3-red">
@@ -868,7 +868,7 @@ textarea {
 break;
 
 case 'krlpost':
-LoginCheck();		
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));		
 $degis = str_replace(",", "¿¿", $_POST['kuralicerik']);												
 $update = $aliwaf->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
 $update->bindValue(':kuraladi', $_POST['kuraladi']);
@@ -889,7 +889,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'kuralpost':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $degis = str_replace(",", "¿¿", strtolower($_POST['kuralicerik']));
 $update = $aliwaf->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
@@ -906,7 +906,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'methodduzenle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 $stmt = $aliwaf->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
 $stmt->execute(array(':gonderid' => intval($_GET['id'])));
@@ -928,11 +928,11 @@ textarea {
 <br>
 <form class="container" action="index.php?git=methodupd&id='.intval($_GET['id']).'" method="post">
 <label>Method Adı</label>
-<input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
+<input type="text" name="methodadi" data-role="input" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
 <label>Method İçeriği</label>
 
-<select class="form-control" name="methodicerik" id="methodicerik">
+<select data-role="input" name="methodicerik" id="methodicerik">
 <option selected><font color="red">'.$row['method_turu'].'</font></option> 
   <option value="GET">GET</option>
   <option value="POST">POST</option>
@@ -946,7 +946,7 @@ textarea {
 break;
 
 case 'methodupd':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $update = $aliwaf->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
 $update->bindValue(':gonderid', intval($_GET['id']));
 $update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
@@ -961,7 +961,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'ipekle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 echo '
 <style> 
 textarea {
@@ -979,14 +979,14 @@ textarea {
 <br>
 <form class="container" action="index.php?git=ippost" method="post">
 <label>IP Adresi</label>
-<input type="text" name="ipadress" class="form-control" placeholder="IP Adresi:"> 
+<input type="text" name="ipadress" data-role="input" placeholder="IP Adresi:"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
 
 case 'ippost':
-LoginCheck();														
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));														
 $update = $aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
 $update->bindValue(':ipadresi', $_POST['ipadress']);
 $update->bindValue(':ipusragent', "panel");
@@ -1006,7 +1006,7 @@ window.location.replace("index.php?git=index")
 break;
 
 case 'methodekle':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 echo '
 <style> 
 textarea {
@@ -1024,10 +1024,10 @@ textarea {
 <br>
 <form class="container" action="index.php?git=methodpost" method="post">
 <label>Method Adı</label>
-<input type="text" name="methodadi" class="form-control" placeholder="Method Adı:"> 
+<input type="text" name="methodadi" data-role="input" placeholder="Method Adı:"> 
 <br>
 <label>Method İçeriği (İzin Verilen</label>
-<select class="form-control" name="methodicerik" id="methodicerik">
+<select data-role="input" name="methodicerik" id="methodicerik">
   <option value="GET">GET</option>
   <option value="POST">POST</option>
   <option value="PUT">PUT</option>
@@ -1038,7 +1038,7 @@ textarea {
 break;
 
 case 'methodpost':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $update = $aliwaf->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
 $update->bindValue(':methodadi', $_POST['methodadi']);
 $update->bindValue(':methodbilgi', $_POST['methodadi']);
@@ -1059,7 +1059,7 @@ break;
 
 
 case 'ipsil':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 if(isset($_GET['ipsil'])){ 
 $stmt = $aliwaf->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['ipsil'])));
@@ -1077,7 +1077,7 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'kuralsil':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 if(isset($_GET['sil'])){ 
 $stmt = $aliwaf->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['sil'])));
@@ -1095,7 +1095,7 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'methodsil':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 if(isset($_GET['sil'])){ 
 $stmt = $aliwaf->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['sil'])));
@@ -1113,14 +1113,13 @@ window.location.replace("index.php?git=index")</script>';
 break;
 
 case 'update':
-LoginCheck();
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $get = json_encode(file_get_contents("guncelleme.json"), true);
 var_dump($get);
 echo "<br>".$get["guncelleme_kodu"]."";
 break;
 
 case 'cikis':
-LoginCheck();
 session_destroy();
 echo (" Başarılı ");
 header ("Location:index.php"); 
