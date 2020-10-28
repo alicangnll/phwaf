@@ -2,13 +2,13 @@
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
-$update = "https://alicangonullu.github.io/phpwaf-phanalyzer/mini_version/";
+$update = "";
 ?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="pH Analyzer">   
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="css/metro-all.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="js/metro.js"></script>
@@ -194,6 +194,52 @@ echo '<aside class="sidebar pos-absolute z-2"
             <span class="mif-menu fg-white"></span>
         </button>
     </div>';
+$json = file_get_contents("".$update."server_upd.json");
+$obj = json_decode($json, true);
+if(empty($obj["guncelleme_numarasi"])) {
+?>
+<script>
+var notify = Metro.notify;
+notify.setup({
+width: 300,
+duration: 1000,
+animation: 'easeOutBounce'
+});
+
+document.write("<input type='hidden'>");
+notify.create("Versiyon Bilgisi Eksiktir!");
+notify.reset();
+</script>
+<?php
+} else {
+?>
+<script>
+var data = '<?php echo trim(file_get_contents("guncelleme.json")); ?>';
+
+var alert1 = 'Sisteminiz günceldir.';
+var alert2 = 'Sisteminiz için bir güncelleme bulunmaktadır.';
+
+var notify = Metro.notify;
+notify.setup({
+width: 300,
+duration: 1000,
+animation: 'easeOutBounce'
+});
+
+var json = JSON.parse(data);
+if(json["guncelleme_kodu"] >= <?php echo $obj["guncelleme_numarasi"]; ?>) {
+document.write("<input type='hidden'>");
+notify.create(alert1);
+notify.reset();
+} else {
+document.write("<input type='hidden'>");
+notify.create(alert2);
+notify.reset();
+}
+</script>
+<?php
+}
+
 } else {
 die(header('Location: index.php'));	
 }
@@ -1118,7 +1164,7 @@ LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 $updateserver = json_decode(file_get_contents("".$update."server_upd.json"), true);
 $get = json_decode(file_get_contents("guncelleme.json"), true);
 echo "<br><div class='text-center container card'>
-<br><br>
+<br>
 <div class='info-box-content'>
 <b> Sürümü : ".$get["guncelleme_kodu"]." </b><br>
 <b> Tarihi : ".$get["guncelleme_tarih"]." </b><br>
@@ -1132,6 +1178,7 @@ echo "<div class='info-box-content'>
 </div><br>
 <a href='".$updateserver["guncelleme_link"]."' class='button'>Güncelle</a><br><br>";
 } else {
+echo "<div class='info-box-content'><b>Versiyonunuz günceldir</b><br></div><br>";
 }
 echo '</div>';
 break;
