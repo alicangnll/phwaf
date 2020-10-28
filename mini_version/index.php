@@ -164,19 +164,34 @@ die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
 }
 function LoginCheck() {
 if (isset($_SESSION['girisyap'])){
-echo '
-<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
-  <div class="header-right">
-    <a href="index.php?git=index">Ana Sayfa</a>
-	<a href="index.php?git=admin">Admin</a>
-	<a href="index.php?git=kuralekle">Kural Ekle</a>
-	<a href="index.php?git=ipekle">IP Ekle</a>
-	<a href="index.php?git=methodekle">Method Ekle</a>
-	<a href="index.php?git=update">Güncelleme</a>
-    <a href="index.php?git=cikis">Çıkış</a>
-  </div>
-</div>';
+echo '<aside class="sidebar pos-absolute z-2"
+       data-role="sidebar"
+       data-toggle="#sidebar-toggle-3"
+       id="sb3"
+       data-shift=".shifted-content">
+    <div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
+        <div class="avatar">
+            <img data-role="gravatar" data-email="sergey@pimenov.com.ua">
+        </div>
+        <span class="title fg-white">Ali Can Gönüllü</span>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
+        <li><a href="index.php?git=admin"><span class="mif-books icon"></span>Admin</a></li>
+        <li><a href="index.php?git=update"><span class="mif-files-empty icon"></span>Update</a></li>
+		<li><a href="index.php?git=cikis"><span class="mif-files-empty icon"></span>Çıkış</a></li>
+        <li class="divider"></li>
+        <li><a href="index.php?git=kuralekle"><span class="mif-images icon"></span>Kural Ekle</a></li>
+		<li><a href="index.php?git=ipekle"><span class="mif-images icon"></span>IP Ekle</a></li>
+		<li><a href="index.php?git=methodekle"><span class="mif-images icon"></span>Method Ekle</a></li>
+    </ul>
+</aside>
+<div class="shifted-content h-100 p-ab">
+    <div class="app-bar pos-absolute bg-red z-1" data-role="appbar">
+        <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
+            <span class="mif-menu fg-white"></span>
+        </button>
+    </div>';
 } else {
 die(header('Location: index.php'));	
 }
