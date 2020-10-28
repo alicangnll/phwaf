@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
