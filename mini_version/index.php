@@ -2,6 +2,7 @@
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
+$update = "";
 ?>
 <head>
     <meta charset="utf-8">
@@ -1114,9 +1115,25 @@ break;
 
 case 'update':
 LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$get = json_encode(file_get_contents("guncelleme.json"), true);
-var_dump($get);
-echo "<br>".$get["guncelleme_kodu"]."";
+$updateserver = json_decode(file_get_contents("".$update."server_upd.json"), true);
+$get = json_decode(file_get_contents("guncelleme.json"), true);
+echo "<br><div class='text-center container card'>
+<br><br>
+<div class='info-box-content'>
+<b> Sürümü : ".$get["guncelleme_kodu"]." </b><br>
+<b> Tarihi : ".$get["guncelleme_tarih"]." </b><br>
+<b> Sürüm Adı : ".$get["guncelleme_adi"]." </b><br>
+</div><br>";
+if($get["guncelleme_kodu"] < $updateserver["guncelleme_numarasi"]) {
+echo "<div class='info-box-content'>
+<b> Yeni Sürüm : ".$updateserver["guncelleme_numarasi"]." </b><br>
+<b> Tarihi : ".$updateserver["guncelleme_tarihi"]." </b><br>
+<b> Yeni Sürüm Adı : ".$updateserver["guncelleme_adi"]." </b><br>
+</div><br>
+<a href='".$updateserver["guncelleme_link"]."' class='button'>Güncelle</a><br><br>";
+} else {
+}
+echo '</div>';
 break;
 
 case 'cikis':
