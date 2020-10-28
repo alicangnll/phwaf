@@ -109,6 +109,7 @@ echo '
 	<a href="index.php?git=kuralekle">Kural Ekle</a>
 	<a href="index.php?git=ipekle">IP Ekle</a>
 	<a href="index.php?git=methodekle">Method Ekle</a>
+	<a href="index.php?git=update">Güncelleme</a>
     <a href="index.php?git=cikis">Çıkış</a>
   </div>
 </div>';
@@ -1003,6 +1004,13 @@ alert("Method Silinemedi");
 window.location.replace("index.php?git=index")</script>';
 }
 }
+break;
+
+case 'update':
+LoginCheck();
+$get = json_encode(file_get_contents("guncelleme.json"), true);
+var_dump($get);
+echo "<br>".$get["guncelleme_kodu"]."";
 break;
 
 case 'cikis':
