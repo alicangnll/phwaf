@@ -174,17 +174,17 @@ echo '<aside class="sidebar pos-absolute z-2"
         <div class="avatar">
             <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
         </div>
-        <span class="title fg-white">Ali Can Gönüllü | '.$mail.'</span>
+        <span class="title fg-white">Ali Can Gönüllü</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
-        <li><a href="index.php?git=admin"><span class="mif-books icon"></span>Admin</a></li>
-        <li><a href="index.php?git=update"><span class="mif-files-empty icon"></span>Update</a></li>
-		<li><a href="index.php?git=cikis"><span class="mif-files-empty icon"></span>Çıkış</a></li>
+        <li><a href="index.php?git=admin"><span class="mif-user icon"></span>Admin</a></li>
+        <li><a href="index.php?git=update"><span class="mif-cloud-upload icon"></span>Update</a></li>
+		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
         <li class="divider"></li>
-        <li><a href="index.php?git=kuralekle"><span class="mif-images icon"></span>Kural Ekle</a></li>
-		<li><a href="index.php?git=ipekle"><span class="mif-images icon"></span>IP Ekle</a></li>
-		<li><a href="index.php?git=methodekle"><span class="mif-images icon"></span>Method Ekle</a></li>
+        <li><a href="index.php?git=kuralekle"><span class="mif-add icon"></span>Kural Ekle</a></li>
+		<li><a href="index.php?git=ipekle"><span class="mif-add icon"></span>IP Ekle</a></li>
+		<li><a href="index.php?git=methodekle"><span class="mif-add icon"></span>Method Ekle</a></li>
     </ul>
 </aside>
 <div class="shifted-content h-100 p-ab">
