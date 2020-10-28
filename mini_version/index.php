@@ -791,7 +791,7 @@ break;
 
 case 'kuralpost':
 LoginCheck();
-$degis = str_replace(",", "¿¿", $_POST['kuralicerik']);
+$degis = str_replace(",", "¿¿", strtolower($_POST['kuralicerik']));
 $update = $aliwaf->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));

@@ -255,9 +255,9 @@ die();
 
 }
 $i++;
-}
 if (strlen($parametreler8)>=90) {
 exit;
+}
 }
 	}
 	//Guard Bitti
