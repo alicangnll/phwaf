@@ -742,7 +742,7 @@ textarea {
 <input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
-<textarea name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
+<textarea data-role="taginput" name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
 <br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }	
@@ -910,7 +910,7 @@ textarea {
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:"> 
 <label>Kural İçeriği</label>
-<textarea name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
+<textarea data-role="taginput" name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
 <br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
