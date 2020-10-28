@@ -3,11 +3,11 @@ try {
 $ip = "localhost"; //host
 $user = "root";  // host id
 $password = "";  // password local olduğu için varsayılan şifre
-$dbad = "ali_waf"; // db adı
+$ad = "ali_waf"; // db adı
 	
-     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
-     $db->query("SET CHARACTER SET utf8");
-     $db->query("SET NAMES utf8");
+     $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
+     $aliwaf->query("SET CHARACTER SET utf8");
+     $aliwaf->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
 die("<table>

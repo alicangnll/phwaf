@@ -209,7 +209,7 @@ break;
 case 'loginkontrol':
 if($_POST) {
 
-$query  = $db->query("SELECT * FROM admin_bilgi WHERE kadi = ".$db->quote(strip_tags($_POST["user"])) . " && passwd = " . $db->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
+$query  = $aliwaf->query("SELECT * FROM admin_bilgi WHERE kadi = ".$aliwaf->quote(strip_tags($_POST["user"])) . " && passwd = " . $aliwaf->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 session_start();
@@ -239,7 +239,7 @@ echo '<div class="w3-container">
 <br><h3>WAF Durumu</h3>';
 $ayarid = 1;
 try {
-$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$db->quote($ayarid).' ORDER BY ayar_id DESC');
+$stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$aliwaf->quote($ayarid).' ORDER BY ayar_id DESC');
 $stmt->execute();
 while($row = $stmt->fetch()){
 if($row['oto_ban'] == 1) {
@@ -266,7 +266,7 @@ echo '<div class="alert alert-danger"><strong>AYAR : KAPALI (0)</strong></div><b
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
-echo '<div class="alert alert-success"><strong>IP Adresiniz : '.reel_ip().'</strong></div><br>';
+echo '<div class="alert alert-success"><strong>IP Adresiniz : '.strip_tags(reel_ip()).'</strong></div><br>';
 echo '</div>
 <div class="w3-container">
 <table class="w3-table w3-striped">
@@ -278,13 +278,13 @@ echo '</div>
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM guard_watch ORDER BY kural_id DESC');
+$stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
-<td><a class="button button3" href="javascript:kuralsil('.$row['kural_id'].')">Sil</a></td>
+<td><a class="button button3" href="javascript:kuralsil('.intval($row['kural_id']).')">Sil</a></td>
 <td>'.strip_tags($row['kural_id']).'</td>
 <td>'.strip_tags($row['kural_adi']).'</td>
-<td><a href="index.php?git=kuralduzenle&id='.strip_tags($row['kural_id']).'">Düzenle</a></td>
+<td><a href="index.php?git=kuralduzenle&id='.intval($row['kural_id']).'">Düzenle</a></td>
 </tr>
 </div>';
 }
@@ -315,10 +315,10 @@ echo '<div class="w3-container">
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM method_blok ORDER BY method_id DESC');
+$stmt = $aliwaf->query('SELECT * FROM method_blok ORDER BY method_id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
-<td><a class="button button3" href="javascript:delmethod('.$row['method_id'].')">Sil</a></td>
+<td><a class="button button3" href="javascript:delmethod('.intval($row['method_id']).')">Sil</a></td>
 <td>'.strip_tags($row['method_id']).'</td>
 <td>'.strip_tags($row['method_adi']).'</td>
 <td>'.strip_tags($row['method_turu']).'</td>
@@ -351,14 +351,14 @@ echo '<div class="w3-container">
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM ip_ban ORDER BY ip_id DESC');
+$stmt = $aliwaf->query('SELECT * FROM ip_ban ORDER BY ip_id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
-<td><a class="button button3" href="javascript:delip('.$row['ip_id'].')">Sil</a></td>
+<td><a class="button button3" href="javascript:delip('.intval($row['ip_id']).')">Sil</a></td>
 <td>'.strip_tags($row['ip_id']).'</td>
 <td>'.strip_tags($row['ip_adresi']).'</td>';
 echo '
-<td><a href="index.php?git=ipduzenle&id='.strip_tags($row['ip_id']).'">Düzenle</a></td>';	
+<td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Düzenle</a></td>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
@@ -381,7 +381,7 @@ function delip(id)
 break;
 
 case 'admin':
-$stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
+$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
 $stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
 if($row = $stmt->fetch()) {
 $adminid = 0;
@@ -403,12 +403,12 @@ echo '<div class="w3-container">
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM admin_bilgi ORDER BY id DESC');
+$stmt = $aliwaf->query('SELECT * FROM admin_bilgi ORDER BY id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
-<td><a href="index.php?git=adminduzenle&id='.strip_tags($row['id']).'">Düzenle</a>
+<td><a href="index.php?git=adminduzenle&id='.intval($row['id']).'">Düzenle</a>
 </tr>
 </div>';	
 }
@@ -429,10 +429,10 @@ echo '<div class="w3-container">
 </tr>';
 
 try {
-$stmt = $db->query('SELECT * FROM waf_ayar ORDER BY ayar_id DESC');
+$stmt = $aliwaf->query('SELECT * FROM waf_ayar ORDER BY ayar_id DESC');
 while($row = $stmt->fetch()){
 echo '<tr>
-<td>'.strip_tags($row['ayar_id']).'</td>';
+<td>'.intval($row['ayar_id']).'</td>';
 $adminid = 1;
 if ($row['waf_aktif'] == $adminid){
 header('X-AliWAF: ACTIVE');
@@ -502,13 +502,13 @@ case 'sifirlandi':
 if (isset($_POST["token"]) && isset($_POST["email"])) {
 $email = $_POST["email"];
 $token = sha1(md5($_POST["token"]));
-$stmt = $db->query("SELECT * FROM admin_bilgi WHERE email = '$email' AND token = '$token'");
+$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = '$email' AND token = '$token'");
 if ($stmt->rowCount() > 0) {
 $str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
 $str = str_shuffle($str);
 $str = substr($str, 0, 15);
 $password = sha1(md5($str));
-$db->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
+$aliwaf->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
@@ -536,7 +536,7 @@ break;
 case 'ipduzenle':
 LoginCheck();
 
-    $stmt = $db->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
+    $stmt = $aliwaf->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
     $stmt->execute(array(':gonderid' => $_GET['id']));
 if($row = $stmt->fetch()) {
 echo '
@@ -554,7 +554,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ipupd&id='.$_GET['id'].'" method="post">
+<form class="w3-container" action="index.php?git=ipupd&id='.intval($_GET['id']).'" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
 <br><br>
@@ -565,8 +565,8 @@ break;
 
 case 'ipupd':
 LoginCheck();
-$update = $db->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update = $aliwaf->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
+$update->bindValue(':gonderid', intval($_GET['id']));
 $update->bindValue(':ipadresi', strip_tags($_POST['ipadresi']));
 $update->execute();
 if($update){
@@ -580,8 +580,8 @@ break;
 case 'kuralduzenle':
 LoginCheck();
 
-$stmt = $db->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
-$stmt->execute(array(':gonderid' => $_GET['id']));
+$stmt = $aliwaf->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
+$stmt->execute(array(':gonderid' => intval($_GET['id'])));
 if($row = $stmt->fetch()) {
 $degis = str_replace("¿¿", ",", $row['kural_icerik']);
 echo '
@@ -599,7 +599,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=kuralpost&id='.$_GET['id'].'" method="post">
+<form class="w3-container" action="index.php?git=kuralpost&id='.intval($_GET['id']).'" method="post">
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
@@ -614,7 +614,7 @@ break;
 case 'adminduzenle':
 LoginCheck();
 
-$stmt = $db->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
+$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
 $stmt->execute(array(':gonderid' => $_GET['id']));
 if($row = $stmt->fetch()) {
 echo '
@@ -651,7 +651,7 @@ textarea {
 break;
 case 'kadiupd':
 LoginCheck();
-$update = $db->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
+$update = $aliwaf->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kadi', strip_tags($_POST['kadi']));
 $update->bindValue(':pass', strip_tags(sha1(md5($_POST['pass']))));
@@ -669,7 +669,7 @@ break;
 case 'ayarduzenle':
 LoginCheck();
 
-$stmt = $db->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
+$stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
 $stmt->execute(array(':gonderid' => "1"));
 if($row = $stmt->fetch()) {
 echo '
@@ -725,7 +725,7 @@ break;
 
 case 'ayarkayit':
 LoginCheck();
-$update = $db->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
+$update = $aliwaf->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags("1"));
 $update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
 $update->bindValue(':ayar_aktif', strip_tags($_POST['ayardurum']));
@@ -771,7 +771,7 @@ break;
 case 'krlpost':
 LoginCheck();		
 $degis = str_replace(",", "¿¿", $_POST['kuralicerik']);												
-$update = $db->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
+$update = $aliwaf->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
 $update->bindValue(':kuraladi', $_POST['kuraladi']);
 $update->bindValue(':kuralhk', $_POST['kuraladi']);
 $update->bindValue(':kuralicerik', $degis);
@@ -792,11 +792,11 @@ break;
 case 'kuralpost':
 LoginCheck();
 $degis = str_replace(",", "¿¿", $_POST['kuralicerik']);
-$update = $db->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
+$update = $aliwaf->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
 $update->bindValue(':gonderid', strip_tags($_GET['id']));
 $update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
 $update->bindValue(':kuralhk', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kuralicerik', strip_tags($degis));
+$update->bindValue(':kuralicerik', $degis);
 $update->execute();
 if($update){
 echo '<script>
@@ -809,8 +809,8 @@ break;
 case 'methodduzenle':
 LoginCheck();
 
-$stmt = $db->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
-$stmt->execute(array(':gonderid' => $_GET['id']));
+$stmt = $aliwaf->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
+$stmt->execute(array(':gonderid' => intval($_GET['id'])));
 if($row = $stmt->fetch()) {
 echo '
 <style> 
@@ -827,7 +827,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=methodupd&id='.$_GET['id'].'" method="post">
+<form class="w3-container" action="index.php?git=methodupd&id='.intval($_GET['id']).'" method="post">
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
@@ -840,8 +840,8 @@ break;
 
 case 'methodupd':
 LoginCheck();
-$update = $db->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags($_GET['id']));
+$update = $aliwaf->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
+$update->bindValue(':gonderid', intval($_GET['id']));
 $update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
 $update->bindValue(':method_turu', strip_tags($_POST['methodicerik']));
 $update->execute();
@@ -880,7 +880,7 @@ break;
 
 case 'ippost':
 LoginCheck();														
-$update = $db->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
+$update = $aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
 $update->bindValue(':ipadresi', $_POST['ipadress']);
 $update->bindValue(':ipusragent', "panel");
 $update->bindValue(':ipsure', date('H:i:s'));
@@ -932,7 +932,7 @@ break;
 
 case 'methodpost':
 LoginCheck();
-$update = $db->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
+$update = $aliwaf->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
 $update->bindValue(':methodadi', $_POST['methodadi']);
 $update->bindValue(':methodbilgi', $_POST['methodadi']);
 $update->bindValue(':methodicerik', $_POST['methodicerik']);
@@ -954,8 +954,8 @@ break;
 case 'ipsil':
 LoginCheck();
 if(isset($_GET['ipsil'])){ 
-$stmt = $db->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
-$stmt->execute(array(':postID' => $_GET['ipsil']));
+$stmt = $aliwaf->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
+$stmt->execute(array(':postID' => intval($_GET['ipsil'])));
 if($stmt){
 echo '<script>
 alert("IP Silindi");
@@ -972,8 +972,8 @@ break;
 case 'kuralsil':
 LoginCheck();
 if(isset($_GET['sil'])){ 
-$stmt = $db->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
-$stmt->execute(array(':postID' => $_GET['sil']));
+$stmt = $aliwaf->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
+$stmt->execute(array(':postID' => intval($_GET['sil'])));
 if($stmt){
 echo '<script>
 alert("Kural Silindi");
@@ -990,8 +990,8 @@ break;
 case 'methodsil':
 LoginCheck();
 if(isset($_GET['sil'])){ 
-$stmt = $db->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
-$stmt->execute(array(':postID' => $_GET['sil']));
+$stmt = $aliwaf->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
+$stmt->execute(array(':postID' => intval($_GET['sil'])));
 if($stmt){
 echo '<script>
 alert("Method Silindi");

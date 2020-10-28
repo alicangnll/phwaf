@@ -209,11 +209,11 @@ try {
 $ip = "'.strip_tags($mysqlserv).'"; //host
 $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$dbad = "ali_waf"; // db adı
+$ad = "ali_waf"; // db adı
 	
-     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
-     $db->query("SET CHARACTER SET utf8");
-     $db->query("SET NAMES utf8");
+     $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
+     $aliwaf->query("SET CHARACTER SET utf8");
+     $aliwaf->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
 die("<table>
@@ -234,11 +234,11 @@ try {
 $ip = "'.strip_tags($mysqlserv).'"; //host
 $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$dbad = "ali_waf"; // db adı
+$ad = "ali_waf"; // db adı
 	
-     $db = new PDO("mysql:host=$ip;dbname=$dbad", "$user", "$password");
-     $db->query("SET CHARACTER SET utf8");
-     $db->query("SET NAMES utf8");
+     $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
+     $aliwaf->query("SET CHARACTER SET utf8");
+     $aliwaf->query("SET NAMES utf8");
 
 } catch ( PDOException $e ){
 die("<table>
@@ -697,7 +697,7 @@ $conn2->close();
 $txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
 $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$dbad = "ali_waf"; // db adı ';
+$ad = "ali_waf"; // db adı ';
 
 echo '<body class="container">
 <br><br><br>
