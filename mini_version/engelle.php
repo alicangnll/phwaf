@@ -2,7 +2,6 @@
 error_reporting(0);
 include("conn.php");
 ob_start();
-echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
 function reel_ip() {
     if (!empty($_SERVER['HTTP_CLIENT_IP']))
     {
@@ -37,11 +36,12 @@ function reel_ip() {
 }
 
 function ErrorMessage($type, $method) {
-die('<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+die('<head><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" />
     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-<link rel="stylesheet" media="screen" href="style.css" />
+<link rel="stylesheet" media="screen" href="style.css" /></head>
   <body class="background error-page-wrapper background-color background-image">
     <center>
   <div class="content-container shadow">
@@ -64,7 +64,7 @@ die('<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.
     <div class="buttons-container">
       <a class="button" onclick="history.back();" target="_blank"><span class="fa fa-home"></span> Geri Dön</a>
       <a class="button" href="mailto:alicangonullu@yahoo.com" target="_blank"><span class="fa fa-warning"></span> Problem Bildir</a>
-    </div>');
+    </div></body>');
 }
 function IPError($ad) {
 if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
