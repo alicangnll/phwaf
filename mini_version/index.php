@@ -6,15 +6,12 @@ $_SESSION["csrf"] = sha1(md5(rand()));
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <meta name="description" content="pH Analyzer">      
+    <meta name="description" content="pH Analyzer">   
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>	
 	<style>
 * {box-sizing: border-box;}
-
-body { 
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 .header {
   overflow: hidden;
@@ -64,9 +61,12 @@ body {
   }
 }
 body{
-    background-color:#5286F3;
-    font-size:14px;
-    color:#FF5964;
+  margin: 0;
+  font-family:Verdana,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  font-family: Arial, Helvetica, sans-serif;
+  color:black;
 }
 .simple-login-container{
     width:300px;
@@ -83,10 +83,74 @@ body{
     color:#fff;
 }
 a{
-    color:#FF5964;
+    color:black;
+}
+
+@media (max-width:800px) {
+body {
+margin: 0;
+font-size:14px;
+color:black;
+background-repeat: no-repeat;
+}
+.manzara {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+}
+.form-control {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  box-shadow: 3px solid #f1f1f1;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+}
+@media (min-width:800px) {
+body {
+background-repeat: no-repeat;
+}
+.manzara {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  box-shadow: 3px solid #f1f1f1;
+  z-index: 2;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.form-control {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  box-shadow: 3px solid #f1f1f1;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.container  {
+border-radius: 20px;
+}
+
 }
 </style>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
 	<title>pH Analyzer | AliWAF</title>  
 </head>
@@ -236,7 +300,7 @@ break;
 case 'index':
 LoginCheck();
 
-echo '<div class="w3-container">
+echo '<div class="container">
 <br><h3>WAF Durumu</h3>';
 $ayarid = 1;
 try {
@@ -269,30 +333,33 @@ echo $e->getMessage();
 }
 echo '<div class="alert alert-success"><strong>IP Adresiniz : '.strip_tags(reel_ip()).'</strong></div><br>';
 echo '</div>
-<div class="w3-container">
-<table class="w3-table w3-striped">
+<div class="container">
+<table class="table">
+<thead>
 <br><h3>Kurallar</h3>
 <tr>
 <th></th>
 <th>Kural ID</th>
 <th>Kural Adı</th>
-</tr>';
+</tr></thead><tbody>';
 
 try {
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id DESC');
 while($row = $stmt->fetch()){
+
 echo '<tr>
 <td><a class="button button3" href="javascript:kuralsil('.intval($row['kural_id']).')">Sil</a></td>
 <td>'.strip_tags($row['kural_id']).'</td>
 <td>'.strip_tags($row['kural_adi']).'</td>
 <td><a href="index.php?git=kuralduzenle&id='.intval($row['kural_id']).'">Düzenle</a></td>
 </tr>
-</div>';
+';
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
 ?>
+</tbody></table></div>
 <script language="JavaScript" type="text/javascript">
 function kuralsil(id)
 {
@@ -305,15 +372,17 @@ function kuralsil(id)
 <?php
 
 
-echo '<div class="w3-container">
-<table class="w3-table w3-striped">
+echo '
+<div class="container">
+<table class="table">
+<thead>
 <br><h3>Izin Verilen Methodlar</h3>
 <tr>
 <th></th>
 <th>ID</th>
 <th>Method Adı</th>
 <th>Türü</th>
-</tr>';
+</tr></thead><tbody>';
 
 try {
 $stmt = $aliwaf->query('SELECT * FROM method_blok ORDER BY method_id DESC');
@@ -324,13 +393,13 @@ echo '<tr>
 <td>'.strip_tags($row['method_adi']).'</td>
 <td>'.strip_tags($row['method_turu']).'</td>
 <td><a href="index.php?git=methodduzenle&id='.strip_tags($row['method_id']).'">Düzenle</a></td>
-</tr>
-</div>';	
+</tr>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
 ?>
+</tbody></table></div>
 <script language="JavaScript" type="text/javascript">
 function delmethod(id)
 {
@@ -342,14 +411,15 @@ function delmethod(id)
 </script>
 <?php
 
-echo '<div class="w3-container">
-<table class="w3-table w3-striped">
+echo '<div class="container">
+<table class="table">
+<thead>
 <br><h3>IP Adresleri</h3>
 <tr>
 <th></th>
 <th>ID</th>
 <th>Adresi</th>
-</tr>';
+</tr></thead><tbody>';
 
 try {
 $stmt = $aliwaf->query('SELECT * FROM ip_ban ORDER BY ip_id DESC');
@@ -359,13 +429,13 @@ echo '<tr>
 <td>'.strip_tags($row['ip_id']).'</td>
 <td>'.strip_tags($row['ip_adresi']).'</td>';
 echo '
-<td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Düzenle</a></td>';	
+<td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Düzenle</a></td>
+</tr>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
-echo '
-</tr></table>
+echo '</tbody></table>
 <br><br>
 </div>';
 ?>
@@ -395,13 +465,14 @@ die();
 
 LoginCheck();
 
-echo '<div class="w3-container">
-<table class="w3-table w3-striped">
+echo '<div class="container">
+<table class="table">
+<thead>
 <br><h3>Adminler</h3>
 <tr>
 <th>Admin ID</th>
 <th>Admin Adı</th>
-</tr>';
+</tr></thead><tbody>';
 
 try {
 $stmt = $aliwaf->query('SELECT * FROM admin_bilgi ORDER BY id DESC');
@@ -409,16 +480,17 @@ while($row = $stmt->fetch()){
 echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
-<td><a href="index.php?git=adminduzenle&id='.intval($row['id']).'">Düzenle</a>
-</tr>
-</div>';	
+<td><a class="button" href="index.php?git=adminduzenle&id='.intval($row['id']).'">Düzenle</a>
+</tr>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
 }
 
-echo '<div class="w3-container">
-<table class="w3-table w3-striped">
+echo '</tbody></table></div>
+
+<div class="container">
+<table class="table">
 <br><h3>Ayarlar</h3>
 <tr>
 <th>Ayar ID</th>
@@ -427,7 +499,7 @@ echo '<div class="w3-container">
 <th>Debug</th>
 <th>Ayar Adı</th>
 <th></th>
-</tr>';
+</tr></thead><tbody>';
 
 try {
 $stmt = $aliwaf->query('SELECT * FROM waf_ayar ORDER BY ayar_id DESC');
@@ -458,8 +530,9 @@ echo '<td><font color="red">Pasif</font></td>';
 }
 echo '
 <td>'.strip_tags($row['ayar_adi']).'</td>';
-echo '<td><a href="index.php?git=ayarduzenle">Düzenle</a></tr>
-</div>';	
+
+echo '<td><a class="button" href="index.php?git=ayarduzenle">Düzenle</a></tr>
+</tbody></table></div>';	
 }
 } catch(PDOException $e) {
 echo $e->getMessage();
@@ -555,7 +628,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ipupd&id='.intval($_GET['id']).'" method="post">
+<form class="container" action="index.php?git=ipupd&id='.intval($_GET['id']).'" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadresi" class="form-control" placeholder="IP Adresi:" value="'.$row['ip_adresi'].'"> 
 <br><br>
@@ -600,13 +673,13 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=kuralpost&id='.intval($_GET['id']).'" method="post">
+<form class="mt-5 container" action="index.php?git=kuralpost&id='.intval($_GET['id']).'" method="post">
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
-<br><input type="submit" value="Gönder" class="w3-button w3-red">
+<br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }	
 break;
@@ -633,7 +706,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="post">
+<form class="container" action="index.php?git=kadiupd&id='.$_GET['id'].'" method="post">
 <label>Kullanıcı Adı</label>
 <input type="text" name="kadi" class="form-control" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
 <br>
@@ -645,7 +718,7 @@ textarea {
 <br>
 <label>Token</label>
 <input type="text" name="tokens" class="form-control" placeholder="Token:"> 
-<br>
+<br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 	}
@@ -674,6 +747,7 @@ $stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
 $stmt->execute(array(':gonderid' => "1"));
 if($row = $stmt->fetch()) {
 echo '
+<div class="container">
 <style> 
 textarea {
   width: 100%;
@@ -689,25 +763,33 @@ textarea {
 
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ayarkayit" method="post">
+<form action="index.php?git=ayarkayit" method="post">
 <label>Ayar Adı</label>
 <input type="text" name="ayaradi" class="form-control" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
 <br>
 <label>WAF Durumu</label><br>
-<label><input type="checkbox" name="wafdurum"value="1">Aktif</label><br>
-<label><input type="checkbox" name="wafdurum" value="0">Pasif</label><br>
+<select data-role="select" name="wafdurum" id="wafdurum">
+  <option value="1">Aktif</option>
+  <option value="0">Pasif</option>
+</select>
 <br>
 <label>Ayar Durumu</label><br>
-<label><input type="checkbox" name="ayardurum"value="1">Aktif</label><br>
-<label><input type="checkbox" name="ayardurum" value="0">Pasif</label><br>
+<select data-role="select" name="ayardurum" id="ayardurum">
+  <option value="1">Aktif</option>
+  <option value="0">Pasif</option>
+</select>
 <br>
 <label>Otomatik IP Ban</label><br>
-<label><input type="checkbox" name="otoban" value="1">Aktif</label><br>
-<label><input type="checkbox" name="otoban" value="0">Pasif</label><br>
+<select data-role="select" name="otoban" id="otoban">
+  <option value="1">Aktif</option>
+  <option value="0">Pasif</option>
+</select>
 <br>
 <label>Debug</label><br>
-<label><input type="checkbox" name="debug" value="1">Aktif</label><br>
-<label><input type="checkbox" name="debug" value="0">Pasif</label><br>
+<select data-role="select" name="debug" id="debug">
+  <option value="1">Aktif</option>
+  <option value="0">Pasif</option>
+</select><br>
 <br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 echo '<hr></hr>';
@@ -720,8 +802,9 @@ if($row['waf_aktif'] == 1) {
 	echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
 } else {
 	echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
-}	
-	}
+}
+echo '</div>';	
+}
 break;
 
 case 'ayarkayit':
@@ -759,13 +842,13 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=krlpost" method="post">
+<form class="container" action="index.php?git=krlpost" method="post">
 <label>Kural Adı</label>
 <input type="text" name="kuraladi" class="form-control" placeholder="Kural Adı:"> 
 <br>
 <label>Kural İçeriği</label>
 <textarea name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
-<br><input type="submit" value="Gönder" class="w3-button w3-red">
+<br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
 
@@ -828,13 +911,21 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=methodupd&id='.intval($_GET['id']).'" method="post">
+<form class="container" action="index.php?git=methodupd&id='.intval($_GET['id']).'" method="post">
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
 <label>Method İçeriği</label>
-<input type="text" name="methodicerik" class="form-control" placeholder="Method İçeriği:" value="'.$row['method_turu'].'"> 
-<br><input type="submit" value="Gönder" class="w3-button w3-red">
+
+<select class="form-control" name="methodicerik" id="methodicerik">
+<option selected><font color="red">'.$row['method_turu'].'</font></option> 
+  <option value="GET">GET</option>
+  <option value="POST">POST</option>
+  <option value="PUT">PUT</option>
+  <option value="DELETE">DELETE</option>
+</select>
+<br><br>
+<input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 }
 break;
@@ -871,10 +962,10 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=ippost" method="post">
+<form class="container" action="index.php?git=ippost" method="post">
 <label>IP Adresi</label>
 <input type="text" name="ipadress" class="form-control" placeholder="IP Adresi:"> 
-<br>
+<br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
@@ -916,7 +1007,7 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=methodpost" method="post">
+<form class="container" action="index.php?git=methodpost" method="post">
 <label>Method Adı</label>
 <input type="text" name="methodadi" class="form-control" placeholder="Method Adı:"> 
 <br>
@@ -926,7 +1017,7 @@ textarea {
   <option value="POST">POST</option>
   <option value="PUT">PUT</option>
   <option value="DELETE">DELETE</option>
-</select><br>
+</select><br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
