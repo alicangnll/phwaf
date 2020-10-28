@@ -318,7 +318,7 @@ $alters4 = "ALTER TABLE `waf_ayar`
 $insert1 = "INSERT INTO `admin_bilgi` (`id`, `kadi`, `passwd`, `email`, `token`, `admin_yetki`) VALUES
 (1, 'admin', '060323f33140b4a86b53d01d726a45c7584a3a2b', 'xxx@xxx.com', '060323f33140b4a86b53d01d726a45c7584a3a2b', '0');";
 $insert2 = "INSERT INTO `guard_watch` (`kural_id`, `kural_adi`, `kural_hakkinda`, `kural_icerik`) VALUES
-(1, 'SQL Engelleme', '', 'or¿¿script¿¿alert¿¿$¿¿€¿¿!¿¿½¿¿/¿¿\¿¿¿¿order¿¿concat¿¿limit¿¿where¿¿<¿¿>¿¿&¿¿[¿¿]¿¿{¿¿}¿¿=¿¿-¿¿+¿¿'¿¿by¿¿!¿¿(¿¿)¿¿[¿¿]¿¿select¿¿drop¿¿from¿¿if¿¿else¿¿char¿¿union¿¿having¿¿group¿¿sum¿¿into'),
+(1, 'SQL Engelleme', '', 'or,script,alert,$,€,/,\,order,concat,limit,where,<,>,by,select,drop,from,if,else,char,union,having,group,sum,into,exec,reconfigure,top,owner,notor,script,alert,$,€,!,½,/,\,,order,concat,limit,where,<,>,by,select,drop,from,if,else,char,union,having,group,sum,into,exec,reconfigure,top,owner'),
 (2, 'RFI Engelleme', 'RFI Engelleme', '//¿¿etc¿¿passwd¿¿conf¿¿MYD¿¿MYI¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿&#37;¿¿@¿¿¢¿¿¤¿¿¥¿¿¦¿¿§¿¿©¿¿ª¿¿«¿¿¬¿¿&shy;¿¿®¿¿¯¿¿°¿¿±¿¿²¿¿³¿¿µ¿¿¶¿¿·¿¿¸¿¿¹¿¿º¿¿¼¿¿¾¿¿À¿¿exec¿¿%¿¿unhex¿¿ CONVERT¿¿CONCAT_WS¿¿CHAR¿¿InfORmaTion_scHema¿¿WHERE¿¿hex¿¿%20¿¿AND¿¿substring¿¿version¿¿ascii¿¿SLEEP¿¿md5¿¿%0C¿¿%A0¿¿MID¿¿LIKE¿¿');";
 $insert3 = "INSERT INTO `method_blok` (`method_id`, `method_adi`, `method_bilgisi`, `method_turu`) VALUES
 (2, 'POST', 'POST', 'POST'),
