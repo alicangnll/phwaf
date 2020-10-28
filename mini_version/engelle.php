@@ -222,8 +222,8 @@ $parametreler6 = str_replace("_", "", $parametreler5);
 $parametreler7 = str_replace("@", "", $parametreler6);
 $parametreler8 = str_replace(",", "", $parametreler7);
 $yasaklar=$row['kural_icerik'];
-$yasakla = explode('¿¿',$yasaklar);
-$sayiver = substr_count($yasaklar,'¿¿');
+$yasakla=explode('¿¿',$yasaklar);
+$sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
@@ -273,9 +273,14 @@ die();
 }
 
 }
+} elseif(empty($ayaraktif)) {
+header('X-AliWAF: SUSPENDED');
 } else {
 header('X-AliWAF: CONFIG-DEACTIVE');
 }
+
+} elseif(empty($wafdurum)) {
+header('X-AliWAF: SUSPENDED');
 } else {
 header('X-AliWAF: DEACTIVE');
 }
