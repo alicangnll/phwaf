@@ -177,7 +177,7 @@ die();
 
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
-$parametreler = strtolower($_SERVER['QUERY_STRING']);
+$parametreler = strtolower(urldecode($_SERVER['QUERY_STRING']));
 $yasaklar=($row['kural_icerik']);
 $yasakla=explode('¿¿',$yasaklar);
 $sayiver=substr_count($yasaklar,'¿¿');
