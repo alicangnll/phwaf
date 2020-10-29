@@ -181,7 +181,7 @@ echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user
 <div class="avatar">
 <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
 </div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
 </div>';
 }
 elseif($tarih == date('10-11')) {
@@ -189,7 +189,7 @@ echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user
 <div class="avatar">
 <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
 </div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
 </div>';
 } 
 elseif($tarih == date('30-08')) {
@@ -197,14 +197,14 @@ echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user
 <div class="avatar">
 <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
 </div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
 </div>';
 } else {
 echo '<div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
 <div class="avatar">
 <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
 </div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
 </div>';
 }
 
