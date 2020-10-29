@@ -2,7 +2,7 @@
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $ad = "ali_waf"; // db adı
 	
      $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");

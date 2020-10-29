@@ -171,13 +171,44 @@ echo '<aside class="sidebar pos-absolute z-2"
        data-role="sidebar"
        data-toggle="#sidebar-toggle-3"
        id="sb3"
-       data-shift=".shifted-content">
-    <div class="sidebar-header" data-image="https://archive.is/4V6gr/e499aa8e2369ac30ebfee0d75f41c75665d61b03.jpg">
-        <div class="avatar">
-            <img data-role="gravatar" data-email="alicangonullu@yahoo.com">
-        </div>
-        <span class="title fg-white">Ali Can Gönüllü</span>
-    </div>
+       data-shift=".shifted-content">';
+date_default_timezone_set('Europe/Istanbul');
+$tarih = date("d-m");
+
+if($tarih == date('29-10'))
+{
+echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg">
+<div class="avatar">
+<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
+</div>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+</div>';
+}
+elseif($tarih == date('10-11')) {
+echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg>
+<div class="avatar">
+<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
+</div>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+</div>';
+} 
+elseif($tarih == date('30-08')) {
+echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg">
+<div class="avatar">
+<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
+</div>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+</div>';
+} else {
+echo '<div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
+<div class="avatar">
+<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
+</div>
+<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:50%;"  class="title fg-white">Ali Can Gönüllü</span>
+</div>';
+}
+
+echo '
     <ul class="sidebar-menu">
         <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
         <li><a href="index.php?git=admin"><span class="mif-user icon"></span>Admin</a></li>
@@ -315,15 +346,15 @@ echo '<div class="header">
 </div><br>
 
 <br>
-<div class="simple-login-container" data-role="card">
- <div class="bg-cyan fg-white p-2 drag-element"<h2>pH Analyzer | AliWAF Login</h2></div><br>
+<div class="simple-login-container">
+<h2>pH Analyzer | AliWAF Login</h2><br>
 <form action="index.php?git=loginkontrol" method="post">
 <div class="row">
 <div class="col-md-12 form-group">
 <p>Kullanıcı Adı : <input data-role="input"  type="text" name="user" placeholder="Kullanıcı Adı"></p></div></div>
 <div class="row">
 <div class="col-md-12 form-group">
-<p>Şifre : <input data-role="keypad" type="password" name="pass" placeholder="Şifre"></p></div></div><br>
+<p>Şifre : <input data-role="keypad"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
 <input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
 <p><div class="row">
 <div class="col-md-12 form-group">
@@ -775,13 +806,13 @@ textarea {
 <input type="text" name="kadi" data-role="input" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
 <br>
 <label>Şifre</label>
-<input type="password" name="pass" data-role="keypad" placeholder="Şifre:"> 
+<input type="text" name="pass" data-role="input" placeholder="Şifre:"> 
 <br>
 <label>E-Mail</label>
 <input type="text" name="email" data-role="input" placeholder="E-Mail:" value="'.$row['email'].'">
 <br>
 <label>Token</label>
-<input type="text" name="tokens" data-role="keypad" placeholder="Token:"> 
+<input type="text" name="tokens" data-role="input" placeholder="Token:"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	

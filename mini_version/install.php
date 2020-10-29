@@ -130,14 +130,20 @@ echo '<body class="container">
 <label for="exampleInputEmail1">SQL Password</label>
 <input type="password" class="form-control" name="sqlpasswd" placeholder="1234">
 </div>
+
+<div class="form-group">
+<label for="exampleInputEmail1">SQL DB Name</label>
+<input type="text" class="form-control" name="sqlname" placeholder="1234">
+</div>
 <button type="submit" class="btn btn-dark">İleri / Next</button>
 </form></div></div></body>';
 break;
 	
 case 'sqlpost':
-$mysqlserv = strip_tags($_POST["sqlserver"]);
-$mysqlusr = strip_tags($_POST["sqlusr"]);
-$mysqlpass = strip_tags($_POST["sqlpasswd"]);
+$mysqlserv = $_POST["sqlserver"];
+$mysqlusr = $_POST["sqlusr"];
+$mysqlpass = $_POST["sqlpasswd"];
+$mysqldbname = $_POST["sqlname"];
 
 $conn = new mysqli($mysqlserv, $mysqlusr, $mysqlpass);
 $conn->query("SET CHARACTER SET utf8");
@@ -157,7 +163,7 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
-$sql = "CREATE DATABASE ali_waf";
+$sql = "CREATE DATABASE ".$mysqldbname."";
 
 if ($conn->query($sql) === TRUE) {
 } else {
@@ -183,7 +189,7 @@ touch("libs/conn.php");
 }
 
 
-$conn2 = new mysqli($mysqlserv, $mysqlusr, $mysqlpass, "ali_waf");
+$conn2 = new mysqli($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $conn2->query("SET CHARACTER SET utf8");
 $conn2->query("SET NAMES utf8");
 if ($conn2->connect_error) {
@@ -206,10 +212,10 @@ unlink("conn.php");
 touch("conn.php");
 $txt = '<?php
 try {
-$ip = "'.strip_tags($mysqlserv).'"; //host
-$user = "'.strip_tags($mysqlusr).'";  // host id
-$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$ad = "ali_waf"; // db adı
+$ip = "'.$mysqlserv.'"; //host
+$user = "'.$mysqlusr.'";  // host id
+$password = "'.$mysqlpass.'";  // password local olduğu için varsayılan şifre
+$ad = "'.$mysqldbname.'"; // db adı
 	
      $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
      $aliwaf->query("SET CHARACTER SET utf8");
@@ -231,10 +237,10 @@ fclose($fp);
 touch("conn.php");
 $txt = '<?php
 try {
-$ip = "'.strip_tags($mysqlserv).'"; //host
-$user = "'.strip_tags($mysqlusr).'";  // host id
-$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$ad = "ali_waf"; // db adı
+$ip = "'.$mysqlserv.'"; //host
+$user = "'.$mysqlusr.'";  // host id
+$password = "'.$mysqlpass.'";  // password local olduğu için varsayılan şifre
+$ad = "'.$mysqldbname.'"; // db adı
 	
      $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
      $aliwaf->query("SET CHARACTER SET utf8");
@@ -327,11 +333,11 @@ $insert4 = "INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_ak
 (1, 'Yeni', '1', '1', '0', '1', '1');";
 
 
-$truncate1 = "TRUNCATE `ali_waf`.`admin_bilgi`";
-$truncate2 = "TRUNCATE `ali_waf`.`guard_watch`";
-$truncate3 = "TRUNCATE `ali_waf`.`ip_ban`";
-$truncate4 = "TRUNCATE `ali_waf`.`method_blok`";
-$truncate5 = "TRUNCATE `ali_waf`.`waf_ayar`";
+$truncate1 = "TRUNCATE `".$mysqldbname."`.`admin_bilgi`";
+$truncate2 = "TRUNCATE `".$mysqldbname."`.`guard_watch`";
+$truncate3 = "TRUNCATE `".$mysqldbname."`.`ip_ban`";
+$truncate4 = "TRUNCATE `".$mysqldbname."`.`method_blok`";
+$truncate5 = "TRUNCATE `".$mysqldbname."`.`waf_ayar`";
 
 if ($conn2->query($tab1) === TRUE) {
 } else {
@@ -697,7 +703,7 @@ $conn2->close();
 $txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
 $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$ad = "ali_waf"; // db adı ';
+$ad = "'.strip_tags($mysqldbname).'"; // db adı ';
 
 echo '<body class="container">
 <br><br><br>
