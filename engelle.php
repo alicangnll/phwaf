@@ -179,6 +179,43 @@ die();
 }
 }
 
+if($_POST) {
+$stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
+while($row = $stmt->fetch()){
+$parametreler = strtolower(urldecode(file_get_contents('php://input')));
+$parametreler0 = str_replace("#", "", $parametreler);
+$parametreler1 = str_replace("!", "", $parametreler0);
+$parametreler2 = str_replace("=", "", $parametreler1);
+$parametreler3 = str_replace("&", "", $parametreler2);
+$parametreler8 = str_replace("-", "", $parametreler3);
+$yasaklar=$row['kural_icerik'];
+$yasakla=explode('¿¿',$yasaklar);
+$sayiver=substr_count($yasaklar,'¿¿');
+$i=0;
+while ($i<=$sayiver) {
+if (strstr($parametreler8,$yasakla[$i])) {
+ErrorMessage("POST Injection", strip_tags("Type : ".kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
+
+if ($otoban == md5(sha1(1))){
+$bandurum = md5(sha1(1));
+$update = $aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
+$update->bindValue(':ipadresi', strip_tags(reel_ip()));
+$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
+$update->bindValue(':ipsuresi', date('H:i:s'));
+$update->execute();
+if($update){
+IPError("1");
+die();
+}
+} else {
+die();
+}
+
+}
+$i++;
+}
+	}
+} else {
 
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
 while($row = $stmt->fetch()){
@@ -217,44 +254,9 @@ if (strlen($parametreler8)>=90) {
 exit;
 }
 }
-
-
-$stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
-while($row = $stmt->fetch()){
-$parametreler = strtolower(urldecode(file_get_contents('php://input')));
-$parametreler0 = str_replace("#", "", $parametreler);
-$parametreler1 = str_replace("!", "", $parametreler0);
-$parametreler2 = str_replace("=", "", $parametreler1);
-$parametreler3 = str_replace("&", "", $parametreler2);
-$parametreler8 = str_replace("-", "", $parametreler3);
-$yasaklar=$row['kural_icerik'];
-$yasakla=explode('¿¿',$yasaklar);
-$sayiver=substr_count($yasaklar,'¿¿');
-$i=0;
-while ($i<=$sayiver) {
-if (strstr($parametreler8,$yasakla[$i])) {
-ErrorMessage("POST Injection", strip_tags("Type : ".kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
-
-if ($otoban == md5(sha1(1))){
-$bandurum = md5(sha1(1));
-$update = $aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_suresi, ip_usragent) VALUES (:ipadresi, :ipsuresi, :ipusragent) ");
-$update->bindValue(':ipadresi', strip_tags(reel_ip()));
-$update->bindValue(':ipusragent', strip_tags($_SERVER['HTTP_USER_AGENT']));
-$update->bindValue(':ipsuresi', date('H:i:s'));
-$update->execute();
-if($update){
-IPError("1");
-die();
 }
-} else {
-die();
-}
+    //Guard Bitti
 
-}
-$i++;
-}
-	}
-	//Guard Bitti
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
 $stmt = $aliwaf->query("SELECT * FROM method_blok WHERE method_turu = ".$aliwaf->quote($method)."");
 if($stmt->rowCount()) {
