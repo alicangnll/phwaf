@@ -194,6 +194,14 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
+  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header) VALUES (:ad, :ip, :url, :header) ");
+  $update->bindValue(':ad', strip_tags("POST Injection | ".$row['kural_adi'].""));
+  $update->bindValue(':ip', strip_tags(reel_ip()));
+  $update->bindValue(':url', strip_tags($parametreler));
+  $update->bindValue(':header', strip_tags($_SERVER['HTTP_X_REQUESTED_WITH']));
+  $update->execute();
+  while($rowz = $update->fetch()){
+  }
 ErrorMessage("POST Injection", strip_tags("Type : ".kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
 
 if ($otoban == md5(sha1(1))){
@@ -215,6 +223,8 @@ die();
 $i++;
 }
 	}
+
+
 } else {
 
 $stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id');
@@ -231,6 +241,14 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
+  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header) VALUES (:ad, :ip, :url, :header) ");
+  $update->bindValue(':ad', strip_tags("Rule Injection | ".$row['kural_adi'].""));
+  $update->bindValue(':ip', strip_tags(reel_ip()));
+  $update->bindValue(':url', strip_tags($parametreler));
+  $update->bindValue(':header', strip_tags($_SERVER['HTTP_X_REQUESTED_WITH']));
+  $update->execute();
+  while($rowz = $update->fetch()){
+  }
 ErrorMessage("Rule Injection", strip_tags($row['kural_adi']));
 
 if ($otoban == md5(sha1(1))){
