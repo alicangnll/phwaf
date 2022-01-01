@@ -25,10 +25,8 @@ Debug();
 memlimit("256", "MB");
 if ($ayaraktif == md5(sha1(1))){
 $ip = reel_ip();
-$stmt = $aliwaf->prepare("SELECT * FROM ip_ban WHERE ip_adresi = :ip");
-$stmt->bindValue(":ip", $ip, PDO::PARAM_INT);
-$stmt->execute();
-if($stmt->fetchColumn()) {
+$stmt = $aliwaf->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$aliwaf->quote($ip)."");
+if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
 session_start();
 $suresi = strip_tags($row["ip_suresi"]);
@@ -122,10 +120,8 @@ exit;
 	//Guard Bitti
 }
 $method = strip_tags($_SERVER['REQUEST_METHOD']);
-$stmt = $aliwaf->query("SELECT * FROM method_blok WHERE method_turu = :method");
-$stmt->bindValue(":method", $method, PDO::PARAM_INT);
-$stmt->execute();
-if($stmt->fetchColumn()) {
+$stmt = $aliwaf->query("SELECT * FROM method_blok WHERE method_turu = ".$aliwaf->quote($method)."");
+if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
    }
 } else {
