@@ -319,7 +319,7 @@ switch($sayfa) {
 
 case 'giris':
 echo '<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
     <a class="active" href="index.php">Ana Sayfa</a>
     <a href="index.php?git=login">Giriş</a>
@@ -338,7 +338,7 @@ break;
 
 case 'login':
 echo '<div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
     <a href="index.php">Ana Sayfa</a>
     <a class="active" href="index.php?git=login">Giriş</a>
@@ -637,7 +637,7 @@ break;
 case 'sifirla':
 	echo '
 <div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
     <a href="index.php?git=index">Ana Sayfa</a>
   </div>
@@ -680,7 +680,7 @@ $password = sha1(md5($str));
 $aliwaf->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
-  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="https://alicangonullu.info/goruntu/153"></a>
+  <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
     <a href="index.php?git=index">Ana Sayfa</a>
   </div>
