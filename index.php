@@ -212,7 +212,8 @@ echo '
     <ul class="sidebar-menu">
         <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
         <li><a href="index.php?git=admin"><span class="mif-user icon"></span>Admin</a></li>
-        <li><a href="index.php?git=loglar"><span class="mif-cloud-upload icon"></span>Logs</a></li>
+        <li><a href="index.php?git=update"><span class="mif-cloud-upload icon"></span>Update</a></li>
+        <li><a href="index.php?git=loglar"><span class="mif-file-text icon"></span>Logs</a></li>
         <li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Exit</a></li>
         <li class="divider"></li>
         <li><a href="index.php?git=kuralekle"><span class="mif-add icon"></span>Add Rule</a></li>
