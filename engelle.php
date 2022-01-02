@@ -194,11 +194,12 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
-  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header) VALUES (:ad, :ip, :url, :header) ");
+  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header, vuln_date) VALUES (:ad, :ip, :url, :header, :dte) ");
   $update->bindValue(':ad', strip_tags("POST Injection | ".$row['kural_adi'].""));
   $update->bindValue(':ip', strip_tags(reel_ip()));
   $update->bindValue(':url', strip_tags($parametreler));
   $update->bindValue(':header', strip_tags($_SERVER['HTTP_X_REQUESTED_WITH']));
+  $update->bindValue(':dte', date("Y/m/d H:i:s"));
   $update->execute();
   while($rowz = $update->fetch()){
   }
@@ -241,11 +242,12 @@ $sayiver=substr_count($yasaklar,'¿¿');
 $i=0;
 while ($i<=$sayiver) {
 if (strstr($parametreler8,$yasakla[$i])) {
-  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header) VALUES (:ad, :ip, :url, :header) ");
-  $update->bindValue(':ad', strip_tags("Rule Injection | ".$row['kural_adi'].""));
+  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header, vuln_date) VALUES (:ad, :ip, :url, :header, :dte) ");
+  $update->bindValue(':ad', strip_tags("POST Injection | ".$row['kural_adi'].""));
   $update->bindValue(':ip', strip_tags(reel_ip()));
   $update->bindValue(':url', strip_tags($parametreler));
   $update->bindValue(':header', strip_tags($_SERVER['HTTP_X_REQUESTED_WITH']));
+  $update->bindValue(':dte', date("Y/m/d H:i:s"));
   $update->execute();
   while($rowz = $update->fetch()){
   }

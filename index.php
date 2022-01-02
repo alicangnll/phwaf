@@ -212,12 +212,12 @@ echo '
     <ul class="sidebar-menu">
         <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
         <li><a href="index.php?git=admin"><span class="mif-user icon"></span>Admin</a></li>
-        <li><a href="index.php?git=update"><span class="mif-cloud-upload icon"></span>Update</a></li>
-		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
+        <li><a href="index.php?git=loglar"><span class="mif-cloud-upload icon"></span>Logs</a></li>
+        <li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Exit</a></li>
         <li class="divider"></li>
-        <li><a href="index.php?git=kuralekle"><span class="mif-add icon"></span>Kural Ekle</a></li>
-		<li><a href="index.php?git=ipekle"><span class="mif-add icon"></span>IP Ekle</a></li>
-		<li><a href="index.php?git=methodekle"><span class="mif-add icon"></span>Method Ekle</a></li>
+        <li><a href="index.php?git=kuralekle"><span class="mif-add icon"></span>Add Rule</a></li>
+		<li><a href="index.php?git=ipekle"><span class="mif-add icon"></span>Add Blocked IP</a></li>
+		<li><a href="index.php?git=methodekle"><span class="mif-add icon"></span>Add Method</a></li>
     </ul>
 </aside>
 <div class="shifted-content h-100 p-ab">
@@ -544,6 +544,41 @@ function delip(id)
 }
 </script>
 <?php
+break;
+
+case 'loglar':
+$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
+$stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
+if($row = $stmt->fetch()) {
+$adminid = 0;
+if ($row['admin_yetki'] == $adminid){
+} else {
+echo 'Yetkiniz Yok';
+die();  
+}
+}
+LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+
+echo '<div class="container">
+<table class="table">
+<thead>
+<br><h3>Logs</h3>
+<tr>
+<th>Log ID</th>
+<th>Log Name</th>
+<th>Log IP</th>
+<th>Log URL</th>
+</tr></thead><tbody>';
+$stmt = $aliwaf->query('SELECT * FROM vuln_log ORDER BY id DESC');
+while($row = $stmt->fetch()){
+echo '<tr>
+<td>'.intval($row["id"]).'</td>
+<td>'.strip_tags($row['vuln_name']).'</td>
+<td>'.strip_tags($row['vuln_ip']).'</td>
+<td>'.strip_tags($row['vuln_url']).'</td>
+</tr>'; 
+}
+echo '</tbody></table></div>';
 break;
 
 case 'admin':

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: localhost:3306
--- Üretim Zamanı: 17 May 2020, 06:00:54
--- Sunucu sürümü: 5.5.65-MariaDB
--- PHP Sürümü: 7.3.17
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 02 Oca 2022, 09:43:56
+-- Sunucu sürümü: 10.4.22-MariaDB
+-- PHP Sürümü: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,9 +61,9 @@ CREATE TABLE `guard_watch` (
 --
 
 INSERT INTO `guard_watch` (`kural_id`, `kural_adi`, `kural_hakkinda`, `kural_icerik`) VALUES
-(4, 'SQL Engelleme', '', '..¿¿½¿¿%¿¿OR¿¿\"¿¿\'¿¿`¿¿concat¿¿join¿¿\\\"¿¿\\\\¿¿tablo_adim¿¿kolon_adim¿¿script¿¿alert¿¿JaVaScRiPT¿¿\"¿¿fromCharCode¿¿onmouseover¿¿&#¿¿#&¿¿	¿¿!¿¿#¿¿$¿¿%¿¿(¿¿)¿¿*¿¿~¿¿+¿¿-¿¿_¿¿,¿¿:¿¿;¿¿@[¿¿/¿¿|¿¿\\¿¿]¿¿^¿¿`¿¿//¿¿/¿¿livescript¿¿constructor¿¿:¿¿\'\\ja\\vasc\\ript:alert¿¿¾¿¿¢¿¿order¿¿by¿¿union¿¿table_name¿¿column_name¿¿from¿¿concat¿¿and¿¿AND¿¿limit¿¿SRC¿¿src¿¿meta¿¿embed¿¿xml¿¿XML¿¿x;¿¿x27;¿¿quot¿¿+¿¿UNION¿¿-¿¿-¿¿+¿¿*¿¿’¿¿|¿¿\"¿¿?¿¿₺¿¿@¿¿,¿¿/¿¿“¿¿€¿¿£¿¿$¿¿~¿¿\\¿¿[¿¿]¿¿{¿¿}¿¿>¿¿<¿¿'),
-(2, 'XSS Engelleme Kuralı', 'XSS Engelleyici', '..¿¿½¿¿%¿¿OR¿¿\\\"¿¿\\\'¿¿`¿¿concat¿¿join¿¿\\\\\\\"¿¿\\\\\\\\¿¿tablo_adim¿¿kolon_adim¿¿script¿¿alert¿¿JaVaScRiPT¿¿\"¿¿fromCharCode¿¿onmouseover¿¿&#¿¿#&¿¿	¿¿!¿¿#¿¿$¿¿%¿¿(¿¿)¿¿*¿¿~¿¿+¿¿-¿¿_¿¿,¿¿:¿¿;¿¿@[¿¿/¿¿|¿¿\\\\¿¿]¿¿^¿¿`¿¿//¿¿/¿¿livescript¿¿constructor¿¿:¿¿\\\'\\\\ja\\\\vasc\\\\ript:alert¿¿¾¿¿¢¿¿order¿¿by¿¿union¿¿table_name¿¿column_name¿¿from¿¿concat¿¿and¿¿AND¿¿limit¿¿SRC¿¿src¿¿meta¿¿embed¿¿xml¿¿XML¿¿x;¿¿lt¿¿>¿¿x27;¿¿quot¿¿+¿¿UNION¿¿-¿¿-¿¿+¿¿*¿¿’¿¿?¿¿'),
-(3, 'RFI Engelleme', 'RFI Engelleme', '//¿¿etc¿¿passwd¿¿conf¿¿MYD¿¿MYI¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿&#37;¿¿@¿¿¢¿¿¤¿¿¥¿¿¦¿¿§¿¿©¿¿ª¿¿«¿¿¬¿¿&shy;¿¿®¿¿¯¿¿°¿¿±¿¿²¿¿³¿¿µ¿¿¶¿¿·¿¿¸¿¿¹¿¿º¿¿¼¿¿¾¿¿À¿¿exec¿¿%¿¿unhex¿¿ CONVERT¿¿CONCAT_WS¿¿CHAR¿¿InfORmaTion_scHema¿¿WHERE¿¿hex¿¿%20¿¿AND¿¿substring¿¿version¿¿ascii¿¿SLEEP¿¿md5¿¿%0C¿¿%A0¿¿MID¿¿LIKE¿¿');
+(1, 'SQL Engelleme', '', 'or¿¿script¿¿alert¿¿order¿¿concat¿¿limit¿¿where¿¿=¿¿-¿¿+¿¿by¿¿!¿¿(¿¿)¿¿[¿¿]¿¿select¿¿drop¿¿from¿¿if¿¿else¿¿char'),
+(2, 'RFI Engelleme', 'RFI Engelleme', '//¿¿etc¿¿passwd¿¿conf¿¿myd¿¿myi¿¿ini¿¿{¿¿}¿¿/¿¿#¿¿[¿¿]¿¿%¿¿@¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿??¿¿exec¿¿%¿¿unhex¿¿convert¿¿concat_ws¿¿char¿¿information_schema¿¿where¿¿hex¿¿%20¿¿and¿¿substring¿¿version¿¿ascii¿¿sleep¿¿md5¿¿%0c¿¿%a0¿¿mid¿¿like'),
+(4, 'LogForJ', 'LogForJ', '://¿¿ldap¿¿jndi');
 
 -- --------------------------------------------------------
 
@@ -102,6 +102,21 @@ INSERT INTO `method_blok` (`method_id`, `method_adi`, `method_bilgisi`, `method_
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `vuln_log`
+--
+
+CREATE TABLE `vuln_log` (
+  `id` int(11) NOT NULL,
+  `vuln_name` varchar(255) NOT NULL,
+  `vuln_ip` varchar(255) NOT NULL,
+  `vuln_url` varchar(255) NOT NULL,
+  `vuln_date` datetime NOT NULL,
+  `vuln_header` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `waf_ayar`
 --
 
@@ -120,7 +135,7 @@ CREATE TABLE `waf_ayar` (
 --
 
 INSERT INTO `waf_ayar` (`ayar_id`, `ayar_adi`, `waf_aktif`, `ayar_aktif`, `oto_ban`, `anti_ddos`, `debug`) VALUES
-(1, 'Yeni', '1', '1', '0', '1', '1');
+(1, 'Yeni', '1', '1', '1', '1', '0');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -151,6 +166,12 @@ ALTER TABLE `method_blok`
   ADD PRIMARY KEY (`method_id`);
 
 --
+-- Tablo için indeksler `vuln_log`
+--
+ALTER TABLE `vuln_log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Tablo için indeksler `waf_ayar`
 --
 ALTER TABLE `waf_ayar`
@@ -170,13 +191,19 @@ ALTER TABLE `guard_watch`
 -- Tablo için AUTO_INCREMENT değeri `ip_ban`
 --
 ALTER TABLE `ip_ban`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `method_blok`
 --
 ALTER TABLE `method_blok`
   MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `vuln_log`
+--
+ALTER TABLE `vuln_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `waf_ayar`
