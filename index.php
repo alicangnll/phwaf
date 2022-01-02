@@ -3,7 +3,7 @@ error_reporting(0);
 include("conn.php");
 session_start();
 $_SESSION["csrf"] = sha1(md5(rand()));
-$update = "http://alicangonullu.github.io/phpwaf-phanalyzer/mini_version/";
+$update = "http://alicangnll.github.io/phpwaf-phanalyzer/";
 ?>
 <head>
     <meta charset="utf-8">
@@ -431,11 +431,11 @@ echo '</div>
 <div class="container">
 <table class="table">
 <thead>
-<br><h3>Kurallar</h3>
+<br><h3>Rules</h3>
 <tr>
 <th></th>
-<th>Kural ID</th>
-<th>Kural Adı</th>
+<th>Rule ID</th>
+<th>Rule Name</th>
 </tr></thead><tbody>';
 
 try {
@@ -446,7 +446,7 @@ echo '<tr>
 <td><a class="button button3" href="javascript:kuralsil('.intval($row['kural_id']).')">Sil</a></td>
 <td>'.strip_tags($row['kural_id']).'</td>
 <td>'.strip_tags($row['kural_adi']).'</td>
-<td><a href="index.php?git=kuralduzenle&id='.intval($row['kural_id']).'">Düzenle</a></td>
+<td><a href="index.php?git=kuralduzenle&id='.intval($row['kural_id']).'">Edit</a></td>
 </tr>
 ';
 }
@@ -471,12 +471,12 @@ echo '
 <div class="container">
 <table class="table">
 <thead>
-<br><h3>Izin Verilen Methodlar</h3>
+<br><h3>Connection Methods</h3>
 <tr>
 <th></th>
 <th>ID</th>
-<th>Method Adı</th>
-<th>Türü</th>
+<th>Method Name</th>
+<th>Type</th>
 </tr></thead><tbody>';
 
 try {
@@ -487,7 +487,7 @@ echo '<tr>
 <td>'.strip_tags($row['method_id']).'</td>
 <td>'.strip_tags($row['method_adi']).'</td>
 <td>'.strip_tags($row['method_turu']).'</td>
-<td><a href="index.php?git=methodduzenle&id='.strip_tags($row['method_id']).'">Düzenle</a></td>
+<td><a href="index.php?git=methodduzenle&id='.strip_tags($row['method_id']).'">Edit</a></td>
 </tr>';	
 }
 } catch(PDOException $e) {
@@ -509,11 +509,11 @@ function delmethod(id)
 echo '<div class="container">
 <table class="table">
 <thead>
-<br><h3>IP Adresleri</h3>
+<br><h3>IP Address</h3>
 <tr>
 <th></th>
 <th>ID</th>
-<th>Adresi</th>
+<th>IP</th>
 </tr></thead><tbody>';
 
 try {
@@ -524,7 +524,7 @@ echo '<tr>
 <td>'.strip_tags($row['ip_id']).'</td>
 <td>'.strip_tags($row['ip_adresi']).'</td>';
 echo '
-<td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Düzenle</a></td>
+<td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Edit</a></td>
 </tr>';	
 }
 } catch(PDOException $e) {
@@ -598,10 +598,10 @@ LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 echo '<div class="container">
 <table class="table">
 <thead>
-<br><h3>Adminler</h3>
+<br><h3>Admins</h3>
 <tr>
 <th>Admin ID</th>
-<th>Admin Adı</th>
+<th>Admin Name</th>
 </tr></thead><tbody>';
 
 try {
@@ -610,7 +610,7 @@ while($row = $stmt->fetch()){
 echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
-<td><a class="button" href="index.php?git=adminduzenle&id='.intval($row['id']).'">Düzenle</a>
+<td><a class="button" href="index.php?git=adminduzenle&id='.intval($row['id']).'">Edit</a>
 </tr>';	
 }
 } catch(PDOException $e) {
@@ -621,13 +621,13 @@ echo '</tbody></table></div>
 
 <div class="container">
 <table class="table">
-<br><h3>Ayarlar</h3>
+<br><h3>Configs</h3>
 <tr>
-<th>Ayar ID</th>
-<th>WAF Durum</th>
-<th>Oto IP Ban</th>
+<th>Config ID</th>
+<th>WAF Status</th>
+<th>Auto IP Ban</th>
 <th>Debug</th>
-<th>Ayar Adı</th>
+<th>Config Name</th>
 <th></th>
 </tr></thead><tbody>';
 
@@ -661,7 +661,7 @@ echo '<td><font color="red">Pasif</font></td>';
 echo '
 <td>'.strip_tags($row['ayar_adi']).'</td>';
 
-echo '<td><a class="button" href="index.php?git=ayarduzenle">Düzenle</a></tr>
+echo '<td><a class="button" href="index.php?git=ayarduzenle">Edit</a></tr>
 </tbody></table></div>';	
 }
 } catch(PDOException $e) {
@@ -804,10 +804,10 @@ textarea {
 </style>
 <br>
 <form class="mt-5 container" action="index.php?git=kuralpost&id='.intval($_GET['id']).'" method="post">
-<label>Kural Adı</label>
-<input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:" value="'.$row['kural_adi'].'"> 
+<label>Rule Name</label>
+<input type="text" name="kuraladi" data-role="input" placeholder="Rule Name:" value="'.$row['kural_adi'].'"> 
 <br>
-<label>Kural İçeriği</label>
+<label>Rule</label>
 <textarea data-role="taginput" name="kuralicerik" cols="60" rows="10">'.$degis.'</textarea>
 <br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
@@ -894,44 +894,44 @@ textarea {
 </style>
 <br>
 <form action="index.php?git=ayarkayit" method="post">
-<label>Ayar Adı</label>
-<input type="text" name="ayaradi" data-role="input" placeholder="Ayar Adı:" value="'.$row['ayar_adi'].'"> 
+<label>Config Name</label>
+<input type="text" name="ayaradi" data-role="input" placeholder="Config Name:" value="'.$row['ayar_adi'].'"> 
 <br>
-<label>WAF Durumu</label><br>
+<label>WAF Status</label><br>
 <select data-role="select" name="wafdurum" id="wafdurum">
-  <option value="1">Aktif</option>
-  <option value="0">Pasif</option>
+  <option value="1">Active</option>
+  <option value="0">Passive</option>
 </select>
 <br>
-<label>Ayar Durumu</label><br>
+<label>Config Status</label><br>
 <select data-role="select" name="ayardurum" id="ayardurum">
-  <option value="1">Aktif</option>
-  <option value="0">Pasif</option>
+  <option value="1">Active</option>
+  <option value="0">Passive</option>
 </select>
 <br>
-<label>Otomatik IP Ban</label><br>
+<label>Auto IP Ban</label><br>
 <select data-role="select" name="otoban" id="otoban">
-  <option value="1">Aktif</option>
-  <option value="0">Pasif</option>
+  <option value="1">Active</option>
+  <option value="0">Passive</option>
 </select>
 <br>
 <label>Debug</label><br>
 <select data-role="select" name="debug" id="debug">
-  <option value="1">Aktif</option>
-  <option value="0">Pasif</option>
+  <option value="1">Active</option>
+  <option value="0">Passive</option>
 </select><br>
-<br><input type="submit" value="Gönder" class="w3-button w3-red">
+<br><input type="submit" value="Save" class="w3-button w3-red">
 </form>';
 echo '<hr></hr>';
 if($row['oto_ban'] == 1) {
-	echo '<div class="alert alert-success"><strong>Otomatik IP Ban : AÇIK (1)</strong></div><br>';
+	echo '<div class="alert alert-success"><strong>Auto IP Ban : RUNNING (1)</strong></div><br>';
 } else {
-	echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : KAPALI (0)</strong></div><br>';
+	echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : NOT RUNNING (0)</strong></div><br>';
 }
 if($row['waf_aktif'] == 1) {
-	echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
+	echo '<div class="alert alert-success"><strong>WAF : RUNNING (1)</strong></div><br>';
 } else {
-	echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
+	echo '<div class="alert alert-danger"><strong>WAF : NOT RUNNING (0)</strong></div><br>';
 }
 echo '</div>';	
 }
@@ -949,7 +949,7 @@ $update->bindValue(':debug', strip_tags($_POST['debug']));
 $update->execute();
 if($update){
 echo '<script>
-alert("Başarılı");
+alert("Success");
 window.location.replace("index.php?git=index")
 </script>';
 }
@@ -973,10 +973,10 @@ textarea {
 </style>
 <br>
 <form class="container" action="index.php?git=krlpost" method="post">
-<label>Kural Adı</label>
-<input type="text" name="kuraladi" data-role="input" placeholder="Kural Adı:"> 
-<label>Kural İçeriği</label>
-<textarea data-role="taginput" name="kuralicerik" cols="60" rows="10" placeholder="Kural İçeriği:"></textarea>
+<label>Rule Name</label>
+<input type="text" name="kuraladi" data-role="input" placeholder="Rule Name:"> 
+<label>Rule</label>
+<textarea data-role="taginput" name="kuralicerik" cols="60" rows="10" placeholder="Rule:"></textarea>
 <br><br><input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
 break;
@@ -991,12 +991,12 @@ $update->bindValue(':kuralicerik', $degis);
 $update->execute();
 if($update){
 echo '<script>
-alert("Kural Eklendi");
+alert("Rule Added");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("Kural Eklenemedi");
+alert("Rule Could Not Added");
 window.location.replace("index.php?git=index")
 </script>';
 }
@@ -1041,10 +1041,10 @@ textarea {
 </style>
 <br>
 <form class="container" action="index.php?git=methodupd&id='.intval($_GET['id']).'" method="post">
-<label>Method Adı</label>
+<label>Method Name</label>
 <input type="text" name="methodadi" data-role="input" placeholder="Method Adı:" value="'.$row['method_adi'].'"> 
 <br>
-<label>Method İçeriği</label>
+<label>Method Type</label>
 
 <select data-role="input" name="methodicerik" id="methodicerik">
 <option selected><font color="red">'.$row['method_turu'].'</font></option> 
@@ -1092,8 +1092,8 @@ textarea {
 </style>
 <br>
 <form class="container" action="index.php?git=ippost" method="post">
-<label>IP Adresi</label>
-<input type="text" name="ipadress" data-role="input" placeholder="IP Adresi:"> 
+<label>IP Address</label>
+<input type="text" name="ipadress" data-role="input" placeholder="IP Address:"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
@@ -1108,12 +1108,12 @@ $update->bindValue(':ipsure', date('H:i:s'));
 $update->execute();
 if($update){
 echo '<script>
-alert("IP Eklendi");
+alert("IP Added");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("Kural Eklenemedi");
+alert("IP Could Not Added");
 window.location.replace("index.php?git=index")
 </script>';
 }
@@ -1137,10 +1137,10 @@ textarea {
 </style>
 <br>
 <form class="container" action="index.php?git=methodpost" method="post">
-<label>Method Adı</label>
-<input type="text" name="methodadi" data-role="input" placeholder="Method Adı:"> 
+<label>Method Name</label>
+<input type="text" name="methodadi" data-role="input" placeholder="Method Name:"> 
 <br>
-<label>Method İçeriği (İzin Verilen</label>
+<label>Method Type</label>
 <select data-role="input" name="methodicerik" id="methodicerik">
   <option value="GET">GET</option>
   <option value="POST">POST</option>
@@ -1160,12 +1160,12 @@ $update->bindValue(':methodicerik', $_POST['methodicerik']);
 $update->execute();
 if($update){
 echo '<script>
-alert("Kural Eklendi");
+alert("Method Added");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("Kural Eklenemedi");
+alert("Method Could Not Added");
 window.location.replace("index.php?git=index")
 </script>';
 }
@@ -1179,12 +1179,12 @@ $stmt = $aliwaf->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['ipsil'])));
 if($stmt){
 echo '<script>
-alert("IP Silindi");
+alert("IP Deleted");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("IP Silinemedi");
+alert("IP Could Not Deleted");
 window.location.replace("index.php?git=index")</script>';
 }
 }
@@ -1197,12 +1197,12 @@ $stmt = $aliwaf->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['sil'])));
 if($stmt){
 echo '<script>
-alert("Kural Silindi");
+alert("Rule Deleted");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("Kural Silinemedi");
+alert("Rule Could Not Deleted");
 window.location.replace("index.php?git=index")</script>';
 }
 }
@@ -1215,12 +1215,12 @@ $stmt = $aliwaf->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
 $stmt->execute(array(':postID' => intval($_GET['sil'])));
 if($stmt){
 echo '<script>
-alert("Method Silindi");
+alert("Method Deleted");
 window.location.replace("index.php?git=index")
 </script>';
 } else {
 echo '<script>
-alert("Method Silinemedi");
+alert("Method Could Not Deleted");
 window.location.replace("index.php?git=index")</script>';
 }
 }
@@ -1233,26 +1233,26 @@ $get = json_decode(file_get_contents("guncelleme.json"), true);
 echo "<br><div class='text-center container card'>
 <br>
 <div class='info-box-content'>
-<b> Sürümü : ".$get["guncelleme_kodu"]." </b><br>
-<b> Tarihi : ".$get["guncelleme_tarih"]." </b><br>
-<b> Sürüm Adı : ".$get["guncelleme_adi"]." </b><br>
+<b> Version : ".$get["guncelleme_kodu"]." </b><br>
+<b> Date : ".$get["guncelleme_tarih"]." </b><br>
+<b> Version Name : ".$get["guncelleme_adi"]." </b><br>
 </div><br>";
 if($get["guncelleme_kodu"] < $updateserver["guncelleme_numarasi"]) {
 echo "<div class='info-box-content'>
-<b> Yeni Sürüm : ".$updateserver["guncelleme_numarasi"]." </b><br>
-<b> Tarihi : ".$updateserver["guncelleme_tarihi"]." </b><br>
-<b> Yeni Sürüm Adı : ".$updateserver["guncelleme_adi"]." </b><br>
+<b> New Version : ".$updateserver["guncelleme_numarasi"]." </b><br>
+<b> Date : ".$updateserver["guncelleme_tarihi"]." </b><br>
+<b> New Version Name : ".$updateserver["guncelleme_adi"]." </b><br>
 </div><br>
-<a href='".$updateserver["guncelleme_link"]."' class='button'>Güncelle</a><br><br>";
+<a href='".$updateserver["guncelleme_link"]."' class='button'>Update</a><br><br>";
 } else {
-echo "<div class='info-box-content'><b>Versiyonunuz günceldir</b><br></div><br>";
+echo "<div class='info-box-content'><b>Your system has been updated</b><br></div><br>";
 }
 echo '</div>';
 break;
 
 case 'cikis':
 session_destroy();
-echo (" Başarılı ");
+echo (" OK ");
 header ("Location:index.php"); 
 break;
 }
