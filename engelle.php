@@ -281,9 +281,18 @@ $method = strip_tags($_SERVER['REQUEST_METHOD']);
 $stmt = $aliwaf->query("SELECT * FROM method_blok WHERE method_turu = ".$aliwaf->quote($method)."");
 if($stmt->rowCount()) {
 while($row = $stmt->fetch()){
-   }
+}
 } else {
 header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+  $update = $aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header, vuln_date) VALUES (:ad, :ip, :url, :header, :dte) ");
+  $update->bindValue(':ad', strip_tags("Not Permission Method Try | ".$row['kural_adi'].""));
+  $update->bindValue(':ip', strip_tags(reel_ip()));
+  $update->bindValue(':url', strip_tags($method));
+  $update->bindValue(':header', strip_tags($_SERVER['HTTP_X_REQUESTED_WITH']));
+  $update->bindValue(':dte', date("Y/m/d H:i:s"));
+  $update->execute();
+  while($rowz = $update->fetch()){
+  }
 ErrorMessage("Method Injection", strip_tags($method));
 if ($otoban == md5(sha1(1))){
 $bandurum = md5(sha1(1));
