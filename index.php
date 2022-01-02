@@ -322,18 +322,18 @@ case 'giris':
 echo '<div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
-    <a class="active" href="index.php">Ana Sayfa</a>
-    <a href="index.php?git=login">Giriş</a>
+    <a class="active" href="index.php">Home</a>
+    <a href="index.php?git=login">Login</a>
   </div>
 </div><br>';
 echo '<div style="padding-left:20px">
   <h1>pH Analyzer | AliWAF</h1>
-  <p>WAF Yönetimi için <a href="index.php?git=login">tıklayın</a>.</p>
+  <p><a href="index.php?git=login">Click</a> for WAF Management.</p>
 </div>
 <hr></hr>
 <div style="padding-left:20px">
   <h1>pH Analyzer Nedir ?</h1>
-  <p>Kurumsal şirketler için progrqam tabanlı bir siber güvenlik aracıdır.</p>
+  <p>It is a program-based cybersecurity tool for companies and individuals. With this tool, it is aimed to search for vulnerabilities in codes and to reduce possible cyber security costs.</p>
 </div>';
 break;
 
@@ -341,8 +341,8 @@ case 'login':
 echo '<div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
-    <a href="index.php">Ana Sayfa</a>
-    <a class="active" href="index.php?git=login">Giriş</a>
+    <a href="index.php">Home</a>
+    <a class="active" href="index.php?git=login">Login</a>
   </div>
 </div><br>
 
@@ -352,18 +352,18 @@ echo '<div class="header">
 <form action="index.php?git=loginkontrol" method="post">
 <div class="row">
 <div class="col-md-12 form-group">
-<p>Kullanıcı Adı : <input data-role="input"  type="text" name="user" placeholder="Kullanıcı Adı"></p></div></div>
+<p>Username : <input data-role="input"  type="text" name="user" placeholder="Kullanıcı Adı"></p></div></div>
 <div class="row">
 <div class="col-md-12 form-group">
-<p>Şifre : <input data-role="keypad"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
+<p>Password : <input data-role="keypad"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
 <input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
 <p><div class="row">
 <div class="col-md-12 form-group">
-<button class="btn btn-block btn-login">Giriş</button></p></div><br>
+<button class="btn btn-block btn-login">Login</button></p></div><br>
 </form>
 </div>
 <div class="col-md-12 form-group">
-<a href="index.php?git=sifirla" class="btn btn-block btn-login">Sıfırla</a></div>
+<a href="index.php?git=sifirla" class="btn btn-block btn-login">Reset Password</a></div>
 </div>';
 break;
  
