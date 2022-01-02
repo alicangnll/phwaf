@@ -397,31 +397,31 @@ case 'index':
 LoginCheck(strip_tags($_SESSION['kullanici_adi']));
 
 echo '<div class="container">
-<br><h3>WAF Durumu</h3>';
+<br><h3>WAF Status</h3>';
 $ayarid = 1;
 try {
 $stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$aliwaf->quote($ayarid).' ORDER BY ayar_id DESC');
 $stmt->execute();
 while($row = $stmt->fetch()){
 if($row['oto_ban'] == 1) {
-echo '<div class="alert alert-success"><strong>Otomatik IP Ban : AÇIK (1)</strong></div><br>';
+echo '<div class="alert alert-success"><strong>Otomatik IP Ban : RUNNNING (1)</strong></div><br>';
 } else {
-echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : KAPALI (0)</strong></div><br>';
+echo '<div class="alert alert-danger"><strong>Otomatik IP Ban : NOT RUNNNING (0)</strong></div><br>';
 }
 if($row['waf_aktif'] == 1) {
-echo '<div class="alert alert-success"><strong>WAF : AKTIF (1)</strong></div><br>';
+echo '<div class="alert alert-success"><strong>WAF : RUNNNING (1)</strong></div><br>';
 } else {
-echo '<div class="alert alert-danger"><strong>WAF : PASIF (0)</strong></div><br>';
+echo '<div class="alert alert-danger"><strong>WAF : NOT RUNNNING (0)</strong></div><br>';
 }
 if ($row['debug'] == 1){
-echo '<td><div class="alert alert-success"><strong>DEBUG : Aktif</strong></div></td>';
+echo '<td><div class="alert alert-success"><strong>DEBUG : RUNNNING</strong></div></td>';
 } else {
-echo '<td><div class="alert alert-danger"><strong>DEBUG : Pasif</strong></div></td>';
+echo '<td><div class="alert alert-danger"><strong>DEBUG : NOT RUNNNING</strong></div></td>';
 }
 if($row['ayar_aktif'] == 1) {
-echo '<div class="alert alert-success"><strong>AYAR : AÇIK (1)</strong></div><br>';
+echo '<div class="alert alert-success"><strong>AYAR : RUNNNING (1)</strong></div><br>';
 } else {
-echo '<div class="alert alert-danger"><strong>AYAR : KAPALI (0)</strong></div><br>';
+echo '<div class="alert alert-danger"><strong>AYAR : NOT RUNNNING (0)</strong></div><br>';
 }	
 }
 } catch(PDOException $e) {
