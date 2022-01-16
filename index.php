@@ -693,12 +693,12 @@ textarea {
 }
 </style>
 <br>
-<form class="w3-container" action="index.php?git=sifirlandi" method="post">
+<form class="w3-container container" action="index.php?git=sifirlandi" method="post">
 <label>E-Mail</label>
 <input type="text" name="email" data-role="input" placeholder="E-Mail:"> 
 <br>
 <label>Token</label>
-<input type="text" name="token" data-role="input" placeholder="Token:"> <br>
+<input type="pasword" name="token" data-role="input" placeholder="Token:"> <br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 break;
@@ -707,13 +707,13 @@ case 'sifirlandi':
 if (isset($_POST["token"]) && isset($_POST["email"])) {
 $email = $_POST["email"];
 $token = sha1(md5($_POST["token"]));
-$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = '$email' AND token = '$token'");
+$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$db->quote($email)." AND token = ".$db->quote($token)."");
 if ($stmt->rowCount() > 0) {
 $str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
 $str = str_shuffle($str);
 $str = substr($str, 0, 15);
 $password = sha1(md5($str));
-$aliwaf->query("UPDATE admin_bilgi SET passwd = '$password' WHERE email = '$email'");
+$aliwaf->query("UPDATE admin_bilgi SET passwd = ".$db->quote($password)." WHERE email = ".$db->quote($email)."");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
