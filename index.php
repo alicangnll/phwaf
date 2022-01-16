@@ -707,13 +707,13 @@ case 'sifirlandi':
 if (isset($_POST["token"]) && isset($_POST["email"])) {
 $email = $_POST["email"];
 $token = sha1(md5($_POST["token"]));
-$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$db->quote($email)." AND token = ".$db->quote($token)."");
+$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$aliwaf->quote($email)." AND token = ".$aliwaf->quote($token)."");
 if ($stmt->rowCount() > 0) {
 $str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
 $str = str_shuffle($str);
 $str = substr($str, 0, 15);
 $password = sha1(md5($str));
-$aliwaf->query("UPDATE admin_bilgi SET passwd = ".$db->quote($password)." WHERE email = ".$db->quote($email)."");
+$aliwaf->query("UPDATE admin_bilgi SET passwd = ".$aliwaf->quote($password)." WHERE email = ".$aliwaf->quote($email)."");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
