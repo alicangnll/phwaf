@@ -276,7 +276,7 @@ echo '<body class="container">
 <b>MySQL Kurulumu</b>
 <hr></hr>
 <p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
+<b>NOT : <i>conn.php / class.engelle.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
 '.$txt2.'
 </pre>
