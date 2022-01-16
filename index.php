@@ -698,7 +698,7 @@ textarea {
 <input type="text" name="email" data-role="input" placeholder="E-Mail:"> 
 <br>
 <label>Token</label>
-<input type="pasword" name="token" data-role="input" placeholder="Token:"> <br>
+<input type="password" name="token" data-role="input" placeholder="Token:"> <br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';
 break;
@@ -711,7 +711,7 @@ $stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$aliwaf->quote
 if ($stmt->rowCount() > 0) {
 $str = "0123456789";
 $str = str_shuffle($str);
-$str = substr($str, 0, 15);
+$str = substr($str, 0, 10);
 $password = sha1(md5($str));
 $aliwaf->query("UPDATE admin_bilgi SET passwd = ".$aliwaf->quote($password)." WHERE email = ".$aliwaf->quote($email)."");
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
