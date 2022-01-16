@@ -709,7 +709,7 @@ $email = $_POST["email"];
 $token = sha1(md5($_POST["token"]));
 $stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$aliwaf->quote($email)." AND token = ".$aliwaf->quote($token)."");
 if ($stmt->rowCount() > 0) {
-$str = "0123456789qwertzuioplkjhgfdsayxcvbnm";
+$str = "0123456789";
 $str = str_shuffle($str);
 $str = substr($str, 0, 15);
 $password = sha1(md5($str));
