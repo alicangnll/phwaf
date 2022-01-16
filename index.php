@@ -842,13 +842,13 @@ textarea {
 <input type="text" name="kadi" data-role="input" placeholder="Kullanıcı Adı:" value="'.$row['kadi'].'"> 
 <br>
 <label>Şifre</label>
-<input type="text" name="pass" data-role="input" placeholder="Şifre:"> 
+<input type="number" name="pass" data-role="input" placeholder="Şifre:"> 
 <br>
 <label>E-Mail</label>
 <input type="text" name="email" data-role="input" placeholder="E-Mail:" value="'.$row['email'].'">
 <br>
 <label>Token</label>
-<input type="text" name="tokens" data-role="input" placeholder="Token:"> 
+<input type="number" name="tokens" data-role="input" placeholder="Token:"> 
 <br><br>
 <input type="submit" value="Gönder" class="w3-button w3-red">
 </form>';	
