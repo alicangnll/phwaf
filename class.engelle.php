@@ -121,18 +121,18 @@ $jsonk = var_dump(json_encode($yasakla));
 public function Debug() {
 echo '<pre class="container">';
 if($_SERVER['REQUEST_METHOD'] == "GET") {
-$getlog = LogIslem($_GET);
+$getlog = $this->LogIslem($_GET);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 } elseif($_SERVER['REQUEST_METHOD'] == "POST")
 {
-$getpost = LogIslem($_POST);
+$getpost = $this->LogIslem($_POST);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 } else {
-$getpost = LogIslem($_SERVER['REQUEST_METHOD']);
+$getpost = $this->LogIslem($_SERVER['REQUEST_METHOD']);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 }
 echo '</pre>';
 }
