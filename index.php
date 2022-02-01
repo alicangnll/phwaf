@@ -1,315 +1,12 @@
 <?php
-error_reporting(0);
-include("conn.php");
-session_start();
-$_SESSION["csrf"] = sha1(md5(rand()));
-$update = "http://alicangnll.github.io/phpwaf-phanalyzer/";
-?>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="pH Analyzer">   
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="css/metro-all.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="js/metro.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<style>
-* {box-sizing: border-box;}
-
-.header {
-  overflow: hidden;
-  background-color: #f1f1f1;
-  padding: 20px 10px;
-}
-
-.header a {
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}
-
-.header a.logo {
-  font-size: 25px;
-  font-weight: bold;
-}
-
-.header a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.header a.active {
-  background-color: dodgerblue;
-  color: white;
-}
-
-.header-right {
-  float: right;
-}
-
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .header-right {
-    float: none;
-  }
-}
-body{
-  margin: 0;
-  font-family:Verdana,sans-serif;
-  font-size:15px;
-  line-height:1.5;
-  font-family: Arial, Helvetica, sans-serif;
-  color:black;
-}
-.simple-login-container{
-    width:300px;
-    max-width:100%;
-    margin:50px auto;
-}
-.simple-login-container h2{
-    text-align:center;
-    font-size:20px;
-}
-
-.simple-login-container .btn-login{
-    background-color:#FF5964;
-    color:#fff;
-}
-a{
-    color:black;
-}
-
-@media (max-width:800px) {
-body {
-margin: 0;
-font-size:14px;
-color:black;
-background-repeat: no-repeat;
-}
-.manzara {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 15px;
-}
-.form-control {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  box-shadow: 3px solid #f1f1f1;
-  z-index: 2;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-}
-}
-@media (min-width:800px) {
-body {
-background-repeat: no-repeat;
-}
-.manzara {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  box-shadow: 3px solid #f1f1f1;
-  z-index: 2;
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  font-weight: bold;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-}
-.form-control {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  box-shadow: 3px solid #f1f1f1;
-  z-index: 2;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-}
-
-.container  {
-border-radius: 20px;
-}
-
-}
-</style>
-	<title>pH Analyzer | AliWAF</title>  
-</head>
-<?php
-if(file_exists("yukle.lock")) {
-} else {
-die("<center><b>PHP WAF Yüklenemedi / PHP WAF was not Installed</b>
-<hr></hr>
-<p>yukle.lock oluşturulmamış</b><br>
-<a href='install.php'>Yükle</a></center>");
-}
-function LoginCheck($mail) {
-if (isset($_SESSION['girisyap'])){
-echo '<aside class="sidebar pos-absolute z-2"
-       data-role="sidebar"
-       data-toggle="#sidebar-toggle-3"
-       id="sb3"
-       data-shift=".shifted-content">';
+include("class.aliwaf.php");
 date_default_timezone_set('Europe/Istanbul');
-$tarih = date("d-m");
+$aliwafac = new AliWAF_Panel();
+$aliwafac->GetirHead();
+$aliwafac->KontrolDosya("yukle.lock");
+$aliwafac->CSS();
+$aliwafac->Guncelleme();
 
-if($tarih == date('29-10'))
-{
-echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg">
-<div class="avatar">
-<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
-</div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
-</div>';
-}
-elseif($tarih == date('10-11')) {
-echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg>
-<div class="avatar">
-<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
-</div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
-</div>';
-} 
-elseif($tarih == date('30-08')) {
-echo '<div class="sidebar-header" data-image="https://data.pixiz.com/output/user/frame/preview/400x400/5/6/3/9/2869365_eb3e7.jpg">
-<div class="avatar">
-<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
-</div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
-</div>';
-} else {
-echo '<div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
-<div class="avatar">
-<img data-role="gravatar" data-email="alicangonullu@yahoo.com">
-</div>
-<span style="background-color: rgb(0,0,0);background-color: rgba(0,0,0, 0.4);width:45%;"  class="title fg-white">Ali Can Gönüllü</span>
-</div>';
-}
-
-echo '
-    <ul class="sidebar-menu">
-        <li><a href="index.php?git=index"><span class="mif-home icon"></span>Home</a></li>
-        <li><a href="index.php?git=admin"><span class="mif-user icon"></span>Admin</a></li>
-        <li><a href="index.php?git=update"><span class="mif-cloud-upload icon"></span>Update</a></li>
-        <li><a href="index.php?git=loglar"><span class="mif-file-text icon"></span>Logs</a></li>
-        <li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Exit</a></li>
-        <li class="divider"></li>
-        <li><a href="index.php?git=kuralekle"><span class="mif-add icon"></span>Add Rule</a></li>
-		<li><a href="index.php?git=ipekle"><span class="mif-add icon"></span>Add Blocked IP</a></li>
-		<li><a href="index.php?git=methodekle"><span class="mif-add icon"></span>Add Method</a></li>
-    </ul>
-</aside>
-<div class="shifted-content h-100 p-ab">
-    <div class="app-bar pos-absolute bg-red z-1" data-role="appbar">
-        <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
-            <span class="mif-menu fg-white"></span>
-        </button>
-    </div>';
-$json = file_get_contents("".$update."server_upd.json");
-$obj = json_decode($json, true);
-if(empty($obj["guncelleme_numarasi"])) {
-?>
-<script>
-var notify = Metro.notify;
-notify.setup({
-width: 300,
-duration: 1000,
-animation: 'easeOutBounce'
-});
-
-document.write("<input type='hidden'>");
-notify.create("Versiyon Bilgisi Eksiktir!");
-notify.reset();
-</script>
-<?php
-} else {
-?>
-<script>
-var data = '<?php echo trim(file_get_contents("guncelleme.json")); ?>';
-
-var alert1 = 'Sisteminiz günceldir.';
-var alert2 = 'Sisteminiz için bir güncelleme bulunmaktadır.';
-
-var notify = Metro.notify;
-notify.setup({
-width: 300,
-duration: 1000,
-animation: 'easeOutBounce'
-});
-
-var json = JSON.parse(data);
-if(json["guncelleme_kodu"] >= <?php echo $obj["guncelleme_numarasi"]; ?>) {
-document.write("<input type='hidden'>");
-notify.create(alert1);
-notify.reset();
-} else {
-document.write("<input type='hidden'>");
-notify.create(alert2);
-notify.reset();
-}
-</script>
-<?php
-}
-
-} else {
-die(header('Location: index.php'));	
-}
-}
-function reel_ip()  
-{  
-    if (!empty($_SERVER['HTTP_CLIENT_IP']))  
-    {  
-        $ip=$_SERVER['HTTP_CLIENT_IP'];  
-    }  
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
-    }
-   elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_FORWARDED'];  
-    }
-	
-   elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];  
-    } 
-	   elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
-     
-    {  
-        $ip = $_SERVER['HTTP_FORWARDED'];  
-    } 
-    else  
-    {  
-        $ip=$_SERVER['REMOTE_ADDR'];  
-    }  
-    return $ip;  
-}
 
 if(!isset($_GET['git'])) {
 $sayfa = 'giris';	// eğer boşsa anasayfa varsayalım.
@@ -325,8 +22,8 @@ echo '<div class="header">
     <a class="active" href="index.php">Home</a>
     <a href="index.php?git=login">Login</a>
   </div>
-</div><br>';
-echo '<div style="padding-left:20px">
+</div><br>
+<div style="padding-left:20px">
   <h1>pH Analyzer | AliWAF</h1>
   <p><a href="index.php?git=login">Click</a> for WAF Management.</p>
 </div>
@@ -368,41 +65,17 @@ echo '<div class="header">
 break;
  
 case 'loginkontrol':
-if($_POST) {
-
-$query  = $aliwaf->query("SELECT * FROM admin_bilgi WHERE kadi = ".$aliwaf->quote(strip_tags($_POST["user"])) . " && passwd = " . $aliwaf->quote(strip_tags(sha1(md5($_POST['pass'])))) . "",PDO::FETCH_ASSOC);
-if ( $say = $query -> rowCount() ){
-if( $say > 0 ){
-session_start();
-session_regenerate_id();
-$_SESSION['girisyap'] = time() + 1800;
-$_SESSION['kullanici_adi']= $name;
-$_SESSION['girisyap']=true; 
-header('Location: index.php?git=index');
-}
-}else{
-echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-<p>HATA: Oturum Açılamadı!</p>';
-header('Location: index.php?git=login');
-die();
-}
-
-} else {
-die('<meta name="viewport" content="width=device-width, initial-scale=1">
-<center><p>HATA: Oturum Açılamadı!</p></center>');
-}
+$aliwafac->DB_LoginCheck($_POST["user"], $_POST["pass"]);
 break;
 
 case 'index':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 
 echo '<div class="container">
 <br><h3>WAF Status</h3>';
-$ayarid = 1;
-try {
-$stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE waf_aktif = '.$aliwaf->quote($ayarid).' ORDER BY ayar_id DESC');
-$stmt->execute();
-while($row = $stmt->fetch()){
+
+$js = json_decode($aliwafac->DB_GetirWAFStatus(), true);
+foreach($js as $row) {
 if($row['oto_ban'] == 1) {
 echo '<div class="alert alert-success"><strong>Otomatik IP Ban : RUNNNING (1)</strong></div><br>';
 } else {
@@ -424,10 +97,7 @@ echo '<div class="alert alert-success"><strong>AYAR : RUNNNING (1)</strong></div
 echo '<div class="alert alert-danger"><strong>AYAR : NOT RUNNNING (0)</strong></div><br>';
 }	
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
-echo '<div class="alert alert-success"><strong>IP Adresiniz : '.strip_tags(reel_ip()).'</strong></div><br>';
+echo '<div class="alert alert-success"><strong>IP Adresiniz : '.strip_tags($aliwafac->reel_ip()).'</strong></div><br>';
 echo '</div>
 <div class="container">
 <table class="table">
@@ -438,37 +108,26 @@ echo '</div>
 <th>Rule ID</th>
 <th>Rule Name</th>
 </tr></thead><tbody>';
-
-try {
-$stmt = $aliwaf->query('SELECT * FROM guard_watch ORDER BY kural_id DESC');
-while($row = $stmt->fetch()){
-
+$js2 = json_decode($aliwafac->DB_GetirWAFRules(), true);
+foreach($js2 as $row) {
 echo '<tr>
 <td><a class="button button3" href="javascript:kuralsil('.intval($row['kural_id']).')">Sil</a></td>
 <td>'.strip_tags($row['kural_id']).'</td>
 <td>'.strip_tags($row['kural_adi']).'</td>
 <td><a href="index.php?git=kuralduzenle&id='.intval($row['kural_id']).'">Edit</a></td>
-</tr>
-';
+</tr>';
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
-?>
-</tbody></table></div>
+echo '</tbody></table></div>
 <script language="JavaScript" type="text/javascript">
 function kuralsil(id)
 {
   if (confirm("Silmek istediğinize emin misiniz : " + id ))
   {
-      window.location.href = 'index.php?git=kuralsil&sil=' + id;
+      window.location.href = "index.php?git=kuralsil&sil=" + id;
   }
 }
 </script>
-<?php
 
-
-echo '
 <div class="container">
 <table class="table">
 <thead>
@@ -480,9 +139,8 @@ echo '
 <th>Type</th>
 </tr></thead><tbody>';
 
-try {
-$stmt = $aliwaf->query('SELECT * FROM method_blok ORDER BY method_id DESC');
-while($row = $stmt->fetch()){
+$js3 = json_decode($aliwafac->DB_GetirWAFAllowedMethods(), true);
+foreach($js3 as $row) {
 echo '<tr>
 <td><a class="button button3" href="javascript:delmethod('.intval($row['method_id']).')">Sil</a></td>
 <td>'.strip_tags($row['method_id']).'</td>
@@ -491,23 +149,17 @@ echo '<tr>
 <td><a href="index.php?git=methodduzenle&id='.strip_tags($row['method_id']).'">Edit</a></td>
 </tr>';	
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
-?>
-</tbody></table></div>
+echo '</tbody></table></div>
 <script language="JavaScript" type="text/javascript">
 function delmethod(id)
 {
   if (confirm("Silmek istediğinize emin misiniz : " + id ))
   {
-      window.location.href = 'index.php?git=methodsil&sil=' + id;
+      window.location.href = "index.php?git=methodsil&sil=" + id;
   }
 }
 </script>
-<?php
-
-echo '<div class="container">
+<div class="container">
 <table class="table">
 <thead>
 <br><h3>IP Address</h3>
@@ -516,10 +168,8 @@ echo '<div class="container">
 <th>ID</th>
 <th>IP</th>
 </tr></thead><tbody>';
-
-try {
-$stmt = $aliwaf->query('SELECT * FROM ip_ban ORDER BY ip_id DESC');
-while($row = $stmt->fetch()){
+$js4 = json_decode($aliwafac->DB_GetirIPBan(), true);
+foreach($js4 as $row) {
 echo '<tr>
 <td><a class="button button3" href="javascript:delip('.intval($row['ip_id']).')">Sil</a></td>
 <td>'.strip_tags($row['ip_id']).'</td>
@@ -528,38 +178,22 @@ echo '
 <td><a href="index.php?git=ipduzenle&id='.intval($row['ip_id']).'">Edit</a></td>
 </tr>';	
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
 echo '</tbody></table>
 <br><br>
-</div>';
-?>
+</div>
 <script language="JavaScript" type="text/javascript">
 function delip(id)
 {
   if (confirm("Silmek istediğinize emin misiniz : " + id ))
   {
-      window.location.href = 'index.php?git=ipsil&ipsil=' + id;
+      window.location.href = "index.php?git=ipsil&ipsil=" + id;
   }
 }
-</script>
-<?php
+</script>';
 break;
 
 case 'loglar':
-$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
-$stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
-if($row = $stmt->fetch()) {
-$adminid = 0;
-if ($row['admin_yetki'] == $adminid){
-} else {
-echo 'Yetkiniz Yok';
-die();  
-}
-}
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-
+$aliwafac->KontrolSession();
 echo '<div class="container">
 <table class="table">
 <thead>
@@ -570,8 +204,8 @@ echo '<div class="container">
 <th>Log IP</th>
 <th>Log URL</th>
 </tr></thead><tbody>';
-$stmt = $aliwaf->query('SELECT * FROM vuln_log ORDER BY id DESC');
-while($row = $stmt->fetch()){
+$js5 = json_decode($aliwafac->DB_GetirLoglar(), true);
+foreach($js5 as $row) {
 echo '<tr>
 <td>'.intval($row["id"]).'</td>
 <td>'.strip_tags($row['vuln_name']).'</td>
@@ -583,18 +217,7 @@ echo '</tbody></table></div>';
 break;
 
 case 'admin':
-$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE kadi = :gonderid');
-$stmt->execute(array(':gonderid' => $_SESSION['kullanici_adi']));
-if($row = $stmt->fetch()) {
-$adminid = 0;
-if ($row['admin_yetki'] == $adminid){
-} else {
-echo 'Yetkiniz Yok';
-die();	
-}
-}
-
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 
 echo '<div class="container">
 <table class="table">
@@ -605,21 +228,15 @@ echo '<div class="container">
 <th>Admin Name</th>
 </tr></thead><tbody>';
 
-try {
-$stmt = $aliwaf->query('SELECT * FROM admin_bilgi ORDER BY id DESC');
-while($row = $stmt->fetch()){
+$js6 = json_decode($aliwafac->DB_GetirAdmin(), true);
+foreach($js6 as $row) {
 echo '<tr>
 <td>'.strip_tags($row['id']).'</td>
 <td>'.strip_tags($row['kadi']).'</td>
 <td><a class="button" href="index.php?git=adminduzenle&id='.intval($row['id']).'">Edit</a>
 </tr>';	
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
-
 echo '</tbody></table></div>
-
 <div class="container">
 <table class="table">
 <br><h3>Configs</h3>
@@ -632,9 +249,8 @@ echo '</tbody></table></div>
 <th></th>
 </tr></thead><tbody>';
 
-try {
-$stmt = $aliwaf->query('SELECT * FROM waf_ayar ORDER BY ayar_id DESC');
-while($row = $stmt->fetch()){
+$js7 = json_decode($aliwafac->DB_GetirWAFStatus(), true);
+foreach($js7 as $row) {
 echo '<tr>
 <td>'.intval($row['ayar_id']).'</td>';
 $adminid = 1;
@@ -665,9 +281,6 @@ echo '
 echo '<td><a class="button" href="index.php?git=ayarduzenle">Edit</a></tr>
 </tbody></table></div>';	
 }
-} catch(PDOException $e) {
-echo $e->getMessage();
-}
 break;
 
 case 'sifirla':
@@ -677,8 +290,8 @@ case 'sifirla':
   <div class="header-right">
     <a href="index.php?git=index">Ana Sayfa</a>
   </div>
-</div>';
-echo '
+</div>
+
 <style> 
 textarea {
   width: 100%;
@@ -704,46 +317,32 @@ textarea {
 break;
 
 case 'sifirlandi':
-if (isset($_POST["token"]) && isset($_POST["email"])) {
-$email = $_POST["email"];
-$token = sha1(md5($_POST["token"]));
-$stmt = $aliwaf->query("SELECT * FROM admin_bilgi WHERE email = ".$aliwaf->quote($email)." AND token = ".$aliwaf->quote($token)."");
-if ($stmt->rowCount() > 0) {
-$str = "0123456789";
-$str = str_shuffle($str);
-$str = substr($str, 0, 10);
-$password = sha1(md5($str));
-$aliwaf->query("UPDATE admin_bilgi SET passwd = ".$aliwaf->quote($password)." WHERE email = ".$aliwaf->quote($email)."");
+if($aliwafac->DB_SifirlaPassword() == true) {
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="header">
   <a href="index.php" class="logo"><img class="logo" width="310" height="61" src="logo.png"></a>
   <div class="header-right">
     <a href="index.php?git=index">Ana Sayfa</a>
   </div>
-</div>';
-echo '<body class="w3-container">
+</div>
+
+<body class="w3-container">
 <div class="w3-panel w3-pale-red w3-border">
 <h4>Yeni şifren: '.$str.'</h4>
 <hr></hr>
 <h5>NOT : Şifrenizi Kopyalayın ve <b>BİR YERE KAYDEDİN!</b></h5>
 </body>'; 
 exit();
- } else {
-            echo "Lütfen link yapınızı kontrol ediniz!";
-			exit();
-        }
-    } else {
-		echo 'Bir şeyler hatalı';
-        exit();
-    } 
+} else {
+echo "Lütfen link yapınızı kontrol ediniz!";
+exit();
+}
 break;
 
 case 'ipduzenle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-
-    $stmt = $aliwaf->prepare('SELECT * FROM ip_ban WHERE ip_id = :gonderid');
-    $stmt->execute(array(':gonderid' => $_GET['id']));
-if($row = $stmt->fetch()) {
+$aliwafac->KontrolSession();
+$js8 = json_decode($aliwafac->DB_GetirIPBilgi($_GET['id']), true);
+foreach($js8 as $row) {
 echo '
 <style> 
 textarea {
@@ -769,25 +368,14 @@ textarea {
 break;
 
 case 'ipupd':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$update = $aliwaf->prepare("UPDATE ip_ban SET ip_adresi = :ipadresi  WHERE ip_id = :gonderid ");
-$update->bindValue(':gonderid', intval($_GET['id']));
-$update->bindValue(':ipadresi', strip_tags($_POST['ipadresi']));
-$update->execute();
-if($update){
-echo '<script>
-alert("Başarılı");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_InsertIP();
 break;
 
 case 'kuralduzenle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-
-$stmt = $aliwaf->prepare('SELECT * FROM guard_watch WHERE kural_id = :gonderid');
-$stmt->execute(array(':gonderid' => intval($_GET['id'])));
-if($row = $stmt->fetch()) {
+$aliwafac->KontrolSession();
+$js9 = json_decode($aliwafac->DB_GetirKural_ID(), true);
+foreach($js9 as $row) {
 $degis = str_replace("¿¿", ",", $row['kural_icerik']);
 echo '
 <style> 
@@ -817,11 +405,9 @@ break;
 
 
 case 'adminduzenle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-
-$stmt = $aliwaf->prepare('SELECT * FROM admin_bilgi WHERE id = :gonderid');
-$stmt->execute(array(':gonderid' => $_GET['id']));
-if($row = $stmt->fetch()) {
+$aliwafac->KontrolSession();
+$js10 = json_decode($aliwafac->DB_GetirAdmin_ID(), true);
+foreach($js10 as $row) {
 echo '
 <style> 
 textarea {
@@ -854,29 +440,17 @@ textarea {
 </form>';	
 	}
 break;
+
 case 'kadiupd':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$update = $aliwaf->prepare("UPDATE admin_bilgi SET kadi = :kadi , passwd = :pass , email = :email , token = :token WHERE id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags($_GET['id']));
-$update->bindValue(':kadi', strip_tags($_POST['kadi']));
-$update->bindValue(':pass', strip_tags(sha1(md5($_POST['pass']))));
-$update->bindValue(':email', strip_tags($_POST['email']));
-$update->bindValue(':token', strip_tags(sha1(md5($_POST['tokens']))));
-$update->execute();
-if($update){
-echo '<script>
-alert("Başarılı");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_InsertKullanici();
 break;
 
 case 'ayarduzenle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 
-$stmt = $aliwaf->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
-$stmt->execute(array(':gonderid' => "1"));
-if($row = $stmt->fetch()) {
+$js11 = json_decode($aliwafac->DB_GetirAyar_ID(), true);
+foreach($js11 as $row) {
 echo '
 <div class="container">
 <style> 
@@ -939,25 +513,12 @@ echo '</div>';
 break;
 
 case 'ayarkayit':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$update = $aliwaf->prepare("UPDATE waf_ayar SET ayar_adi = :ayar_adi , waf_aktif = :waf_aktif , oto_ban = :oto_ban , ayar_aktif = :ayar_aktif, debug = :debug WHERE ayar_id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags("1"));
-$update->bindValue(':ayar_adi', strip_tags($_POST['ayaradi']));
-$update->bindValue(':ayar_aktif', strip_tags($_POST['ayardurum']));
-$update->bindValue(':waf_aktif', strip_tags($_POST['wafdurum']));
-$update->bindValue(':oto_ban', strip_tags($_POST['otoban']));
-$update->bindValue(':debug', strip_tags($_POST['debug']));
-$update->execute();
-if($update){
-echo '<script>
-alert("Success");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_UpdateAyar();
 break;
 
 case 'kuralekle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 echo '
 <style> 
 textarea {
@@ -983,49 +544,20 @@ textarea {
 break;
 
 case 'krlpost':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));		
-$degis = str_replace(",", "¿¿", $_POST['kuralicerik']);												
-$update = $aliwaf->prepare("INSERT INTO guard_watch(kural_adi, kural_icerik, kural_hakkinda) VALUES (:kuraladi, :kuralicerik, :kuralhk)");
-$update->bindValue(':kuraladi', $_POST['kuraladi']);
-$update->bindValue(':kuralhk', $_POST['kuraladi']);
-$update->bindValue(':kuralicerik', $degis);
-$update->execute();
-if($update){
-echo '<script>
-alert("Rule Added");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("Rule Could Not Added");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();		
+$aliwafac->DB_InsertRule();
 break;
 
 case 'kuralpost':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$degis = str_replace(",", "¿¿", strtolower($_POST['kuralicerik']));
-$update = $aliwaf->prepare("UPDATE guard_watch SET kural_adi = :kuraladi, kural_icerik = :kuralicerik, kural_hakkinda = :kuralhk WHERE kural_id = :gonderid ");
-$update->bindValue(':gonderid', strip_tags($_GET['id']));
-$update->bindValue(':kuraladi', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kuralhk', strip_tags($_POST['kuraladi']));
-$update->bindValue(':kuralicerik', $degis);
-$update->execute();
-if($update){
-echo '<script>
-alert("Başarılı");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_UpdateKural();
 break;
 
 case 'methodduzenle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 
-$stmt = $aliwaf->prepare('SELECT * FROM method_blok WHERE method_id = :gonderid');
-$stmt->execute(array(':gonderid' => intval($_GET['id'])));
-if($row = $stmt->fetch()) {
+$js12 = json_decode($aliwafac->DB_DuzenleMethod_ID(), true);
+foreach($js12 as $row) {
 echo '
 <style> 
 textarea {
@@ -1061,22 +593,12 @@ textarea {
 break;
 
 case 'methodupd':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$update = $aliwaf->prepare("UPDATE method_blok SET method_adi = :method_adi , method_turu = :method_turu WHERE method_id = :gonderid ");
-$update->bindValue(':gonderid', intval($_GET['id']));
-$update->bindValue(':method_adi', strip_tags($_POST['methodadi']));
-$update->bindValue(':method_turu', strip_tags($_POST['methodicerik']));
-$update->execute();
-if($update){
-echo '<script>
-alert("Başarılı");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_GuncelleMethod_ID();
 break;
 
 case 'ipekle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 echo '
 <style> 
 textarea {
@@ -1101,27 +623,12 @@ textarea {
 break;
 
 case 'ippost':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));														
-$update = $aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ipadresi, :ipusragent, :ipsure) ");
-$update->bindValue(':ipadresi', $_POST['ipadress']);
-$update->bindValue(':ipusragent', "panel");
-$update->bindValue(':ipsure', date('H:i:s'));
-$update->execute();
-if($update){
-echo '<script>
-alert("IP Added");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("IP Could Not Added");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_InsertIP_ID();
 break;
 
 case 'methodekle':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
 echo '
 <style> 
 textarea {
@@ -1153,82 +660,29 @@ textarea {
 break;
 
 case 'methodpost':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-$update = $aliwaf->prepare("INSERT INTO method_blok(method_adi, method_turu, method_bilgisi) VALUES (:methodadi, :methodicerik, :methodbilgi) ");
-$update->bindValue(':methodadi', $_POST['methodadi']);
-$update->bindValue(':methodbilgi', $_POST['methodadi']);
-$update->bindValue(':methodicerik', $_POST['methodicerik']);
-$update->execute();
-if($update){
-echo '<script>
-alert("Method Added");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("Method Could Not Added");
-window.location.replace("index.php?git=index")
-</script>';
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_InsertMethod();
 break;
 
 
 case 'ipsil':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-if(isset($_GET['ipsil'])){ 
-$stmt = $aliwaf->prepare('DELETE FROM ip_ban WHERE ip_id = :postID') ;
-$stmt->execute(array(':postID' => intval($_GET['ipsil'])));
-if($stmt){
-echo '<script>
-alert("IP Deleted");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("IP Could Not Deleted");
-window.location.replace("index.php?git=index")</script>';
-}
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_DeleteIP();
 break;
 
 case 'kuralsil':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-if(isset($_GET['sil'])){ 
-$stmt = $aliwaf->prepare('DELETE FROM guard_watch WHERE kural_id = :postID') ;
-$stmt->execute(array(':postID' => intval($_GET['sil'])));
-if($stmt){
-echo '<script>
-alert("Rule Deleted");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("Rule Could Not Deleted");
-window.location.replace("index.php?git=index")</script>';
-}
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_DeleteRule();
 break;
 
 case 'methodsil':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
-if(isset($_GET['sil'])){ 
-$stmt = $aliwaf->prepare('DELETE FROM method_blok WHERE method_id = :postID') ;
-$stmt->execute(array(':postID' => intval($_GET['sil'])));
-if($stmt){
-echo '<script>
-alert("Method Deleted");
-window.location.replace("index.php?git=index")
-</script>';
-} else {
-echo '<script>
-alert("Method Could Not Deleted");
-window.location.replace("index.php?git=index")</script>';
-}
-}
+$aliwafac->KontrolSession();
+$aliwafac->DB_DeleteMethod();
 break;
 
 case 'update':
-LoginCheck(strip_tags($_SESSION['kullanici_adi']));
+$aliwafac->KontrolSession();
+$update = "http://alicangnll.github.io/phpwaf-phanalyzer/";
 $updateserver = json_decode(file_get_contents("".$update."server_upd.json"), true);
 $get = json_decode(file_get_contents("guncelleme.json"), true);
 echo "<br><div class='text-center container card'>
@@ -1252,9 +706,7 @@ echo '</div>';
 break;
 
 case 'cikis':
-session_destroy();
-echo (" OK ");
-header ("Location:index.php"); 
+$aliwafac->Exit();
 break;
 }
 ?>

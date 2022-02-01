@@ -207,67 +207,35 @@ die('<body class="container">
 </div></div></div></body>');
 }
 
-if(file_exists("conn.php")) {
-unlink("conn.php");
-touch("conn.php");
-$txt = '<?php
-try {
-$ip = "'.$mysqlserv.'"; //host
-$user = "'.$mysqlusr.'";  // host id
-$password = "'.$mysqlpass.'";  // password local olduğu için varsayılan şifre
-$ad = "'.$mysqldbname.'"; // db adı
-	
-     $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
-     $aliwaf->query("SET CHARACTER SET utf8");
-     $aliwaf->query("SET NAMES utf8");
-
-} catch ( PDOException $e ){
-die("<table>
-<center>No MySQL Connection</br>
-Bunun Sebebi Bir DDoS Saldırısı Olabilir</br>
-Sistem Yöneticinizle Irtibata Geçin</br>
-<a href=install.php>Yükle / Install</a></center>
-</table>");
-}
-?>';
-$fp = fopen("conn.php","a");
-fwrite($fp,$txt);
-fclose($fp);
-} else {
-touch("conn.php");
-$txt = '<?php
-try {
-$ip = "'.$mysqlserv.'"; //host
-$user = "'.$mysqlusr.'";  // host id
-$password = "'.$mysqlpass.'";  // password local olduğu için varsayılan şifre
-$ad = "'.$mysqldbname.'"; // db adı
-	
-     $aliwaf = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
-     $aliwaf->query("SET CHARACTER SET utf8");
-     $aliwaf->query("SET NAMES utf8");
-
-} catch ( PDOException $e ){
-die("<table>
-<center>No MySQL Connection</br>
-Bunun Sebebi Bir DDoS Saldırısı Olabilir</br>
-Sistem Yöneticinizle Irtibata Geçin</br>
-<a href=install.php>Yükle / Install</a></center>
-</table>");
-}
-?>';
-$fp = fopen("conn.php","a");
-fwrite($fp,$txt);
-fclose($fp);
-}
-
 $sql = mysqli_connect($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $sqlSource = file_get_contents(''.dirname(__FILE__).'/ali_waf.sql');
 mysqli_multi_query($sql,$sqlSource);
 
-$txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
-$user = "'.strip_tags($mysqlusr).'";  // host id
-$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$ad = "'.strip_tags($mysqldbname).'"; // db adı ';
+$data = shell_exec("cat class.aliwaf.php");
+$rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $data);
+$rep2 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep1);
+$rep3 = str_replace('protected $pass = "P@ssw0rd2";', 'protected $pass = "'.$mysqlpass.'";', $rep2);
+$rep4 = str_replace('protected $dbname = "ali_waf";', 'protected $dbname = "'.$mysqldbname.'";', $rep3);
+shell_exec("rm -rf class.aliwaf.php");
+shell_exec("touch class.aliwaf.php");
+$path = dirname(__FILE__).'/class.aliwaf.php';
+$fp = fopen($path, 'a');
+if(!$fp){echo 'file is not opend';}
+fwrite($fp, $rep4);
+fclose($fp);
+
+$data = shell_exec("cat class.aliwaf.php");
+$rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $data);
+$rep2 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep1);
+$rep3 = str_replace('protected $pass = "P@ssw0rd2";', 'protected $pass = "'.$mysqlpass.'";', $rep2);
+$rep4 = str_replace('protected $dbname = "ali_waf";', 'protected $dbname = "'.$mysqldbname.'";', $rep3);
+shell_exec("rm -rf class.aliwaf.php");
+shell_exec("touch class.aliwaf.php");
+$path = dirname(__FILE__).'/class.aliwaf.php';
+$fp = fopen($path, 'a');
+if(!$fp){echo 'file is not opend';}
+fwrite($fp, $rep4);
+fclose($fp);
 
 echo '<body class="container">
 <br><br><br>
@@ -276,10 +244,6 @@ echo '<body class="container">
 <b>MySQL Kurulumu</b>
 <hr></hr>
 <p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : <i>conn.php / class.engelle.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
-<pre>
-'.$txt2.'
-</pre>
 <div class="form-group">
 <br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
 </div></div></div></body>';

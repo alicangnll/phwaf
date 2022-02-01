@@ -121,18 +121,18 @@ $jsonk = var_dump(json_encode($yasakla));
 public function Debug() {
 echo '<pre class="container">';
 if($_SERVER['REQUEST_METHOD'] == "GET") {
-$getlog = LogIslem($_GET);
+$getlog = $this->LogIslem($_GET);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 } elseif($_SERVER['REQUEST_METHOD'] == "POST")
 {
-$getpost = LogIslem($_POST);
+$getpost = $this->LogIslem($_POST);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 } else {
-$getpost = LogIslem($_SERVER['REQUEST_METHOD']);
+$getpost = $this->LogIslem($_SERVER['REQUEST_METHOD']);
 echo '<br>';
-$gethead = HeaderIslem();
+$gethead = $this->HeaderIslem();
 }
 echo '</pre>';
 }
@@ -230,7 +230,16 @@ public function queryDB_KontrolKurali($data) {
 		$parametreler1 = str_replace("!", "", $parametreler0);
 		$parametreler2 = str_replace("=", "", $parametreler1);
 		$parametreler3 = str_replace("&", "", $parametreler2);
-		$parametreler8 = str_replace("-", "", $parametreler3);
+		$parametreler4 = str_replace("-", "", $parametreler3);
+		$parametreler5 = str_replace(":", "", $parametreler4);
+		$parametreler6 = str_replace("_", "", $parametreler5);
+		$parametreler7 = str_replace("@", "", $parametreler6);
+		$parametreler71 = str_replace("/", "", $parametreler7);
+		$parametreler72 = str_replace("+", "", $parametreler71);
+		$parametreler73 = str_replace("-", "", $parametreler72);
+		$parametreler74 = str_replace("[", "", $parametreler73);
+		$parametreler75 = str_replace("]", "", $parametreler74);
+		$parametreler8 = str_replace(",", "", $parametreler75);
 		$yasaklar=$row['kural_icerik'];
 		$yasakla=explode('¿¿',$yasaklar);
 		$sayiver=substr_count($yasaklar,'¿¿');
