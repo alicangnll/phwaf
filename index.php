@@ -255,24 +255,18 @@ echo '<tr>
 <td>'.intval($row['ayar_id']).'</td>';
 $adminid = 1;
 if ($row['waf_aktif'] == $adminid){
-header('X-AliWAF: ACTIVE');
 echo '<td><font color="green">Aktif</font></td>';
 } else {
-header('X-AliWAF: DEACTIVE');
 echo '<td><font color="red">Pasif</font></td>';
 }
 if ($row['oto_ban'] == $adminid){
-header('X-AliWAF: ACTIVE');
 echo '<td><font color="green">Aktif</font></td>';
 } else {
-header('X-AliWAF: DEACTIVE');
 echo '<td><font color="red">Pasif</font></td>';
 }
 if ($row['debug'] == $adminid){
-header('X-AliWAF: ACTIVE');
 echo '<td><font color="green">Aktif</font></td>';
 } else {
-header('X-AliWAF: DEACTIVE');
 echo '<td><font color="red">Pasif</font></td>';
 }
 echo '
