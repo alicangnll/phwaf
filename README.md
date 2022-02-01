@@ -21,11 +21,9 @@
         <br>
 <img src="pic/aliwaf4-1.png">
 <pre>
-PHP Dosyanıza
-require_once(“engelle.php”);
-Şeklinde ekleyiniz.
+Add to your PHP file
+include("engelle.php");
 <br>
-# Login teması alıntıdır #
 # Default user/pass : admin/19742008 #
 </pre></div><br>
 
