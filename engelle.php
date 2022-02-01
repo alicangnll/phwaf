@@ -5,6 +5,11 @@ include("class.engelle.php");
 $waf = new AliWAF_Block();
 $waf->Baglanti();
 $waf->memlimit("256", "MB");
+$waf->prepareDB_IPBan($waf->reel_ip());
+
+if($waf->prepareDB_OtobanDurum == true) {
+    $waf->insertDB_IPBanGiris("");
+}
 
 if ($waf->prepareDB_DebugDurum() == true){
 $waf->Debug();
