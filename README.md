@@ -33,7 +33,7 @@ We will add bug hunter list for this project.
         <br>
 <img src="pic/aliwaf3.png">
         <br>
-<img src="pic/aliwaf4.png">
+<img src="pic/aliwaf4-1.png">
 <code>
 <pre>PHP Dosyanıza
 require_once(“engelle.php”);
