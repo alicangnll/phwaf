@@ -208,9 +208,9 @@ $js5 = json_decode($aliwafac->DB_GetirLoglar(), true);
 foreach($js5 as $row) {
 echo '<tr>
 <td>'.intval($row["id"]).'</td>
-<td>'.strip_tags($row['vuln_name']).'</td>
-<td>'.strip_tags($row['vuln_ip']).'</td>
-<td>'.strip_tags($row['vuln_url']).'</td>
+<td>'.htmlentities($row['vuln_name']).'</td>
+<td>'.htmlentities($row['vuln_ip']).'</td>
+<td>'.htmlentities($row['vuln_url']).'</td>
 </tr>'; 
 }
 echo '</tbody></table></div>';
