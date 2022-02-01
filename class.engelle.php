@@ -217,17 +217,18 @@ public function insertDB_IPBanGiris($header) {
 	$update = $this->aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usr_agent, ip_suresi) VALUES (:ip, :header, :dte) ");
 	$update->bindValue(':ip', strip_tags($this->reel_ip()));
 	$update->bindValue(':header', $header);
-	$update->bindValue(':dte', date("Y/m/d H:i:s"));
+	$update->bindValue(':dte', date("H:i:s"));
 	$update->execute();
 	if($rowz = $update->rowCount()) {
 	} else {
 	}
   }
 
-public function prepareDB_IPBan($ip) {
-	$stmt = $this->aliwaf->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$this->aliwaf->quote($ip)."");
-	if($row = $stmt->rowCount()) {
-		$this->ErrorMessage("IP Ban", strip_tags($ip));
+public function prepareDB_IPBan() {
+	$update = $this->aliwaf->prepare("SELECT * FROM ip_ban WHERE ip_adresi = :ip");
+	$update->bindValue(':ip', strip_tags($this->reel_ip()));
+	if($row = $update->rowCount()) {
+		$this->ErrorMessage("IP Ban", strip_tags($this->reel_ip()));
 	} else {
 		//Normal
 	}

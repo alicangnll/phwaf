@@ -5,7 +5,10 @@ include("class.engelle.php");
 $waf = new AliWAF_Block();
 $waf->Baglanti();
 $waf->memlimit("256", "MB");
-$waf->prepareDB_IPBan($waf->reel_ip());
+
+if($waf->prepareDB_WAFDurum() == true) {
+header("X-AliWAF: ACTIVE");
+$waf->prepareDB_IPBan();
 
 if($waf->prepareDB_OtobanDurum == true) {
     $waf->insertDB_IPBanGiris("");
@@ -14,9 +17,6 @@ if($waf->prepareDB_OtobanDurum == true) {
 if ($waf->prepareDB_DebugDurum() == true){
 $waf->Debug();
 }
-
-if($waf->prepareDB_WAFDurum() == true) {
-header("X-AliWAF: ACTIVE");
 if ($waf->prepareDB_KontrolAyar() == true){
 
 
