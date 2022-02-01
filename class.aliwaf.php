@@ -25,6 +25,7 @@ class AliWAF_Panel {
       if ( $say = $query -> rowCount() ){
       if( $say > 0 ){
       $date = time() + 1800;
+      $_SESSION["girisyap"] = $date;
       echo '<script>window.location.href = "index.php?git=index";</script>';
       }
       }else{
