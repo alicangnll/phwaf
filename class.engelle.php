@@ -70,11 +70,11 @@ class AliWAF_Block {
   <div class="content-container shadow">
   <br>
     <div class="head-line secondary-text-color">
-		Illegal Girişim Algılandı
+	AliWAF | Illegal Girişim Algılandı
     </div>
 	<div class="hr"></div>
     <div class="context primary-text-color">
-      Deneme Türü : '.strip_tags($type).' ('.strip_tags($method).')
+      AliWAF | Illegal Girişim AlgılandıDeneme Türü : '.strip_tags($type).' ('.strip_tags($method).')
     </div>
     <div class="hr"></div>
     <div class="context secondary-text-color">
