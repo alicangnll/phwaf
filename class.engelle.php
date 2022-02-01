@@ -78,7 +78,7 @@ class AliWAF_Block {
     </div>
     <div class="hr"></div>
     <div class="context secondary-text-color">
-	<p> Method Türü : '.strip_tags($method).'</p>
+	<p> Method Türü : '.htmlentities($method).'</p>
       <p>URL : <br>'.strip_tags($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']).'</p>
 	  <p>User-Agent : <br>'.strip_tags($_SERVER['HTTP_USER_AGENT']).'</p>
 	  <p>IP : <br>'.strip_tags($this->reel_ip()).'</p>
@@ -204,7 +204,7 @@ public function insertDB_LogGiris($ad, $url, $header) {
   $update = $this->aliwaf->prepare("INSERT INTO vuln_log(vuln_name, vuln_ip, vuln_url, vuln_header, vuln_date) VALUES (:ad, :ip, :url, :header, :dte) ");
   $update->bindValue(':ad', strip_tags($ad));
   $update->bindValue(':ip', strip_tags($this->reel_ip()));
-  $update->bindValue(':url', strip_tags($url));
+  $update->bindValue(':url', htmlentities($url));
   $update->bindValue(':header', $header);
   $update->bindValue(':dte', date("Y/m/d H:i:s"));
   $update->execute();
@@ -247,7 +247,7 @@ public function queryDB_KontrolKurali($data) {
 		while ($i<=$sayiver) {
 			if (strstr($parametreler8,$yasakla[$i])) {
 				$this->insertDB_LogGiris("Injection Error", $parametreler, "");
-				$this->ErrorMessage("Injection Error ", strip_tags("Type : ".$this->kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
+				$this->ErrorMessage("Injection Error ", htmlentities("Type : ".$this->kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
 				if($this->prepareDB_OtobanDurum()  == true){
 					$this->prepareDB_IPBan($this->reel_ip());
 				} else {
