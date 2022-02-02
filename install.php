@@ -211,31 +211,27 @@ $sql = mysqli_connect($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $sqlSource = file_get_contents(''.dirname(__FILE__).'/ali_waf.sql');
 mysqli_multi_query($sql,$sqlSource);
 
-$data = shell_exec("cat class.aliwaf.php");
-$rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $data);
+$pathwafclass = 'class.aliwaf.php';
+$fpclass1 = file_get_contents($pathwafclass);
+$rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $fpclass1);
 $rep2 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep1);
-$rep3 = str_replace('protected $pass = "P@ssw0rd2";', 'protected $pass = "'.$mysqlpass.'";', $rep2);
+$rep3 = str_replace('protected $pass = "";', 'protected $pass = "'.$mysqlpass.'";', $rep2);
 $rep4 = str_replace('protected $dbname = "ali_waf";', 'protected $dbname = "'.$mysqldbname.'";', $rep3);
-shell_exec("rm -rf class.aliwaf.php");
-shell_exec("touch class.aliwaf.php");
-$path = dirname(__FILE__).'/class.aliwaf.php';
-$fp = fopen($path, 'a');
-if(!$fp){echo 'file is not opend';}
-fwrite($fp, $rep4);
-fclose($fp);
+unlink("class.aliwaf.php");
+touch("class.aliwaf.php");
+$path = 'class.aliwaf.php';
+file_put_contents($path, $rep4);
 
-$data = shell_exec("cat class.aliwaf.php");
-$rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $data);
-$rep2 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep1);
-$rep3 = str_replace('protected $pass = "P@ssw0rd2";', 'protected $pass = "'.$mysqlpass.'";', $rep2);
-$rep4 = str_replace('protected $dbname = "ali_waf";', 'protected $dbname = "'.$mysqldbname.'";', $rep3);
-shell_exec("rm -rf class.aliwaf.php");
-shell_exec("touch class.aliwaf.php");
-$path = dirname(__FILE__).'/class.aliwaf.php';
-$fp = fopen($path, 'a');
-if(!$fp){echo 'file is not opend';}
-fwrite($fp, $rep4);
-fclose($fp);
+$pathwafclass2 = 'class.engelle.php';
+$fpclass2 = file_get_contents($pathwafclass2);
+$rep11 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $fpclass2);
+$rep21 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep11);
+$rep31 = str_replace('protected $pass = "";', 'protected $pass = "'.$mysqlpass.'";', $rep21);
+$rep43 = str_replace('protected $dbname = "ali_waf";', 'protected $dbname = "'.$mysqldbname.'";', $rep31);
+unlink("class.engelle.php");
+touch("class.engelle.php");
+$path1 = 'class.engelle.php';
+file_put_contents($path1, $rep43);
 
 echo '<body class="container">
 <br><br><br>
