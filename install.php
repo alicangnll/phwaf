@@ -269,21 +269,39 @@ break;
 
 
 case 'install2':
-if(file_exists("yukle.lock")) {
-unlink("yukle.lock");
-$txt = md5(rand(5,15));
-$fp = fopen("yukle.lock","a");
-fwrite($fp,$txt);
-fclose($fp);
-} else {
-$txt = md5(rand(5,15));
-$fp = fopen("yukle.lock","a");
-fwrite($fp,$txt);
-fclose($fp);
-}
-if(file_exists("ali_waf.sql")) {
-unlink("ali_waf.sql");
-} else {
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	if(file_exists("yukle.lock")) {
+		unlink("yukle.lock");
+		touch("yukle.lock");
+		$txt = md5(rand(5,15));
+		file_put_contents("yukle.lock", $txt);
+	} else {
+		touch("yukle.lock");
+		$txt = md5(rand(5,15));
+		file_put_contents("yukle.lock", $txt);
+	}
+	if(file_exists("ali_waf.sql")) {
+		unlink("ali_waf.sql");
+	} else {
+	}
+	} else {
+	if(file_exists("yukle.lock")) {
+		unlink("yukle.lock");
+		$txt = md5(rand(5,15));
+		$fp = fopen("yukle.lock","a");
+		fwrite($fp,$txt);
+		fclose($fp);
+	} else {
+		$txt = md5(rand(5,15));
+		$fp = fopen("yukle.lock","a");
+		fwrite($fp,$txt);
+		fclose($fp);
+	}
+	
+	if(file_exists("ali_waf.sql")) {
+		unlink("ali_waf.sql");
+	} else {
+	}
 }
 echo '<body class="container">
 <br><br><br>
