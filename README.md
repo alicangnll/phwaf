@@ -11,3 +11,8 @@
   <li> Connection Method (GET, POST, PUT, OPTION etc.) Ban Mode </li>
   <li> GET/POST Request Checker </li>
 </ul>
+<h2>Pictures</h2>
+<img src="pic/aliwaf1.png" />
+<img src="pic/aliwaf2.png" />
+<img src="pic/aliwaf3.png" />
+<img src="pic/aliwaf4-1.png" />
