@@ -3,7 +3,7 @@ class AliWAF_Block {
 	protected $host = "localhost";
 	protected $dbname = "ali_waf";
 	protected $user = "root";
-	protected $pass = "";
+	protected $pass = "P@ssw0rd2";
 	protected $aliwaf;
 
 	public function Baglanti() {
