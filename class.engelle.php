@@ -1,9 +1,9 @@
 <?php
 class AliWAF_Block {
     protected $host = "localhost";
-    protected $dbname = "ibrahi30_alicangonullu";
-    protected $user = "ibrahi30_alicangonullu";
-    protected $pass = "iTY-^(yS[#dh";
+    protected $dbname = "ali_waf";
+    protected $user = "root";
+    protected $pass = "P@ssw0rd2";
 	protected $aliwaf;
 
 	public function Baglanti() {
