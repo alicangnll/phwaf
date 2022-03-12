@@ -7,7 +7,7 @@ class AliWAF_Panel {
     protected $host = "localhost";
     protected $dbname = "ali_waf";
     protected $user = "root";
-    protected $pass = "";
+    protected $pass = "P@ssw0rd2";
     protected $aliwafpanel;
     public function __construct() {
 		try {
