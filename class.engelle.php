@@ -214,11 +214,13 @@ public function insertDB_LogGiris($ad, $url, $header) {
 }
 
 public function prepareDB_IPBan($ip) {
-	$stmt = $this->aliwaf->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$this->aliwaf->quote($ip)."");
-	if($row = $stmt->rowCount()) {
-		$this->ErrorMessage("IP Ban", strip_tags($ip));
+	$update = $this->aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ip, :usr, :dte) ");
+	$update->bindValue(':ip', strip_tags($ip));
+	$update->bindValue(':usr', strip_tags($_SERVER['PHP_SELF']));
+	$update->bindValue(':dte', date("Y/m/d H:i:s"));
+	$update->execute();
+	if($rowz = $update->rowCount()) {
 	} else {
-		//Normal
 	}
 }
 
