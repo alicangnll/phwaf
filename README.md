@@ -17,6 +17,8 @@
 <br>
 <pre>require_once("engelle.php");</pre>
 <br>
+<pre>default user/pass : admin/19742008</pre>
+<br>
 <h2>Pictures</h2>
 <img src="pic/aliwaf1.png" />
 <img src="pic/aliwaf2.png" />
