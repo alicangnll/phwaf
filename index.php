@@ -53,6 +53,10 @@ echo '<div class="header">
 <div class="row">
 <div class="col-md-12 form-group">
 <p>Password : <input data-role="keypad"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
+<div class="row">
+<div class="col-md-12 form-group">
+<img src="captcha.php"/>
+<p>Captcha : <input data-role="keypad"  type="password" name="capt" placeholder="Captcha"></p></div></div><br>
 <input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
 <p><div class="row">
 <div class="col-md-12 form-group">
@@ -676,7 +680,7 @@ break;
 
 case 'update':
 $aliwafac->KontrolSession();
-$update = "http://alicangnll.github.io/phpwaf-phanalyzer/";
+$update = "http://alicangnll.github.io/aliwaf-phpwaf/";
 $updateserver = json_decode(file_get_contents("".$update."server_upd.json"), true);
 $get = json_decode(file_get_contents("guncelleme.json"), true);
 echo "<br><div class='text-center container card'>
