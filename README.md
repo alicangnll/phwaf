@@ -10,6 +10,8 @@
   <li> Debug Mode </li>
   <li> Connection Method (GET, POST, PUT, OPTION etc.) Ban Mode </li>
   <li> GET/POST Request Checker </li>
+  <li> Admin GUI </li>
+  <li>
 </ul>
 <h2>Pictures</h2>
 <img src="pic/aliwaf1.png" />
