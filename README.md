@@ -8,4 +8,5 @@
   <li> IP and blacklist logging </li>
   <li> IP Banning </li>
   <li> Debug Mode </li>
+  <li> Connection Method (TCP/UDP) Ban Mode </li>
 </ul>
