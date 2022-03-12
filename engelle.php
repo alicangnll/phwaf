@@ -13,8 +13,7 @@ $waf->Debug();
 if($waf->prepareDB_WAFDurum() == true) {
 header("X-AliWAF: ACTIVE");
 if ($waf->prepareDB_KontrolAyar() == true){
-
-
+$waf->queryDB_IPKontrol($waf->reel_ip());
 $waf->queryDB_KontrolKurali(file_get_contents('php://stdin'));
 
 if($_POST) {

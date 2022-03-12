@@ -1,9 +1,9 @@
 <?php
 class AliWAF_Block {
-	protected $host = "localhost";
-	protected $dbname = "ali_waf";
-	protected $user = "root";
-	protected $pass = "P@ssw0rd2";
+    protected $host = "localhost";
+    protected $dbname = "ibrahi30_alicangonullu";
+    protected $user = "ibrahi30_alicangonullu";
+    protected $pass = "iTY-^(yS[#dh";
 	protected $aliwaf;
 
 	public function Baglanti() {
@@ -23,32 +23,32 @@ class AliWAF_Block {
 	public function reel_ip() {
     if (!empty($_SERVER['HTTP_CLIENT_IP']))
     {
-        $ip=$_SERVER['HTTP_CLIENT_IP'];
+        $ip=trim($_SERVER['HTTP_CLIENT_IP']);
     }
     elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 
     {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ip = trim($_SERVER['HTTP_X_FORWARDED_FOR']);
     }
    elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 
     {
-        $ip = $_SERVER['HTTP_X_FORWARDED'];
+        $ip = trim($_SERVER['HTTP_X_FORWARDED']);
     }
 
    elseif (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 
     {
-        $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+        $ip = trim($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']);
     }
 	   elseif (!empty($_SERVER['HTTP_FORWARDED'])) //Proxy den bağlanıyorsa gerçek IP yi alır.
 
     {
-        $ip = $_SERVER['HTTP_FORWARDED'];
+        $ip = trim($_SERVER['HTTP_FORWARDED']);
     }
     else
     {
-        $ip=$_SERVER['REMOTE_ADDR'];
+        $ip=trim($_SERVER['REMOTE_ADDR']);
     }
     return $ip;
 }
@@ -259,6 +259,16 @@ public function queryDB_KontrolKurali($data) {
 	}
 }
 
+public function queryDB_IPKontrol($ip) {
+	$stmt = $this->aliwaf->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$this->aliwaf->quote($ip)."");
+	if($row = $stmt->rowCount()) {
+		header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+		$this->insertDB_LogGiris("IP Error", $_SERVER["SERVER_PROTOCOL"], "");
+		$this->ErrorMessage('IP Error', strip_tags($this->reel_ip()));
+	} else {
+
+	}
+}
 public function queryDB_MethodKontrol($method) {
 	$stmt = $this->aliwaf->query("SELECT * FROM method_blok WHERE method_turu = ".$this->aliwaf->quote($method)."");
 	if($row = $stmt->rowCount()) {
