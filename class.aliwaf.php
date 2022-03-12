@@ -1,13 +1,13 @@
 <?php
 ini_set('session.cookie_domain', '.'.$_SERVER["HTTP_HOST"].'');
-ini_set('session.save_path', 'C:\Users\Administrator\AppData\Local\Temp\2');
 session_set_cookie_params(0);
 session_start();
+
 class AliWAF_Panel {
-	protected $host = "localhost";
-	protected $user = "root";
-	protected $pass = "";
-	protected $dbname = "ali_waf";
+    protected $host = "localhost";
+    protected $dbname = "ali_waf";
+    protected $user = "root";
+    protected $pass = "";
     protected $aliwafpanel;
     public function __construct() {
 		try {
@@ -26,12 +26,8 @@ class AliWAF_Panel {
       if ( $say = $query -> rowCount() ){
       if( $say > 0 ){
       $date = time() + 1800;
-	  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		  echo '<script>document.cookie = "girisyap='.$date.'; expires=Thu, '.date("D").' Dec '.date("Y").' 12:00:00 UTC";</script>';
-	  } else {
       $_SESSION["girisyap"] = $date;
-	  }
-      echo '<script>window.location.href = "index.php?git=index";</script>';
+      echo '<script>document.cookie = "girisyap='.$date.'; expires=Thu, '.date("d").' Dec '.date("Y").' 12:00:00 UTC";window.location.href = "index.php?git=index";</script>';
       }
       }else{
       die('<script>window.location.href = "index.php?git=login";</script>');
@@ -43,12 +39,7 @@ class AliWAF_Panel {
   }
 
   public function KontrolSession() {
-	  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		  $sess = $_COOKIE['girisyap'];
-	  } else {
-		  $sess = $_SESSION['girisyap'];
-	  }
-    if (isset($sess)){
+    if (isset($_COOKIE['girisyap'])){
       echo '<aside class="sidebar pos-absolute z-2" data-role="sidebar" data-toggle="#sidebar-toggle-3" id="sb3" data-shift=".shifted-content">
       <div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
       <div class="avatar">
@@ -418,7 +409,6 @@ class AliWAF_Panel {
   public function DB_GetirAyar_ID() {
     $stmt = $this->aliwafpanel->prepare('SELECT * FROM waf_ayar WHERE ayar_id = :gonderid');
     $stmt->execute(array(':gonderid' => "1"));
-    $stmt->execute();
     $getlog = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $json = json_encode($getlog);
     return $json;
@@ -556,7 +546,7 @@ class AliWAF_Panel {
   public function Exit() {
     session_destroy();
     echo(" OK ");
-    echo '<script>window.location.href = "index.php";</script>';
+    header("Location:index.php"); 
   }
 
 }

@@ -149,7 +149,7 @@ return $metin;
 }
 
 public function prepareDB_OtobanDurum() {
-	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar WHERE ayar_id = 1");
+	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 	if($stmt->rowCount()) {
 		while($row = $stmt->fetch()){
 			if($row["oto_ban"] == "1") {
@@ -162,7 +162,7 @@ public function prepareDB_OtobanDurum() {
 }
 
 public function prepareDB_KontrolAyar() {
-	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar WHERE ayar_id = 1");
+	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 	if($stmt->rowCount()) {
 		while($row = $stmt->fetch()){
 			if($row["ayar_aktif"] == "1") {
@@ -175,7 +175,7 @@ public function prepareDB_KontrolAyar() {
 }
 
 public function prepareDB_WAFDurum() {
-	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar WHERE ayar_id = 1");
+	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 	if($stmt->rowCount()) {
 		while($row = $stmt->fetch()){
 			if($row["waf_aktif"] == "1") {
@@ -188,7 +188,7 @@ public function prepareDB_WAFDurum() {
 }
 
 public function prepareDB_DebugDurum() {
-	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar WHERE ayar_id = 1");
+	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
 	if($stmt->rowCount()) {
 		while($row = $stmt->fetch()){
 			if($row["debug"] == "1") {
@@ -213,22 +213,10 @@ public function insertDB_LogGiris($ad, $url, $header) {
   }
 }
 
-public function insertDB_IPBanGiris($header) {
-	$update = $this->aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usr_agent, ip_suresi) VALUES (:ip, :header, :dte) ");
-	$update->bindValue(':ip', strip_tags($this->reel_ip()));
-	$update->bindValue(':header', $header);
-	$update->bindValue(':dte', date("H:i:s"));
-	$update->execute();
-	if($rowz = $update->rowCount()) {
-	} else {
-	}
-  }
-
-public function prepareDB_IPBan() {
-	$update = $this->aliwaf->prepare("SELECT * FROM ip_ban WHERE ip_adresi = :ip");
-	$update->bindValue(':ip', $this->reel_ip());
-	if($row = $update->rowCount()) {
-		$this->ErrorMessage("IP Ban", strip_tags($this->reel_ip()));
+public function prepareDB_IPBan($ip) {
+	$stmt = $this->aliwaf->query("SELECT * FROM ip_ban WHERE ip_adresi = ".$this->aliwaf->quote($ip)."");
+	if($row = $stmt->rowCount()) {
+		$this->ErrorMessage("IP Ban", strip_tags($ip));
 	} else {
 		//Normal
 	}
@@ -261,7 +249,7 @@ public function queryDB_KontrolKurali($data) {
 				$this->insertDB_LogGiris("Injection Error", $parametreler, "");
 				$this->ErrorMessage("Injection Error ", htmlentities("Type : ".$this->kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
 				if($this->prepareDB_OtobanDurum()  == true){
-					$this->insertDB_IPBanGiris("");
+					$this->prepareDB_IPBan($this->reel_ip());
 				} else {
 					die();
 				}
@@ -280,7 +268,7 @@ public function queryDB_MethodKontrol($method) {
 		$this->insertDB_LogGiris("Method Error", $_SERVER["SERVER_PROTOCOL"], "");
 		$this->ErrorMessage('Method Error', strip_tags($this->reel_ip()));
 		if($this->prepareDB_OtobanDurum()  == true){
-			$this->insertDB_IPBanGiris("");
+			$this->prepareDB_IPBan($this->reel_ip());
 		} else {
 			die();
 		}

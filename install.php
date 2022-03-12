@@ -210,25 +210,7 @@ die('<body class="container">
 $sql = mysqli_connect($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $sqlSource = file_get_contents(''.dirname(__FILE__).'/ali_waf.sql');
 mysqli_multi_query($sql,$sqlSource);
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-echo '<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu</b>
-<hr></hr>
-<p> MySQL Başarıyla Kuruldu </p><br>
-<pre>
-Lütfen bu kodları class.engelle.php ve class.aliwaf.php içerisindeki MySQL ayarları kısmına kopyalayın<br>
-protected $host = "'.$mysqlserv.'";
-protected $user = "'.$mysqlusr.'";
-protected $pass = "'.$mysqlpass.'";
-protected $dbname = "'.$mysqldbname.'";
-</pre><br>
-<div class="form-group">
-<br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
-</div></div></div></body>';
-} else {
+
 $data = shell_exec("cat class.aliwaf.php");
 $rep1 = str_replace('protected $host = "localhost";', 'protected $host = "'.$mysqlserv.'";', $data);
 $rep2 = str_replace('protected $user = "root";', 'protected $user = "'.$mysqlusr.'";', $rep1);
@@ -254,6 +236,7 @@ $fp = fopen($path, 'a');
 if(!$fp){echo 'file is not opend';}
 fwrite($fp, $rep4);
 fclose($fp);
+
 echo '<body class="container">
 <br><br><br>
 <div class="mx-auto card">
@@ -264,44 +247,25 @@ echo '<body class="container">
 <div class="form-group">
 <br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
 </div></div></div></body>';
-}
 break;
 
 
 case 'install2':
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	if(file_exists("yukle.lock")) {
-		unlink("yukle.lock");
-		touch("yukle.lock");
-		$txt = md5(rand(5,15));
-		file_put_contents("yukle.lock", $txt);
-	} else {
-		touch("yukle.lock");
-		$txt = md5(rand(5,15));
-		file_put_contents("yukle.lock", $txt);
-	}
-	if(file_exists("ali_waf.sql")) {
-		unlink("ali_waf.sql");
-	} else {
-	}
-	} else {
-	if(file_exists("yukle.lock")) {
-		unlink("yukle.lock");
-		$txt = md5(rand(5,15));
-		$fp = fopen("yukle.lock","a");
-		fwrite($fp,$txt);
-		fclose($fp);
-	} else {
-		$txt = md5(rand(5,15));
-		$fp = fopen("yukle.lock","a");
-		fwrite($fp,$txt);
-		fclose($fp);
-	}
-	
-	if(file_exists("ali_waf.sql")) {
-		unlink("ali_waf.sql");
-	} else {
-	}
+if(file_exists("yukle.lock")) {
+unlink("yukle.lock");
+$txt = md5(rand(5,15));
+$fp = fopen("yukle.lock","a");
+fwrite($fp,$txt);
+fclose($fp);
+} else {
+$txt = md5(rand(5,15));
+$fp = fopen("yukle.lock","a");
+fwrite($fp,$txt);
+fclose($fp);
+}
+if(file_exists("ali_waf.sql")) {
+unlink("ali_waf.sql");
+} else {
 }
 echo '<body class="container">
 <br><br><br>
