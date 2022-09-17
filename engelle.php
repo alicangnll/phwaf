@@ -4,7 +4,7 @@ include("class.engelle.php");
 
 $waf = new AliWAF_Block();
 $waf->Baglanti();
-$waf->memlimit("256", "MB");
+$waf->memlimit("1", "G");
 
 if ($waf->prepareDB_DebugDurum() == true){
 $waf->Debug();

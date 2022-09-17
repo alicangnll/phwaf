@@ -133,7 +133,7 @@ echo '<body class="container">
 
 <div class="form-group">
 <label for="exampleInputEmail1">SQL DB Name</label>
-<input type="text" class="form-control" name="sqlname" placeholder="1234">
+<input type="text" class="form-control" name="sqlname" placeholder="ali_waf" value="ali_waf" readonly>
 </div>
 <button type="submit" class="btn btn-dark">İleri / Next</button>
 </form></div></div></body>';

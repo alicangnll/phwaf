@@ -7,7 +7,7 @@ class AliWAF_Panel {
     protected $host = "localhost";
     protected $dbname = "ali_waf";
     protected $user = "root";
-    protected $pass = "P@ssw0rd2";
+    protected $pass = "";
     protected $aliwafpanel;
     public function __construct() {
 		try {
@@ -19,38 +19,47 @@ class AliWAF_Panel {
 		}
 	}
 
-  public function LoginCheck_Captcha() {
-    $image = @imagecreatetruecolor(120, 30) or die("Error");
-    $background = imagecolorallocate($image, 0xFF, 0xFF, 0xFF);
-    imagefill($image, 0, 0, $background);
-    $linecolor = imagecolorallocate($image, 0xCC, 0xCC, 0xCC);
-    $textcolor = imagecolorallocate($image, 0x33, 0x33, 0x33);
-    for ($i = 0; $i < 6; $i++) {
-      imagesetthickness($image, rand(1, 3));
-      imageline($image, 0, rand(0, 30), 120, rand(0, 30), $linecolor);
+  private function Captcha_Olustur() {
+    if(extension_loaded("gd")) {
+      session_start();
+      $kod = substr(md5(uniqid(rand(0, 6))), 0, 6);
+      $_SESSION['kod'] = $kod;
+      header('Content-type: image/png');
+      $kod_uzunluk = strlen($kod);
+      $genislik = imagefontwidth(5) * $kod_uzunluk;
+      $yukseklik = imagefontheight(5);
+      $resim = imagecreate($genislik, $yukseklik);
+      $arka_renk = imagecolorallocate($resim, 0, 0, 0);
+      $yazi_renk = imagecolorallocate($resim, 255, 255, 255);
+      imagefill($resim, 0, 0, $arka_renk);
+      imagestring($resim, 5, 0, 0, $kod, $yazi_renk);
+      imagepng($resim);
+    } else {
+      $kod = substr(md5(uniqid(rand(0, 6))), 0, 6);
+      $_SESSION['kod'] = $kod;
+      return base64_encode($kod);
     }
-    session_start();
-    $sayilar = '';
-    for ($x = 15; $x <= 95; $x += 20) {
-      $sayilar .= ($sayi = rand(0, 9));
-      imagechar($image, rand(3, 5), $x, rand(2, 14), $sayi, $textcolor);
+  }
+
+  public function LoginCheck_Captcha($apikey = "") {
+    date_default_timezone_set('Europe/Istanbul');
+    echo '
+    <div class="col-md-12 form-group">';
+    if(extension_loaded("gd")) {
+    echo '<img src="data:image/png;base64,'.base64_encode($this->Captcha_Olustur()).'" /><br>';
+    } else {
+      echo '<b>CAPTCHA Kodunuz : '.base64_decode($this->Captcha_Olustur()).'</b>';
     }
-    $_SESSION['captcha'] = $sayilar;
-    header('Content-type: image/png');
-    imagepng($image);
-    imagedestroy($image);
+    echo '<p>Captcha : <input data-role="input" type="text" name="g-recaptcha-response" placeholder="CAPTCHA"></p>
+    </div>';
   }
 
   public function DB_LoginCheck($usr, $pwd) {
     if($_POST) {
-      if($_POST["capt"] == $_SESSION['captcha']) {
-
-      } else {
-        die('<script>window.location.href = "index.php?git=login";</script>');
+      if($_POST['g-recaptcha-response'] == $_SESSION["kod"]){
       }
-
       $query  = $this->aliwafpanel->query("SELECT * FROM admin_bilgi WHERE kadi = ".$this->aliwafpanel->quote(strip_tags($usr)) . " && passwd = " . $this->aliwafpanel->quote(strip_tags(sha1(md5($pwd)))) . "",PDO::FETCH_ASSOC);
-      if ( $say = $query -> rowCount() ){
+      if ($say = $query -> rowCount()){
       if( $say > 0 ){
       $date = time() + 1800;
       $_SESSION["girisyap"] = $date;
@@ -141,7 +150,7 @@ class AliWAF_Panel {
   }
   public function Guncelleme() {
     $_SESSION["csrf"] = sha1(md5(rand()));
-    $update = "http://alicangnll.github.io/phpwaf-phanalyzer/";
+    $update = "http://alicangnll.github.io/aliwaf-phpwaf/";
     $json = file_get_contents("".$update."server_upd.json");
     $obj = json_decode($json, true);
     if(empty($obj["guncelleme_numarasi"])) {

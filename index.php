@@ -5,7 +5,6 @@ $aliwafac = new AliWAF_Panel();
 $aliwafac->GetirHead();
 $aliwafac->KontrolDosya("yukle.lock");
 $aliwafac->CSS();
-$aliwafac->Guncelleme();
 
 
 if(!isset($_GET['git'])) {
@@ -53,13 +52,9 @@ echo '<div class="header">
 <div class="row">
 <div class="col-md-12 form-group">
 <p>Password : <input data-role="keypad"  type="password" name="pass" placeholder="Şifre"></p></div></div><br>
-<div class="row">
-<div class="col-md-12 form-group">
-<img src="captcha.php"/>
-<p>Captcha : <input data-role="keypad"  type="password" name="capt" placeholder="Captcha"></p></div></div><br>
-<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">
-<p><div class="row">
-<div class="col-md-12 form-group">
+<div class="row">';
+$aliwafac->LoginCheck_Captcha();
+echo '<div class="col-md-12 form-group">
 <button class="btn btn-block btn-login">Login</button></p></div><br>
 </form>
 </div>
