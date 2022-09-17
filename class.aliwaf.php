@@ -581,8 +581,7 @@ class AliWAF_Panel {
   }
   public function Exit() {
     session_destroy();
-    echo(" OK ");
-    header("Location:index.php"); 
+    die("<script>window.location.href = 'index.php';</script>");
   }
 
 }
