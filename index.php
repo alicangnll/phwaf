@@ -208,7 +208,7 @@ foreach($js5 as $row) {
 echo '<tr>
 <td>'.intval($row["id"]).'</td>
 <td>'.strip_tags($row['vuln_name']).'</td>
-<td>'.strip_tags($row['vuln_ip']).'</td>
+<td><a href="https://ipleak.net/'.strip_tags($row['vuln_ip']).'" target="_blank">'.strip_tags($row['vuln_ip']).'</a></td>
 <td>'.strip_tags($row['vuln_url']).'</td>
 </tr>'; 
 }
