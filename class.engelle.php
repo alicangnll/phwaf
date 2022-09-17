@@ -17,7 +17,7 @@ class AliWAF_Block {
 	}
 
 	public function closeConnection() {
-		$this->alwaf = null;
+		$this->aliwaf = null;
 	}
 
 	public function reel_ip() {
@@ -437,16 +437,12 @@ return $metin;
 }
 
 public function prepareDB_OtobanDurum() {
-	$stmt = $this->aliwaf->query("SELECT * FROM waf_ayar ORDER BY ayar_id");
-	if($stmt->rowCount()) {
-		while($row = $stmt->fetch()){
-			if($row["oto_ban"] == "1") {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
+	$stmt = $this->aliwaf->prepare("SELECT * FROM waf_ayar WHERE ayar_id = :id");
+	$stmt->bindValue(':id', strip_tags("1"));
+	$stmt->execute();
+	$getlog = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$json = json_encode($getlog);
+	return $json;
 }
 
 public function prepareDB_KontrolAyar() {
@@ -502,13 +498,22 @@ public function insertDB_LogGiris($ad, $url, $header) {
 }
 
 public function prepareDB_IPBan($ip) {
-	$update = $this->aliwaf->prepare("INSERT INTO ip_ban(ip_adresi, ip_usragent, ip_suresi) VALUES (:ip, :usr, :dte) ");
-	$update->bindValue(':ip', strip_tags($ip));
-	$update->bindValue(':usr', strip_tags($_SERVER['PHP_SELF']));
-	$update->bindValue(':dte', date("H:i:s"));
-	$update->execute();
-	if($rowz = $update->rowCount()) {
-	} else {
+	$json = json_decode($this->prepareDB_OtobanDurum(), true);
+	foreach($json as $otoban) {
+		if($otoban["oto_ban"] == "1"){
+			$update = $this->aliwaf->prepare("INSERT INTO `ip_ban` (`ip_adresi`, `ip_usragent`, `ip_suresi`) VALUES (:ip, :usr, :dte)");
+			$update->bindValue(':ip', strip_tags($ip));
+			$update->bindValue(':usr', strip_tags("BILINMIYOR"));
+			$update->bindValue(':dte', date("H:i:s"));
+			$update->execute();
+			if($rowz = $update->rowCount()) {
+				echo "";
+			} else {
+				echo "";
+			}
+		} else {
+
+		}
 	}
 }
 
@@ -536,13 +541,9 @@ public function queryDB_KontrolKurali($data) {
 		$i=0;
 		while ($i<=$sayiver) {
 			if (strstr($parametreler8,$yasakla[$i])) {
+				$this->prepareDB_IPBan($this->reel_ip());
 				$this->insertDB_LogGiris("Injection Error", htmlentities($parametreler), "");
 				$this->ErrorMessage("Injection Error ", htmlentities("Type : ".$this->kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
-				if($this->prepareDB_OtobanDurum()  == true){
-					$this->prepareDB_IPBan($this->reel_ip());
-				} else {
-					die();
-				}
 			}
 			$i++;
 		}
@@ -565,13 +566,9 @@ public function queryDB_MethodKontrol($method) {
 		
 	} else {
 		header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+		$this->prepareDB_IPBan($this->reel_ip());
 		$this->insertDB_LogGiris("Method Error", $_SERVER["SERVER_PROTOCOL"], "");
 		$this->ErrorMessage('Method Error', strip_tags($this->reel_ip()));
-		if($this->prepareDB_OtobanDurum()  == true){
-			$this->prepareDB_IPBan($this->reel_ip());
-		} else {
-			die();
-		}
 	}
 }
 
