@@ -362,7 +362,7 @@ class AliWAF_Block {
     </div>
 	<div class="hr"></div>
     <div class="context primary-text-color">
-      AliWAF | Illegal Girişim AlgılandıDeneme Türü : '.strip_tags($type).' ('.strip_tags($method).')
+      AliWAF | Illegal Girişim Algılandı <br>'.strip_tags($type).' ('.strip_tags($method).')
     </div>
     <div class="hr"></div>
     <div class="context secondary-text-color">
@@ -536,7 +536,7 @@ public function queryDB_KontrolKurali($data) {
 		$i=0;
 		while ($i<=$sayiver) {
 			if (strstr($parametreler8,$yasakla[$i])) {
-				$this->insertDB_LogGiris("Injection Error", $parametreler, "");
+				$this->insertDB_LogGiris("Injection Error", htmlentities($parametreler), "");
 				$this->ErrorMessage("Injection Error ", htmlentities("Type : ".$this->kisalt($parametreler, 50)." | ".$row['kural_adi'].""));
 				if($this->prepareDB_OtobanDurum()  == true){
 					$this->prepareDB_IPBan($this->reel_ip());
