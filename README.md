@@ -6,7 +6,7 @@
 <ul>
   <li> Firewall Blacklist </li>
   <li> IP and blacklist logging </li>
-  <li> IP Banning </li>
+  <li> IP Ban </li>
   <li> Debug Mode </li>
   <li> Connection Method (GET, POST, PUT, OPTION etc.) Ban Mode </li>
   <li> GET/POST Request Checker </li>
